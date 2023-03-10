@@ -4,6 +4,7 @@
  */
 package Menu;
 
+import static Menu.FormMenu.Instance;
 import Utils.Constants;
 import Utils.NetUtils;
 import java.sql.PreparedStatement;
@@ -16,19 +17,19 @@ import javax.swing.JOptionPane;
  *
  * @author chieu
  */
-public class Login extends javax.swing.JFrame {
+public class FormLogin extends javax.swing.JFrame {
 
-    private static Login _instance;
-    public static Login Instance() {
+    private static FormLogin _instance;
+    public static FormLogin Instance() {
         if(_instance == null) {
-            _instance = new Login();
+            _instance = new FormLogin();
         }
         return _instance;
     }
     /**
      * Creates new form FormLogin
      */
-    public Login() {
+    public FormLogin() {
         initComponents();
     }
     
@@ -189,6 +190,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         catch(Exception ex) {
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Lỗi SQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_OnLoginClicked
@@ -196,7 +198,9 @@ public class Login extends javax.swing.JFrame {
     private void OnSkipClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OnSkipClick
         // TODO add your handling code here:
         Instance().setVisible(false);
-        MainMenu.Instance().setVisible(true);
+        FormMenu.Instance().setContentPane(PanelMenu.Instance());
+        FormMenu.Instance().validate();
+        FormMenu.Instance().setVisible(true);
     }//GEN-LAST:event_OnSkipClick
 
     
@@ -218,14 +222,16 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         
