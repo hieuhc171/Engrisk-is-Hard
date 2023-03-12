@@ -6,6 +6,10 @@ package Menu;
 
 import Functions.Definitions.PanelDefinition;
 import Functions.Examinations.PanelExam;
+import Functions.Play1.PanelPlay1;
+import Functions.Play2.PanelPlay2;
+import Functions.Play3.PanelPlay3;
+import Functions.Play4.PanelPlay4;
 import Utils.Constants;
 import Utils.NetUtils;
 import java.sql.Connection;
@@ -87,29 +91,53 @@ public class PanelMenu extends javax.swing.JPanel {
     private void initComponents() {
 
         btnDefinition = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        play1 = new javax.swing.JButton();
+        play2 = new javax.swing.JButton();
         btnExam = new javax.swing.JButton();
         panel1 = new java.awt.Panel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnDownload = new javax.swing.JButton();
+        play3 = new javax.swing.JButton();
+        play4 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(864, 480));
 
         btnDefinition.setText("Definitions");
+        btnDefinition.setMaximumSize(new java.awt.Dimension(150, 100));
+        btnDefinition.setMinimumSize(new java.awt.Dimension(150, 100));
+        btnDefinition.setPreferredSize(new java.awt.Dimension(150, 100));
         btnDefinition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDefinitionActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton1");
+        play1.setText("?");
+        play1.setMaximumSize(new java.awt.Dimension(150, 100));
+        play1.setMinimumSize(new java.awt.Dimension(150, 100));
+        play1.setPreferredSize(new java.awt.Dimension(150, 100));
+        play1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play1ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("jButton1");
+        play2.setText("?");
+        play2.setMaximumSize(new java.awt.Dimension(150, 100));
+        play2.setMinimumSize(new java.awt.Dimension(150, 100));
+        play2.setPreferredSize(new java.awt.Dimension(150, 100));
+        play2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play2ActionPerformed(evt);
+            }
+        });
 
         btnExam.setText("Exam");
+        btnExam.setMaximumSize(new java.awt.Dimension(150, 100));
+        btnExam.setMinimumSize(new java.awt.Dimension(150, 100));
+        btnExam.setPreferredSize(new java.awt.Dimension(150, 100));
         btnExam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExamActionPerformed(evt);
@@ -158,36 +186,58 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        play3.setText("?");
+        play3.setMaximumSize(new java.awt.Dimension(150, 100));
+        play3.setMinimumSize(new java.awt.Dimension(150, 100));
+        play3.setPreferredSize(new java.awt.Dimension(150, 100));
+        play3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play3ActionPerformed(evt);
+            }
+        });
+
+        play4.setText("?");
+        play4.setMaximumSize(new java.awt.Dimension(150, 100));
+        play4.setMinimumSize(new java.awt.Dimension(150, 100));
+        play4.setPreferredSize(new java.awt.Dimension(150, 100));
+        play4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnDownload)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 586, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnDownload)))
-                .addContainerGap())
+                                .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(50, 50, 50)
+                                .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(play1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(50, 50, 50)
+                        .addComponent(play2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                        .addGap(50, 50, 50)
+                        .addComponent(play3, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                        .addGap(50, 50, 50)
+                        .addComponent(play4, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                        .addGap(88, 88, 88))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,17 +250,19 @@ public class PanelMenu extends javax.swing.JPanel {
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                    .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
                 .addComponent(jLabel2)
                 .addGap(4, 4, 4)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                    .addComponent(play1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -240,6 +292,30 @@ public class PanelMenu extends javax.swing.JPanel {
         DownloadDictionary();
     }//GEN-LAST:event_btnDownloadActionPerformed
 
+    private void play1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play1ActionPerformed
+        // TODO add your handling code here:
+        FormMenu.Instance().setContentPane(PanelPlay1.Instance());
+        FormMenu.Instance().validate();
+    }//GEN-LAST:event_play1ActionPerformed
+
+    private void play2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play2ActionPerformed
+        // TODO add your handling code here:
+        FormMenu.Instance().setContentPane(PanelPlay2.Instance());
+        FormMenu.Instance().validate();
+    }//GEN-LAST:event_play2ActionPerformed
+
+    private void play3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play3ActionPerformed
+        // TODO add your handling code here:
+        FormMenu.Instance().setContentPane(PanelPlay3.Instance());
+        FormMenu.Instance().validate();
+    }//GEN-LAST:event_play3ActionPerformed
+
+    private void play4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play4ActionPerformed
+        // TODO add your handling code here:
+        FormMenu.Instance().setContentPane(PanelPlay4.Instance());
+        FormMenu.Instance().validate();
+    }//GEN-LAST:event_play4ActionPerformed
+
     private void DownloadDictionary() {
         Thread downloadThread = new Thread(new Runnable() {
             public void run() {
@@ -251,10 +327,17 @@ public class PanelMenu extends javax.swing.JPanel {
 
                         int length = data.size();
                         FormDownloadProcess.Instance().setVisible(true);
-                        
+                        StringBuilder query = new StringBuilder();
                         for(int i = 0; i < data.size(); i++) {
-                            SaveWord(data.get(i).toString());
+                            query.append(SaveWord(data.get(i).toString()) + "\n");
                             ProgressUpdate(i, data.get(i).toString(), length);
+                        }
+                        try {
+                            PreparedStatement stm = cnn.prepareStatement(query.toString());
+                            stm.executeUpdate();
+                        }   
+                        catch (SQLException ex) {
+                            Logger.getLogger(PanelMenu.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                     catch (ParseException ex) {
@@ -277,7 +360,7 @@ public class PanelMenu extends javax.swing.JPanel {
 //        FormDownloadProcess.textArea.replaceRange("", 0, end);
     }
     
-    private void SaveWord(String word) {
+    private String SaveWord(String word) {
         String tableName = "word";
         if(word.length() < 7) tableName += "lessthan7";
         else if(word.length() < 8) tableName += "lessthan8";
@@ -286,25 +369,20 @@ public class PanelMenu extends javax.swing.JPanel {
         else if(word.length() < 11) tableName += "lessthan11";
         else if(word.length() < 13) tableName += "lessthan13";
         else tableName += "morethan13";
-        String query = "INSERT INTO " + tableName + "(Text) VALUES ('" + word + "')";
-        try {
-            PreparedStatement stm = cnn.prepareStatement(query);
-            stm.executeUpdate();
-        }   
-        catch (SQLException ex) {
-            Logger.getLogger(PanelMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return "INSERT INTO " + tableName + "(Text) VALUES ('" + word + "')";
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDefinition;
     private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnExam;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private java.awt.Panel panel1;
+    private javax.swing.JButton play1;
+    private javax.swing.JButton play2;
+    private javax.swing.JButton play3;
+    private javax.swing.JButton play4;
     // End of variables declaration//GEN-END:variables
 }

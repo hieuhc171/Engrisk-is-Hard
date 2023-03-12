@@ -2,27 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Functions.Examinations;
+package Functions.Play1;
 
 import Menu.FormMenu;
 import Menu.PanelMenu;
 
 /**
  *
- * @author chieu
+ * @author hieum
  */
-public class PanelExam extends javax.swing.JPanel {
+public class PanelPlay1 extends javax.swing.JPanel {
 
-    private static PanelExam _instance;
-    public static PanelExam Instance() {
+    private static PanelPlay1 _instance;
+    public static PanelPlay1 Instance() {
         if(_instance == null) 
-            _instance = new PanelExam();
+            _instance = new PanelPlay1();
         return _instance;
     }
     /**
-     * Creates new form PanelExam
+     * Creates new form PanelPlay1
      */
-    public PanelExam() {
+    public PanelPlay1() {
         initComponents();
     }
 
@@ -36,8 +36,6 @@ public class PanelExam extends javax.swing.JPanel {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -45,10 +43,6 @@ public class PanelExam extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -58,19 +52,13 @@ public class PanelExam extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(btnBack)
                 .addContainerGap(786, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(257, 257, 257))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBack)
-                .addGap(99, 99, 99)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(451, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -83,7 +71,5 @@ public class PanelExam extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

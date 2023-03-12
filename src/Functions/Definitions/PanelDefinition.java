@@ -6,6 +6,27 @@ package Functions.Definitions;
 
 import Menu.FormMenu;
 import Menu.PanelMenu;
+import Utils.Constants;
+import Utils.NetUtils;
+import Utils.WordUtils.WordObject;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 /**
  *
@@ -24,7 +45,57 @@ public class PanelDefinition extends javax.swing.JPanel {
      */
     public PanelDefinition() {
         initComponents();
+        KetNoiCSDL();
+        GenerateSearchListener();
+        
+        scrollOutput.setViewportView(tfOutput);
+        DefaultCaret caret = (DefaultCaret) tfOutput.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
     }
+    
+    private Connection cnn;
+    
+    private void KetNoiCSDL() {
+        cnn = Database.Database.KetNoiCSDL();
+        if(cnn == null) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        else {
+            
+        }
+    }
+    
+    private void GenerateSearchListener() {
+        dropdownList.setVisible(false);
+        tfInput.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {        
+                DisplaySuggestion();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {        
+                DisplaySuggestion();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {        
+                DisplaySuggestion();
+            }
+        });
+        
+        dropdownList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int i = dropdownList.getSelectedIndex();
+                if(i <= 0) return;
+                if(dropdownList.getModel().getSize() == 1 && i == 1) return;
+                tfInput.setText(dropdownList.getSelectedValue());
+            }
+        });
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,6 +107,15 @@ public class PanelDefinition extends javax.swing.JPanel {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
+        tfInput = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        scrollPane = new javax.swing.JScrollPane();
+        dropdownList = new javax.swing.JList<>();
+        scrollOutput = new javax.swing.JScrollPane();
+        loading = new javax.swing.JLabel();
+        tfOutput = new javax.swing.JTextPane();
+
+        setPreferredSize(new java.awt.Dimension(856, 480));
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -44,6 +124,44 @@ public class PanelDefinition extends javax.swing.JPanel {
             }
         });
 
+        tfInput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tfInput.setPreferredSize(new java.awt.Dimension(150, 35));
+
+        btnSearch.setText("Search");
+        btnSearch.setPreferredSize(new java.awt.Dimension(100, 35));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setMaximumSize(new java.awt.Dimension(32767, 300));
+        scrollPane.setPreferredSize(new java.awt.Dimension(150, 130));
+
+        dropdownList.setModel(new DefaultListModel());
+        dropdownList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        dropdownList.setFixedCellHeight(25);
+        dropdownList.setFixedCellWidth(25);
+        dropdownList.setMaximumSize(new java.awt.Dimension(1000, 300));
+        scrollPane.setViewportView(dropdownList);
+
+        scrollOutput.setBackground(new java.awt.Color(255, 255, 255));
+        scrollOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollOutput.setPreferredSize(new java.awt.Dimension(400, 380));
+        scrollOutput.setViewportView(null);
+
+        loading.setBackground(new java.awt.Color(255, 255, 255));
+        loading.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        loading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loading.setText("LOADING...");
+        loading.setOpaque(true);
+        scrollOutput.setViewportView(loading);
+
+        tfOutput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        scrollOutput.setViewportView(tfOutput);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -51,14 +169,34 @@ public class PanelDefinition extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBack)
-                .addContainerGap(786, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBack)
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -68,8 +206,93 @@ public class PanelDefinition extends javax.swing.JPanel {
         FormMenu.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        if(tfInput.getText().length() == 0) return;
+        dropdownList.setVisible(false);
+        scrollOutput.setViewportView(loading);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + tfInput.getText(), json -> {
+                    scrollOutput.setViewportView(tfOutput);
+                    WordObject wordObject = new WordObject(json);
+                    
+                    appendToPane(tfOutput, wordObject.enWord + "\n", Color.RED);
+                    for(int i = 0; i < wordObject.phonetics.size(); i++) {
+                        appendToPane(tfOutput, wordObject.phonetics.get(i).text + "\n", Color.BLUE);
+                    }
+                    int index = 1;
+                    for(int i = 0; i < wordObject.definitions.size(); i++) {
+                        if(i == 0 || wordObject.definitions.get(i).partOfSpeech != wordObject.definitions.get(i-1).partOfSpeech) {
+                            appendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN);
+                            index = 1;
+                        }
+                        appendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK);
+                        appendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.BLACK);
+                    }
+                    
+                    tfOutput.setCaretPosition(0);
+                });
+            }
+        }).start();
+        
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void appendToPane(JTextPane tp, String msg, Color c)
+    {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
+    }
+    
+    private final String[] tableNames = {"wordlessthan7", "wordlessthan8", "wordlessthan9", "wordlessthan10", "wordlessthan11", "wordlessthan13", "wordmorethan13"};
+    
+    private void DisplaySuggestion() {
+        var itemList = (DefaultListModel) dropdownList.getModel();
+        itemList.removeAllElements();
+        if(tfInput.getText().length() < 4) {
+            dropdownList.setVisible(false);
+            return;
+        }
+        dropdownList.setVisible(true);
+        String query;
+        for(var tableName : tableNames) {
+            query = "SELECT * FROM " + tableName + " WHERE Text LIKE '%" + tfInput.getText() + "%'";
+            try {
+                PreparedStatement stm = cnn.prepareStatement(query);
+                ResultSet rs = stm.executeQuery();
+                while(rs.next()) {
+                    itemList.addElement(rs.getString("Text"));
+                }
+            }
+            catch(NumberFormatException | SQLException ex) {
+                java.util.logging.Logger.getLogger(PanelMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Lỗi SQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if(itemList.getSize() == 0) {
+            dropdownList.setVisible(false);
+            return;
+        }
+        scrollPane.setSize(new Dimension(150, (itemList.getSize() * 25 > 300 ? 300 : itemList.getSize() * 25)));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JList<String> dropdownList;
+    private javax.swing.JLabel loading;
+    private javax.swing.JScrollPane scrollOutput;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JTextField tfInput;
+    private javax.swing.JTextPane tfOutput;
     // End of variables declaration//GEN-END:variables
 }
