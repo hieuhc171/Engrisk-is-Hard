@@ -126,7 +126,7 @@ public class PanelDoTest extends javax.swing.JPanel {
         TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 26);
         
         correctAnswer = questList.get(currentQuest).answers[0];
-        ShuffleAnswers(questList.get(currentQuest));
+        // Collections.shuffle(questList.get(currentQuest));
         
         btn1.setText(questList.get(currentQuest).answers[0]);
         btn2.setText(questList.get(currentQuest).answers[1]);
