@@ -7,7 +7,13 @@ package Functions.Exam;
 import Menu.FormMain;
 import Utils.TextUtils;
 import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -23,6 +29,7 @@ public class PanelDoTest extends javax.swing.JPanel {
      */
     public PanelDoTest(int testType) {
         initComponents();
+        SetupQuestionPane();
         DisplayQuestion();
     }
 
@@ -38,10 +45,12 @@ public class PanelDoTest extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         questionPane = new javax.swing.JTextPane();
-        btn1 = new javax.swing.JButton();
-        btn2 = new javax.swing.JButton();
-        btn4 = new javax.swing.JButton();
-        btn3 = new javax.swing.JButton();
+        btnAnswer = new JButton[4];
+        for(int i = 0; i < 4; i++) {
+            btnAnswer[i] = new JButton();
+            btnAnswer[i].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+            btnAnswer[i].setPreferredSize(new java.awt.Dimension(300, 80));
+        }
 
         setPreferredSize(new java.awt.Dimension(864, 480));
 
@@ -54,18 +63,6 @@ public class PanelDoTest extends javax.swing.JPanel {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 150));
         jScrollPane1.setViewportView(questionPane);
-
-        btn1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btn1.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        btn2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btn2.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        btn4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btn4.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        btn3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btn3.setPreferredSize(new java.awt.Dimension(300, 80));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,12 +79,12 @@ public class PanelDoTest extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAnswer[0], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAnswer[2], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnAnswer[3], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAnswer[1], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,12 +96,12 @@ public class PanelDoTest extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAnswer[0], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnswer[1], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAnswer[3], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnswer[2], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -118,38 +115,97 @@ public class PanelDoTest extends javax.swing.JPanel {
     public final static ArrayList<Question> questList = new ArrayList<>();
     private String correctAnswer = "";
     private int currentQuest = 0;
-    
     private void DisplayQuestion() {
-        SetupQuestionPane();
-        TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n", Color.CYAN, 14);
-        TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n", Color.BLACK, 20);
-        TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 26);
+        questionPane.setText("");
+        TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.CYAN, 14);
+        TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n\n", Color.BLACK, 20);
+        TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 24);
         
         correctAnswer = questList.get(currentQuest).answers[0];
-        // Collections.shuffle(questList.get(currentQuest));
-        
-        btn1.setText(questList.get(currentQuest).answers[0]);
-        btn2.setText(questList.get(currentQuest).answers[1]);
-        btn3.setText(questList.get(currentQuest).answers[2]);
-        btn4.setText(questList.get(currentQuest).answers[3]);
+        ShuffleAnswer(questList.get(currentQuest));
+
+        for(int i = 0; i < 4; i++) {
+            btnAnswer[i].setText(questList.get(currentQuest).answers[0]);
+
+        }
     }
-    
-    private void ShuffleAnswers(Question quest) {
-        
+
+    private void ShuffleAnswer(Question quest)
+    {
+        Random rnd = new Random();
+        for (int i = quest.answers.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            String a = quest.answers[index];
+            quest.answers[index] = quest.answers[i];
+            quest.answers[i] = a;
+        }
     }
-    
+
     private void SetupQuestionPane() {
         StyledDocument doc = questionPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(JButton button : btnAnswer) {
+                    button.setBackground(Color.WHITE);
+                }
+                currentQuest++;
+                DisplayQuestion();
+                timer.stop();
+            }
+        });
+
+        for(int i = 0; i < 4; i++) {
+            btnAnswer[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    JButton btn = (JButton) e.getSource();
+                    if(btn != null)
+                        btn.setFont(new java.awt.Font("Segoe UI", 1, 24));
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    JButton btn = (JButton) e.getSource();
+                    if(btn != null)
+                        btn.setFont(new java.awt.Font("Segoe UI", 1, 18));
+                }
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    JButton btn = (JButton) e.getSource();
+                    if(btn != null) {
+                        if(btn.getText().equals(correctAnswer)) {
+                            btn.setBackground(new Color(151, 255, 96, 255));
+                        }
+                        else {
+                            btn.setBackground(new Color(255, 123, 123, 255));
+                            for(JButton button : btnAnswer) {
+                                if(button.getText().equals(correctAnswer)) {
+                                    button.setBackground(new Color(151, 255, 96, 255));
+                                    break;
+                                }
+                            }
+                        }
+                        java.util.Timer tt = new java.util.Timer(false);
+                        tt.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                timer.start();
+                            }
+                        }, 0);
+                    }
+                }
+            });
+        }
     }
 
+    private static javax.swing.Timer timer;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn1;
-    private javax.swing.JButton btn2;
-    private javax.swing.JButton btn3;
-    private javax.swing.JButton btn4;
+    private javax.swing.JButton[] btnAnswer;
     private javax.swing.JButton btnBack;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane questionPane;

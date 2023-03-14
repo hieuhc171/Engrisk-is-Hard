@@ -71,7 +71,6 @@ public class PanelDefinition extends javax.swing.JPanel {
         cnn = Database.Database.KetNoiCSDL();
         if(cnn == null) {
             JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
         }
         else {
             
@@ -220,6 +219,29 @@ public class PanelDefinition extends javax.swing.JPanel {
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
+
+    private final String[] tableNames = {"wordlessthan7", "wordlessthan8", "wordlessthan9", "wordlessthan10", "wordlessthan11", "wordlessthan13", "wordmorethan13"};
+    private final int[] milestones = {7, 8, 9, 10, 11, 13, 100};
+
+    private boolean isWordSearchedBefore(String word) {
+        for(int i = 0; i < milestones.length; i++) {
+            if (word.length() < milestones[i]) {
+                String query = "SELECT COUNT(DefinitionID) AS Cnt FROM definitions D INNER JOIN " + tableNames[i] + " W ON D.WordID = W.WordID";
+                PreparedStatement stm = null;
+                try {
+                    stm = cnn.prepareStatement(query);
+                    ResultSet rs = stm.executeQuery();
+                    if(rs.next()) {
+                        return rs.getInt("Cnt") > 0;
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
+    }
+
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         if(tfInput.getText().length() == 0) return;
@@ -230,54 +252,56 @@ public class PanelDefinition extends javax.swing.JPanel {
             @Override
             public void run() {
                 NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + tfInput.getText(), json -> {
-                    tfOutput.setText("");
-                    scrollOutput.setViewportView(tfOutput);
                     WordObject wordObject = new WordObject(json);
-                    
-                    TextUtils.AppendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
-                    for(int i = 0; i < wordObject.phonetics.size(); i++) {
-                        if(wordObject.phonetics.get(i).text != "" && wordObject.phonetics.get(i).audio != "") {
-                            TextUtils.AppendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
-                            Image image;
-                            try {
-                                image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/definition_buttons/audio.png")).getScaledInstance(14, 14, Image.SCALE_SMOOTH);
-                                ImageIcon icon = new ImageIcon(image);
-                                JButton btn = new JButton();
-                                btn.setIcon(icon);
-                                String soundURL = wordObject.phonetics.get(i).audio;
-                                btn.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e)
-                                    {
-                                        SoundUtils.PlaySoundFromURL(soundURL);
-                                    }
-                                });
-                                tfOutput.insertComponent(btn);
-                            } catch (IOException ex) {
-                                Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                    int index = 1;
-                    for(int i = 0; i < wordObject.definitions.size(); i++) {
-                        if(i == 0 || wordObject.definitions.get(i).partOfSpeech != wordObject.definitions.get(i-1).partOfSpeech) {
-                            TextUtils.AppendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN, 20);
-                            index = 1;
-                        }
-                        TextUtils.AppendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK, 16);
-                        if(!wordObject.definitions.get(i).example.isBlank())
-                            TextUtils.AppendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
-                    }
-                    
-                    tfOutput.setCaretPosition(0);
+                    DisplayWord(wordObject);
                 });
             }
         }).start();
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private final String[] tableNames = {"wordlessthan7", "wordlessthan8", "wordlessthan9", "wordlessthan10", "wordlessthan11", "wordlessthan13", "wordmorethan13"};
-    
+    private void DisplayWord(WordObject wordObject) {
+        tfOutput.setText("");
+        scrollOutput.setViewportView(tfOutput);
+        TextUtils.AppendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
+        for(int i = 0; i < wordObject.phonetics.size(); i++) {
+            if(wordObject.phonetics.get(i).text != "" && wordObject.phonetics.get(i).audio != "") {
+                TextUtils.AppendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
+                Image image;
+                try {
+                    image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/definition_buttons/audio.png")).getScaledInstance(14, 14, Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(image);
+                    JButton btn = new JButton();
+                    btn.setIcon(icon);
+                    String soundURL = wordObject.phonetics.get(i).audio;
+                    btn.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e)
+                        {
+                            SoundUtils.PlaySoundFromURL(soundURL);
+                        }
+                    });
+                    tfOutput.insertComponent(btn);
+                } catch (IOException ex) {
+                    Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        int index = 1;
+        for(int i = 0; i < wordObject.definitions.size(); i++) {
+            if(i == 0 || wordObject.definitions.get(i).partOfSpeech != wordObject.definitions.get(i-1).partOfSpeech) {
+                TextUtils.AppendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN, 20);
+                index = 1;
+            }
+            TextUtils.AppendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK, 16);
+            if(!wordObject.definitions.get(i).example.isBlank())
+                TextUtils.AppendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
+        }
+
+        tfOutput.setCaretPosition(0);
+        SaveWordToDatabase(wordObject);
+    }
+
     private void DisplaySuggestion() {
         var itemList = (DefaultListModel) dropdownList.getModel();
         itemList.removeAllElements();
@@ -305,7 +329,44 @@ public class PanelDefinition extends javax.swing.JPanel {
             dropdownList.setVisible(false);
             return;
         }
-        scrollPane.setSize(new Dimension(150, (itemList.getSize() * 25 > 300 ? 300 : itemList.getSize() * 25)));
+        scrollPane.setSize(new Dimension(150, (itemList.getSize() * 25 > 150 ? 150 : itemList.getSize() * 25)));
+    }
+
+    private void SaveWordToDatabase(WordObject word) {
+        for(int i = 0; i < milestones.length; i++) {
+            if(word.enWord.length() < milestones[i]) {
+                String query = "SELECT WordID FROM " + tableNames[i] + " WHERE Text = " + word.enWord;
+                int wordID = 0;
+                PreparedStatement stm = null;
+                try {
+                    stm = cnn.prepareStatement(query);
+                    ResultSet rs = stm.executeQuery();
+                    while(rs.next()) {
+                        wordID = rs.getInt("WordID");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                query = "";
+                for(int j = 0; j < word.definitions.size(); j++) {
+                    query += "\nINSERT INTO definitions (PartOfSpeech, Example, Text, WordID) VALUES ('"
+                            + word.definitions.get(j).partOfSpeech + "', '" + word.definitions.get(j).example
+                            + "', '" + word.definitions.get(j).text + "', " + wordID + ");";
+                }
+                for(int j = 0; j < word.phonetics.size(); j++) {
+                    if(!word.phonetics.get(j).text.isBlank() && !word.phonetics.get(j).audio.isBlank())
+                        query += "\nINSERT INTO phonetics (Text, Audio, WordID) VALUES ('"
+                            + word.phonetics.get(j).text + "', '" + word.phonetics.get(j).audio + "', " + wordID + ");";
+                }
+                try {
+                    stm = cnn.prepareStatement(query);
+                    stm.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -57,7 +58,7 @@ public class PanelLoading extends javax.swing.JPanel {
             @Override
             protected String doInBackground() throws Exception {
                 for(int i = 0; i < totalQuest; i++) {
-                    final String query = "SELECT Text FROM " + tbList[0] + " ORDER BY RAND() LIMIT 1000";
+                    final String query = "SELECT Text FROM " + tbList[i % 2 == 0 ? 0 : 1] + " ORDER BY RAND() LIMIT 1000";
                     PreparedStatement stm = cnn.prepareStatement(query);
                     ResultSet rs = stm.executeQuery();
                     boolean questInited = false;
@@ -69,26 +70,23 @@ public class PanelLoading extends javax.swing.JPanel {
                                 if(json == null) return;
                                 WordObject word = new WordObject(json);
                                 if(testType == PanelChooseType.DEFINITION_TEST)
-                                    quest.setQuestion(word.definitions.get(0).text);
+                                    quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
                                 else 
                                     quest.setQuestion(word.phonetics.get(0).audio);
                             });
                             if(quest.question.isBlank()) continue;
-                            quest.setAnswers(rs.getString("Text"), index++);
                             questInited = true;
                         }
-                        else {
-                            quest.setAnswers(rs.getString("Text"), index++);
-                        }
+                        quest.setAnswers(rs.getString("Text"), index++);
                     }
                     PanelDoTest.questList.add(quest);
-                    Thread.sleep(1000);
                     publish(i);
+                    Thread.sleep(1000);
                 }
                 
                 for(int i = 11; i <= 13; i++) {
-                    Thread.sleep(1000);
                     publish(i);
+                    Thread.sleep(1000);
                 }
                 
                 return "Finish";
