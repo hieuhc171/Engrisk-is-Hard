@@ -4,7 +4,7 @@
  */
 package Functions.Play3;
 
-import Menu.FormMenu;
+import Menu.FormMain;
 import Menu.PanelMenu;
 
 /**
@@ -64,8 +64,8 @@ public class PanelPlay3 extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelMenu.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelMenu.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
 

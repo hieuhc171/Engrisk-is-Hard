@@ -4,18 +4,29 @@
  */
 package Functions.Definitions;
 
-import Menu.FormMenu;
+import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
 import Utils.NetUtils;
+import Utils.SoundUtils;
 import Utils.WordUtils.WordObject;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
@@ -67,6 +78,8 @@ public class PanelDefinition extends javax.swing.JPanel {
     }
     
     private void GenerateSearchListener() {
+        tfOutput.removeMouseListener(tfOutput.getMouseListeners()[0]);
+        tfOutput.removeMouseListener(tfOutput.getMouseListeners()[1]);
         dropdownList.setVisible(false);
         tfInput.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -89,13 +102,12 @@ public class PanelDefinition extends javax.swing.JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int i = dropdownList.getSelectedIndex();
-                if(i <= 0) return;
+                if(i < 0) return;
                 if(dropdownList.getModel().getSize() == 1 && i == 1) return;
                 tfInput.setText(dropdownList.getSelectedValue());
             }
         });
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -127,6 +139,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         tfInput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tfInput.setPreferredSize(new java.awt.Dimension(150, 35));
 
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSearch.setText("Search");
         btnSearch.setPreferredSize(new java.awt.Dimension(100, 35));
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -202,34 +215,57 @@ public class PanelDefinition extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelMenu.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelMenu.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         if(tfInput.getText().length() == 0) return;
         dropdownList.setVisible(false);
+        scrollPane.setVisible(false);
         scrollOutput.setViewportView(loading);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + tfInput.getText(), json -> {
+                    tfOutput.setText("");
                     scrollOutput.setViewportView(tfOutput);
                     WordObject wordObject = new WordObject(json);
                     
-                    appendToPane(tfOutput, wordObject.enWord + "\n", Color.RED);
+                    appendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
                     for(int i = 0; i < wordObject.phonetics.size(); i++) {
-                        appendToPane(tfOutput, wordObject.phonetics.get(i).text + "\n", Color.BLUE);
+                        if(wordObject.phonetics.get(i).text != "" && wordObject.phonetics.get(i).audio != "") {
+                            appendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
+                            Image image;
+                            try {
+                                image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/definition_buttons/audio.png")).getScaledInstance(14, 14, Image.SCALE_SMOOTH);
+                                ImageIcon icon = new ImageIcon(image);
+                                JButton btn = new JButton();
+                                btn.setIcon(icon);
+                                String soundURL = wordObject.phonetics.get(i).audio;
+                                btn.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mouseClicked(MouseEvent e)
+                                    {
+                                        SoundUtils.PlaySoundFromURL(soundURL);
+                                    }
+                                });
+                                tfOutput.insertComponent(btn);
+                            } catch (IOException ex) {
+                                Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
                     }
                     int index = 1;
                     for(int i = 0; i < wordObject.definitions.size(); i++) {
                         if(i == 0 || wordObject.definitions.get(i).partOfSpeech != wordObject.definitions.get(i-1).partOfSpeech) {
-                            appendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN);
+                            appendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN, 20);
                             index = 1;
                         }
-                        appendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK);
-                        appendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.BLACK);
+                        appendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK, 16);
+                        if(!wordObject.definitions.get(i).example.isBlank())
+                            appendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
                     }
                     
                     tfOutput.setCaretPosition(0);
@@ -239,13 +275,15 @@ public class PanelDefinition extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void appendToPane(JTextPane tp, String msg, Color c)
+    private void appendToPane(JTextPane tp, String msg, Color c, int fontSize)
     {
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Arial");
         aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        aset = sc.addAttribute(aset, StyleConstants.FontSize, fontSize);
+//        aset = sc.addAttribute(aset, StyleConstants.);
 
         int len = tp.getDocument().getLength();
         tp.setCaretPosition(len);

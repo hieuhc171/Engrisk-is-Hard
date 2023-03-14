@@ -12,13 +12,22 @@ import Functions.Play3.PanelPlay3;
 import Functions.Play4.PanelPlay4;
 import Utils.Constants;
 import Utils.NetUtils;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.text.BadLocationException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -42,6 +51,7 @@ public class PanelMenu extends javax.swing.JPanel {
     public PanelMenu() {
         initComponents();
         CheckDatabase();
+        SetupButtons();
     }
     
     private boolean isDictionaryDownloaded = false;
@@ -81,6 +91,62 @@ public class PanelMenu extends javax.swing.JPanel {
         return isDictionaryDownloaded;
     }
     
+    private void SetupButtons() {
+        int edge = 60;
+        String filePath = "dictionary.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnDefinition.setIcon(icon);
+            btnDefinition.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnDefinition.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        btnDefinition.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 12, Font.PLAIN));
+                btnDefinition.setText("Definition");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 14, Font.PLAIN));
+                btnDefinition.setText("Tra định nghĩa");
+            }
+        });
+        
+        filePath = "exam.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnExam.setIcon(icon);
+            btnExam.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnExam.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        btnExam.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 12, Font.PLAIN));
+                btnExam.setText("Exam");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 14, Font.PLAIN));
+                btnExam.setText("Kiểm tra");
+            }
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,7 +170,8 @@ public class PanelMenu extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(864, 480));
 
-        btnDefinition.setText("Definitions");
+        btnDefinition.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDefinition.setText("Definition");
         btnDefinition.setMaximumSize(new java.awt.Dimension(150, 100));
         btnDefinition.setMinimumSize(new java.awt.Dimension(150, 100));
         btnDefinition.setPreferredSize(new java.awt.Dimension(150, 100));
@@ -134,6 +201,7 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        btnExam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExam.setText("Exam");
         btnExam.setMaximumSize(new java.awt.Dimension(150, 100));
         btnExam.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -173,10 +241,10 @@ public class PanelMenu extends javax.swing.JPanel {
             .addGap(0, 10, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("LEARN");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel2.setText("PLAY");
 
         btnDownload.setText("Tải từ điển");
@@ -262,22 +330,22 @@ public class PanelMenu extends javax.swing.JPanel {
                     .addComponent(play2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed
         // TODO add your handling code here:
         if(!CheckDownloaded()) return;
-        FormMenu.Instance().setContentPane(PanelDefinition.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelDefinition.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_btnDefinitionActionPerformed
 
     private void btnExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExamActionPerformed
         // TODO add your handling code here:
         if(!CheckDownloaded()) return;
-        FormMenu.Instance().setContentPane(PanelExam.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelExam.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_btnExamActionPerformed
     
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
@@ -294,26 +362,26 @@ public class PanelMenu extends javax.swing.JPanel {
 
     private void play1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play1ActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelPlay1.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelPlay1.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_play1ActionPerformed
 
     private void play2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play2ActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelPlay2.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelPlay2.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_play2ActionPerformed
 
     private void play3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play3ActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelPlay3.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelPlay3.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_play3ActionPerformed
 
     private void play4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play4ActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelPlay4.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelPlay4.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_play4ActionPerformed
 
     private void DownloadDictionary() {
@@ -345,7 +413,7 @@ public class PanelMenu extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Lỗi SQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
                     finally {
-                        FormDownloadProcess.Instance().dispose();
+                        FormDownloadProcess.Instance().setVisible(false);
                     }
                 });
             }

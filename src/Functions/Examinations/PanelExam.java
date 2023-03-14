@@ -4,8 +4,19 @@
  */
 package Functions.Examinations;
 
-import Menu.FormMenu;
+import Functions.Definitions.PanelDefinition;
+import Menu.FormMain;
 import Menu.PanelMenu;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -24,8 +35,66 @@ public class PanelExam extends javax.swing.JPanel {
      */
     public PanelExam() {
         initComponents();
+        SetupButtons();
     }
 
+    private void SetupButtons() {
+        int edge = 100;
+        String filePath = "definition.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/exam_buttons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnDefinition.setIcon(icon);
+            btnDefinition.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnDefinition.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        btnDefinition.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 12, Font.PLAIN));
+                btnDefinition.setText("Definition");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 14, Font.PLAIN));
+                btnDefinition.setText("Từ vựng");
+            }
+        });
+        
+        filePath = "phonetic.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/exam_buttons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnPhonetic.setIcon(icon);
+            btnPhonetic.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnPhonetic.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        btnPhonetic.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 12, Font.PLAIN));
+                btnPhonetic.setText("Phonetic");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+//                btnDefinition.setFont(new Font("Segoe UI", 14, Font.PLAIN));
+                btnPhonetic.setText("Phát âm");
+            }
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,8 +105,9 @@ public class PanelExam extends javax.swing.JPanel {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        btnPhonetic = new javax.swing.JButton();
+        btnDefinition = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -46,9 +116,37 @@ public class PanelExam extends javax.swing.JPanel {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        btnPhonetic.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnPhonetic.setForeground(new java.awt.Color(0, 0, 204));
+        btnPhonetic.setText("Phonetic");
+        btnPhonetic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPhonetic.setMaximumSize(new java.awt.Dimension(200, 200));
+        btnPhonetic.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnPhonetic.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnPhonetic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPhonetic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPhoneticActionPerformed(evt);
+            }
+        });
+
+        btnDefinition.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnDefinition.setForeground(new java.awt.Color(0, 0, 204));
+        btnDefinition.setText("Definition");
+        btnDefinition.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDefinition.setMaximumSize(new java.awt.Dimension(200, 200));
+        btnDefinition.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnDefinition.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnDefinition.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDefinition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDefinitionActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("CHỌN MỘT TRONG HAI HÌNH THỨC KIỂM TRA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -57,33 +155,58 @@ public class PanelExam extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBack)
-                .addContainerGap(786, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(257, 257, 257))
+                .addGap(150, 150, 150)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPhonetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(150, 150, 150))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBack)
-                .addGap(99, 99, 99)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPhonetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        FormMenu.Instance().setContentPane(PanelMenu.Instance());
-        FormMenu.Instance().validate();
+        FormMain.Instance().setContentPane(PanelMenu.Instance());
+        FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private final int DEFINITION_TEST = 1;
+    private final int PHONETIC_TEST = 2;
+    
+    private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed
+        // TODO add your handling code here:
+        FormMain.Instance().setContentPane(new PanelLoading());
+        FormMain.Instance().validate();
+    }//GEN-LAST:event_btnDefinitionActionPerformed
+
+    private void btnPhoneticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhoneticActionPerformed
+        // TODO add your handling code here:
+        FormMain.Instance().setContentPane(new PanelLoading());
+        FormMain.Instance().validate();
+    }//GEN-LAST:event_btnPhoneticActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton btnDefinition;
+    private javax.swing.JButton btnPhonetic;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

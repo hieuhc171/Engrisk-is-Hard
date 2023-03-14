@@ -25,11 +25,14 @@ public class NetUtils {
             HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
             cnn.setRequestMethod("GET");
             
-            BufferedReader reader = new BufferedReader(new InputStreamReader(cnn.getInputStream()));
-            for(String line; (line = reader.readLine()) != null;) {
-                result.append(line);
+            try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(cnn.getInputStream()))) {
+                for (String line; (line = reader.readLine()) != null; ) {
+                    result.append(line);
+                }
             }
-            onFinish.accept(result.toString());
+            if(!result.toString().isBlank())
+                onFinish.accept(result.toString());
         } 
         catch (IOException ex) {
             Logger.getLogger(NetUtils.class.getName()).log(Level.SEVERE, null, ex);
