@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Functions.Definitions;
+package Functions.Definition;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
 import Utils.NetUtils;
 import Utils.SoundUtils;
+import Utils.TextUtils;
 import Utils.WordUtils.WordObject;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -233,10 +234,10 @@ public class PanelDefinition extends javax.swing.JPanel {
                     scrollOutput.setViewportView(tfOutput);
                     WordObject wordObject = new WordObject(json);
                     
-                    appendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
+                    TextUtils.AppendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
                     for(int i = 0; i < wordObject.phonetics.size(); i++) {
                         if(wordObject.phonetics.get(i).text != "" && wordObject.phonetics.get(i).audio != "") {
-                            appendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
+                            TextUtils.AppendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
                             Image image;
                             try {
                                 image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/definition_buttons/audio.png")).getScaledInstance(14, 14, Image.SCALE_SMOOTH);
@@ -260,12 +261,12 @@ public class PanelDefinition extends javax.swing.JPanel {
                     int index = 1;
                     for(int i = 0; i < wordObject.definitions.size(); i++) {
                         if(i == 0 || wordObject.definitions.get(i).partOfSpeech != wordObject.definitions.get(i-1).partOfSpeech) {
-                            appendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN, 20);
+                            TextUtils.AppendToPane(tfOutput, "\n" + wordObject.definitions.get(i).partOfSpeech + "\n", Color.GREEN, 20);
                             index = 1;
                         }
-                        appendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK, 16);
+                        TextUtils.AppendToPane(tfOutput, (index != 1 ? "\n" : "") + index++ + ". " + wordObject.definitions.get(i).text + "\n", Color.BLACK, 16);
                         if(!wordObject.definitions.get(i).example.isBlank())
-                            appendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
+                            TextUtils.AppendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
                     }
                     
                     tfOutput.setCaretPosition(0);
@@ -275,22 +276,6 @@ public class PanelDefinition extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void appendToPane(JTextPane tp, String msg, Color c, int fontSize)
-    {
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Arial");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
-        aset = sc.addAttribute(aset, StyleConstants.FontSize, fontSize);
-//        aset = sc.addAttribute(aset, StyleConstants.);
-
-        int len = tp.getDocument().getLength();
-        tp.setCaretPosition(len);
-        tp.setCharacterAttributes(aset, false);
-        tp.replaceSelection(msg);
-    }
-    
     private final String[] tableNames = {"wordlessthan7", "wordlessthan8", "wordlessthan9", "wordlessthan10", "wordlessthan11", "wordlessthan13", "wordmorethan13"};
     
     private void DisplaySuggestion() {

@@ -4,8 +4,8 @@
  */
 package Menu;
 
-import Functions.Definitions.PanelDefinition;
-import Functions.Examinations.PanelExam;
+import Functions.Definition.PanelDefinition;
+import Functions.Exam.PanelChooseType;
 import Functions.Play1.PanelPlay1;
 import Functions.Play2.PanelPlay2;
 import Functions.Play3.PanelPlay3;
@@ -344,7 +344,7 @@ public class PanelMenu extends javax.swing.JPanel {
     private void btnExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExamActionPerformed
         // TODO add your handling code here:
         if(!CheckDownloaded()) return;
-        FormMain.Instance().setContentPane(PanelExam.Instance());
+        FormMain.Instance().setContentPane(PanelChooseType.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnExamActionPerformed
     

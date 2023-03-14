@@ -25,6 +25,12 @@ public class NetUtils {
             HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
             cnn.setRequestMethod("GET");
             
+            int responseCode = cnn.getResponseCode();
+            if(responseCode != 200) {
+                onFinish.accept(null);
+                return;
+            }
+            
             try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(cnn.getInputStream()))) {
                 for (String line; (line = reader.readLine()) != null; ) {

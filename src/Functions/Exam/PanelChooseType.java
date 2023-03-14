@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Functions.Examinations;
+package Functions.Exam;
 
-import Functions.Definitions.PanelDefinition;
+import Functions.Definition.PanelDefinition;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import java.awt.Image;
@@ -22,18 +22,18 @@ import javax.swing.SwingConstants;
  *
  * @author chieu
  */
-public class PanelExam extends javax.swing.JPanel {
+public class PanelChooseType extends javax.swing.JPanel {
 
-    private static PanelExam _instance;
-    public static PanelExam Instance() {
+    private static PanelChooseType _instance;
+    public static PanelChooseType Instance() {
         if(_instance == null) 
-            _instance = new PanelExam();
+            _instance = new PanelChooseType();
         return _instance;
     }
     /**
      * Creates new form PanelExam
      */
-    public PanelExam() {
+    public PanelChooseType() {
         initComponents();
         SetupButtons();
     }
@@ -187,18 +187,18 @@ public class PanelExam extends javax.swing.JPanel {
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private final int DEFINITION_TEST = 1;
-    private final int PHONETIC_TEST = 2;
+    public static final int DEFINITION_TEST = 1;
+    public static final int PHONETIC_TEST = 2;
     
     private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed
         // TODO add your handling code here:
-        FormMain.Instance().setContentPane(new PanelLoading());
+        FormMain.Instance().setContentPane(new PanelLoading(DEFINITION_TEST));
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnDefinitionActionPerformed
 
     private void btnPhoneticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhoneticActionPerformed
         // TODO add your handling code here:
-        FormMain.Instance().setContentPane(new PanelLoading());
+        FormMain.Instance().setContentPane(new PanelLoading(PHONETIC_TEST));
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnPhoneticActionPerformed
 
