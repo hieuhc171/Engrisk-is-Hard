@@ -5,6 +5,7 @@
 package Functions.Exam;
 
 import Menu.FormMain;
+import Menu.*;
 import Utils.SoundUtils;
 import Utils.TextUtils;
 
@@ -120,8 +121,12 @@ public class PanelDoTest extends javax.swing.JPanel {
     private String correctAnswer = "";
     private int currentQuest = 0;
     private int timeLeft = 3;
+
     private void DisplayQuestion() {
         questionPane.setText("");
+        if(currentQuest > 10) {
+            EndTest();
+        }
         TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.CYAN, 14);
         if(testType == PanelChooseType.DEFINITION_TEST) {
             TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n\n", Color.BLACK, 18);
@@ -169,6 +174,20 @@ public class PanelDoTest extends javax.swing.JPanel {
 
     private static javax.swing.Timer audio_counter;
 
+    private void EndTest() {
+        User.Instance().exp += score;
+
+        String[] options = {"Trang chủ", "Chơi lại"};
+        int choice = JOptionPane.showOptionDialog(this, "BẠN ĐẠT ĐƯỢC " + score + "/100 điểm!!!", "KẾT QUẢ", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        if(choice == 1) {
+            FormMain.Instance().setContentPane(PanelMenu.Instance());
+        }
+        else {
+            FormMain.Instance().setContentPane(PanelChooseType.Instance());
+        }
+        FormMain.Instance().validate();
+    }
+
     private void ShuffleAnswer(Question quest)
     {
         Random rnd = new Random();
@@ -181,7 +200,7 @@ public class PanelDoTest extends javax.swing.JPanel {
         }
     }
 
-//    private int score =
+    private int score = 0;
 
     private void SetupQuestionPane() {
         StyledDocument doc = questionPane.getStyledDocument();
@@ -193,6 +212,7 @@ public class PanelDoTest extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 for(JButton button : btnAnswer) {
                     button.setBackground(Color.WHITE);
+                    button.setEnabled(true);
                 }
                 currentQuest++;
                 DisplayQuestion();
@@ -220,6 +240,7 @@ public class PanelDoTest extends javax.swing.JPanel {
                     if(btn != null) {
                         if(btn.getText().equals(correctAnswer)) {
                             btn.setBackground(new Color(151, 255, 96, 255));
+                            score += 10;
                         }
                         else {
                             btn.setBackground(new Color(255, 123, 123, 255));
@@ -229,6 +250,9 @@ public class PanelDoTest extends javax.swing.JPanel {
                                     break;
                                 }
                             }
+                        }
+                        for(JButton button : btnAnswer) {
+                            button.setEnabled(false);
                         }
                         java.util.Timer tt = new java.util.Timer(false);
                         tt.schedule(new TimerTask() {

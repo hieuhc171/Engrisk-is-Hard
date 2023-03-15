@@ -19,9 +19,6 @@ import javax.swing.JOptionPane;
  */
 public class FormLogin extends javax.swing.JFrame {
 
-    public static int userID;
-    public static String username;
-    public static int level;
     private static FormLogin _instance;
     public static FormLogin Instance() {
         if(_instance == null) {
@@ -34,9 +31,6 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
-        userID = -1;
-        username = "default_user";
-        level = 0;
     }
     
     private Connection cnn;
@@ -191,9 +185,11 @@ public class FormLogin extends javax.swing.JFrame {
                 if(tfUsername.getText().equals(rs.getString("Username")) && 
                    tfPassword.getText().equals(rs.getString("Password"))) {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-                    userID = rs.getInt("UserID");
-                    username = tfUsername.getText();
-                    level = rs.getInt("Level");
+
+                    User.Instance().setInfo(rs.getInt("UserID"),
+                                            tfUsername.getText(),
+                                            rs.getInt("Level"),
+                                            rs.getInt("Exp"));
                     OnSkipClick(evt);
                     return;
                 }

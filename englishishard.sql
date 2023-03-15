@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2023 at 03:26 PM
+-- Generation Time: Mar 15, 2023 at 11:46 AM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `definitions` (
   `DefinitionID` bigint(20) NOT NULL,
   `PartOfSpeech` varchar(50) NOT NULL,
-  `Example` int(255) DEFAULT NULL,
+  `Example` varchar(255) DEFAULT NULL,
   `WordID` bigint(20) NOT NULL,
   `Text` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -58,16 +58,17 @@ CREATE TABLE `users` (
   `UserID` bigint(20) NOT NULL,
   `Username` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `Level` int(11) NOT NULL
+  `Level` int(11) NOT NULL,
+  `Exp` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UserID`, `Username`, `Password`, `Level`) VALUES
-(1, 'admin', '123456', 0),
-(2, 'test', '123456', 0);
+INSERT INTO `users` (`UserID`, `Username`, `Password`, `Level`, `Exp`) VALUES
+(1, 'admin', '123456', 0, 0),
+(2, 'test', '123456', 0, 0);
 
 -- --------------------------------------------------------
 
