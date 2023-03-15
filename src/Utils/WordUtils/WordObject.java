@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
+import Utils.Constants;
+import Utils.NetUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,6 +40,19 @@ public class WordObject {
         catch (ParseException ex) {
             Logger.getLogger(WordObject.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void ParseViWord() {
+        NetUtils.DoGetRequest(Constants.WORD_TRANSLATION_URL_ALTER + enWord, json -> {
+            JSONParser jParser = new JSONParser();
+            try {
+                JSONArray jArray = (JSONArray) jParser.parse(json);
+                jArray = (JSONArray) jArray.get(0);
+                viWord = jArray.get(0).toString();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     
     private void ParsePhonetics(JSONArray jArray) {

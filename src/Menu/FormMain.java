@@ -23,6 +23,7 @@ public class FormMain extends javax.swing.JFrame {
      */
     public FormMain() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -80,7 +81,6 @@ public class FormMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Instance().setLocationRelativeTo(null);
                 Instance().setVisible(true);
             }
         });

@@ -12,6 +12,7 @@ import Functions.Play3.PanelPlay3;
 import Functions.Play4.PanelPlay4;
 import Utils.Constants;
 import Utils.NetUtils;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -25,9 +26,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -50,6 +49,7 @@ public class PanelMenu extends javax.swing.JPanel {
      */
     public PanelMenu() {
         initComponents();
+        setBackground(new Color(131, 211, 211, 219));
         CheckDatabase();
         SetupButtons();
     }
@@ -168,9 +168,12 @@ public class PanelMenu extends javax.swing.JPanel {
         play3 = new javax.swing.JButton();
         play4 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 204, 204));
         setPreferredSize(new java.awt.Dimension(864, 480));
 
+        btnDefinition.setBackground(new java.awt.Color(204, 204, 204));
         btnDefinition.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDefinition.setForeground(new java.awt.Color(51, 51, 51));
         btnDefinition.setText("Definition");
         btnDefinition.setMaximumSize(new java.awt.Dimension(150, 100));
         btnDefinition.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -181,6 +184,8 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        play1.setBackground(new java.awt.Color(204, 204, 204));
+        play1.setForeground(new java.awt.Color(51, 51, 51));
         play1.setText("?");
         play1.setMaximumSize(new java.awt.Dimension(150, 100));
         play1.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -191,6 +196,8 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        play2.setBackground(new java.awt.Color(204, 204, 204));
+        play2.setForeground(new java.awt.Color(51, 51, 51));
         play2.setText("?");
         play2.setMaximumSize(new java.awt.Dimension(150, 100));
         play2.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -201,7 +208,9 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        btnExam.setBackground(new java.awt.Color(204, 204, 204));
         btnExam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnExam.setForeground(new java.awt.Color(51, 51, 51));
         btnExam.setText("Exam");
         btnExam.setMaximumSize(new java.awt.Dimension(150, 100));
         btnExam.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -242,11 +251,16 @@ public class PanelMenu extends javax.swing.JPanel {
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("LEARN");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("PLAY");
 
+        btnDownload.setBackground(new java.awt.Color(204, 204, 204));
+        btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDownload.setForeground(new java.awt.Color(51, 51, 51));
         btnDownload.setText("Tải từ điển");
         btnDownload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,6 +268,8 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        play3.setBackground(new java.awt.Color(204, 204, 204));
+        play3.setForeground(new java.awt.Color(51, 51, 51));
         play3.setText("?");
         play3.setMaximumSize(new java.awt.Dimension(150, 100));
         play3.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -264,6 +280,8 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
+        play4.setBackground(new java.awt.Color(204, 204, 204));
+        play4.setForeground(new java.awt.Color(51, 51, 51));
         play4.setText("?");
         play4.setMaximumSize(new java.awt.Dimension(150, 100));
         play4.setMinimumSize(new java.awt.Dimension(150, 100));
@@ -330,7 +348,7 @@ public class PanelMenu extends javax.swing.JPanel {
                     .addComponent(play2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

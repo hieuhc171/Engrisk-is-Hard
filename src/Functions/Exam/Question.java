@@ -6,7 +6,7 @@ package Functions.Exam;
 
 /**
  *
- * @author 9999
+ * @author chieu
  */
 public class Question {
     public String question;

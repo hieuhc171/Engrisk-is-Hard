@@ -18,10 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -126,6 +123,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         scrollOutput = new javax.swing.JScrollPane();
         loading = new javax.swing.JLabel();
         tfOutput = new javax.swing.JTextPane();
+        checkbox = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(856, 480));
 
@@ -175,6 +173,8 @@ public class PanelDefinition extends javax.swing.JPanel {
         tfOutput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         scrollOutput.setViewportView(tfOutput);
 
+        checkbox.setText("Dịch ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,12 +186,13 @@ public class PanelDefinition extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkbox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
         );
@@ -206,8 +207,11 @@ public class PanelDefinition extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(checkbox))))
                     .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
@@ -263,7 +267,12 @@ public class PanelDefinition extends javax.swing.JPanel {
     private void DisplayWord(WordObject wordObject) {
         tfOutput.setText("");
         scrollOutput.setViewportView(tfOutput);
-        TextUtils.AppendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
+        if(checkbox.isSelected()) {
+            wordObject.ParseViWord();
+            TextUtils.AppendToPane(tfOutput, wordObject.enWord + " - " + wordObject.viWord + "\n", Color.RED, 22);
+        }
+        else
+            TextUtils.AppendToPane(tfOutput, wordObject.enWord + "\n", Color.RED, 22);
         for(int i = 0; i < wordObject.phonetics.size(); i++) {
             if(wordObject.phonetics.get(i).text != "" && wordObject.phonetics.get(i).audio != "") {
                 TextUtils.AppendToPane(tfOutput, " " + wordObject.phonetics.get(i).text + "\n", Color.BLUE, 16);
@@ -299,7 +308,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         }
 
         tfOutput.setCaretPosition(0);
-        SaveWordToDatabase(wordObject);
+//        SaveWordToDatabase(wordObject);
     }
 
     private void DisplaySuggestion() {
@@ -339,8 +348,13 @@ public class PanelDefinition extends javax.swing.JPanel {
                 int wordID = 0;
                 PreparedStatement stm = null;
                 try {
+                    Statement stmt = cnn.createStatement();
+                    stmt.execute("SET FOREIGN_KEY_CHECKS=0");
+                    stmt.close();
+
                     stm = cnn.prepareStatement(query);
                     ResultSet rs = stm.executeQuery();
+
                     while(rs.next()) {
                         wordID = rs.getInt("WordID");
                     }
@@ -361,6 +375,10 @@ public class PanelDefinition extends javax.swing.JPanel {
                 try {
                     stm = cnn.prepareStatement(query);
                     stm.executeUpdate();
+
+                    Statement stmt = cnn.createStatement();
+                    stmt.execute("SET FOREIGN_KEY_CHECKS=1");
+                    stmt.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -372,6 +390,7 @@ public class PanelDefinition extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JCheckBox checkbox;
     private javax.swing.JList<String> dropdownList;
     private javax.swing.JLabel loading;
     private javax.swing.JScrollPane scrollOutput;

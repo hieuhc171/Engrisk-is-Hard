@@ -5,8 +5,10 @@
 package Functions.Exam;
 
 import Menu.FormMain;
+import Utils.SoundUtils;
 import Utils.TextUtils;
-import java.awt.Color;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -24,10 +26,12 @@ import javax.swing.text.StyledDocument;
  */
 public class PanelDoTest extends javax.swing.JPanel {
 
+    private int testType;
     /**
      * Creates new form FormDoTest
      */
     public PanelDoTest(int testType) {
+        this.testType = testType;
         initComponents();
         SetupQuestionPane();
         DisplayQuestion();
@@ -115,20 +119,55 @@ public class PanelDoTest extends javax.swing.JPanel {
     public final static ArrayList<Question> questList = new ArrayList<>();
     private String correctAnswer = "";
     private int currentQuest = 0;
+    private int timeLeft = 3;
     private void DisplayQuestion() {
         questionPane.setText("");
         TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.CYAN, 14);
-        TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n\n", Color.BLACK, 20);
-        TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 24);
-        
+        if(testType == PanelChooseType.DEFINITION_TEST) {
+            TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n\n", Color.BLACK, 18);
+            TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 22);
+        }
+        else {
+            TextUtils.AppendToPane(questionPane, "Đây là cách đọc của từ nào?\n\n", Color.BLACK, 22);
+            TextUtils.AppendToPane(questionPane, "Âm thanh sẽ được phát sau " + timeLeft, Color.RED, 18);
+
+            audio_counter = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String oldLine = "Âm thanh sẽ được phát sau " + timeLeft;
+                    timeLeft--;
+                    String newLine = "Âm thanh sẽ được phát sau " + timeLeft;
+                    TextUtils.ReplaceText(questionPane, oldLine, newLine);
+                    System.out.println(questionPane.getDocument().getLength());
+                    System.out.println(oldLine.length());
+                    if(timeLeft <= 0) {
+                        SoundUtils.PlaySoundFromURL(questList.get(currentQuest).question);
+                        TextUtils.ReplaceText(questionPane, newLine, "");
+                        audio_counter.stop();
+                    }
+                }
+            });
+        }
+
         correctAnswer = questList.get(currentQuest).answers[0];
         ShuffleAnswer(questList.get(currentQuest));
 
         for(int i = 0; i < 4; i++) {
-            btnAnswer[i].setText(questList.get(currentQuest).answers[0]);
-
+            btnAnswer[i].setText(questList.get(currentQuest).answers[i]);
+        }
+        
+        if(testType == PanelChooseType.PHONETIC_TEST) {
+            java.util.Timer tt = new java.util.Timer(false);
+            tt.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    audio_counter.start();
+                }
+            }, 1000);
         }
     }
+
+    private static javax.swing.Timer audio_counter;
 
     private void ShuffleAnswer(Question quest)
     {
@@ -141,6 +180,8 @@ public class PanelDoTest extends javax.swing.JPanel {
             quest.answers[i] = a;
         }
     }
+
+//    private int score =
 
     private void SetupQuestionPane() {
         StyledDocument doc = questionPane.getStyledDocument();
@@ -165,13 +206,13 @@ public class PanelDoTest extends javax.swing.JPanel {
                 public void mouseEntered(MouseEvent e) {
                     JButton btn = (JButton) e.getSource();
                     if(btn != null)
-                        btn.setFont(new java.awt.Font("Segoe UI", 1, 24));
+                        btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
                 }
                 @Override
                 public void mouseExited(MouseEvent e) {
                     JButton btn = (JButton) e.getSource();
                     if(btn != null)
-                        btn.setFont(new java.awt.Font("Segoe UI", 1, 18));
+                        btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
                 }
                 @Override
                 public void mouseClicked(MouseEvent e) {

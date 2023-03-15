@@ -47,18 +47,17 @@ public class PanelLoading extends javax.swing.JPanel {
     }
     
     public final static int totalQuest = 10;
-    private String[] tbList = { "wordlessthan7" , "wordlessthan7",
-                                "wordlessthan8" , "wordlessthan8", 
-                                "wordlessthan9" , "wordlessthan10",
-                                "wordlessthan11" , "wordlessthan13",
-                                "wordmorethan13" , "wordmorethan13"};
+    private final String[] tbList = { "wordlessthan7", "wordlessthan8",
+                                "wordlessthan9", "wordlessthan10",
+                                "wordlessthan11", "wordlessthan13",
+                                "wordmorethan13", "wordmorethan13"};
     
     private void InitializeQuestions(int testType) {
         new SwingWorker() {
             @Override
             protected String doInBackground() throws Exception {
                 for(int i = 0; i < totalQuest; i++) {
-                    final String query = "SELECT Text FROM " + tbList[i % 2 == 0 ? 0 : 1] + " ORDER BY RAND() LIMIT 1000";
+                    final String query = "SELECT Text FROM " + tbList[i % 3] + " ORDER BY RAND() LIMIT 1000";
                     PreparedStatement stm = cnn.prepareStatement(query);
                     ResultSet rs = stm.executeQuery();
                     boolean questInited = false;
@@ -67,21 +66,29 @@ public class PanelLoading extends javax.swing.JPanel {
                     while(rs.next() && index < 4) {
                         if(!questInited) {
                             NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + rs.getString("Text"), json -> {
-                                if(json == null) return;
-                                WordObject word = new WordObject(json);
-                                if(testType == PanelChooseType.DEFINITION_TEST)
-                                    quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
-                                else 
-                                    quest.setQuestion(word.phonetics.get(0).audio);
+                                if(json != null) {
+                                    WordObject word = new WordObject(json);
+                                    if (testType == PanelChooseType.DEFINITION_TEST)
+                                        quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
+                                    else {
+                                        String audio = "";
+                                        for(int j = 0; j < word.phonetics.size(); j++) {
+                                            audio = word.phonetics.get(j).audio;
+                                            if(audio != null) break;
+                                        }
+                                        if(!audio.isBlank())
+                                            quest.setQuestion(audio);
+                                    }
+                                }
                             });
-                            if(quest.question.isBlank()) continue;
+                            if(quest.question == null) continue;
                             questInited = true;
                         }
                         quest.setAnswers(rs.getString("Text"), index++);
                     }
                     PanelDoTest.questList.add(quest);
                     publish(i);
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 }
                 
                 for(int i = 11; i <= 13; i++) {
@@ -95,9 +102,9 @@ public class PanelLoading extends javax.swing.JPanel {
             @Override
             protected void process(List chunks) {
                 int i = (int) chunks.get(chunks.size()-1);
-                if(i < 11) {
-                    progressBar.setValue(i * 10);
-                    lbProgress.setText("Đang khởi tạo... Câu " + i + " trên " + totalQuest);
+                if(i < 10) {
+                    progressBar.setValue((i+1) * 10);
+                    lbProgress.setText("Đang khởi tạo... Câu " + (i+1) + " trên " + totalQuest);
                 }
                 else {
                     lbProgress.setText("Đã khởi tạo xong. Kiểm tra sẽ bắt đầu sau " + (14 - i));
