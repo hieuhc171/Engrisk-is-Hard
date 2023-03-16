@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Database"},{"l":"Functions.Definition"},{"l":"Functions.Exam"},{"l":"Functions.Play1"},{"l":"Functions.Play2"},{"l":"Functions.Play3"},{"l":"Functions.Play4"},{"l":"Menu"},{"l":"Utils"},{"l":"Utils.WordUtils"}];updateSearchResults();

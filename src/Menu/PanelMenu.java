@@ -49,7 +49,7 @@ public class PanelMenu extends javax.swing.JPanel {
      */
     public PanelMenu() {
         initComponents();
-        setBackground(new Color(131, 211, 211, 219));
+        setBackground(new Color(186, 220, 220, 219));
         CheckDatabase();
         SetupButtons();
     }
