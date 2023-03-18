@@ -63,7 +63,6 @@ public class PanelDefinition extends javax.swing.JPanel {
     }
     
     private Connection cnn;
-    
     private void KetNoiCSDL() {
         cnn = Database.Database.KetNoiCSDL();
         if(cnn == null) {
@@ -213,7 +212,7 @@ public class PanelDefinition extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(checkbox))))
                     .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -398,4 +397,6 @@ public class PanelDefinition extends javax.swing.JPanel {
     private javax.swing.JTextField tfInput;
     private javax.swing.JTextPane tfOutput;
     // End of variables declaration//GEN-END:variables
+
+   
 }

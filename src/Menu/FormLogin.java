@@ -186,10 +186,10 @@ public class FormLogin extends javax.swing.JFrame {
                    tfPassword.getText().equals(rs.getString("Password"))) {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
 
-                    User.Instance().setInfo(rs.getInt("UserID"),
-                                            tfUsername.getText(),
-                                            rs.getInt("Level"),
-                                            rs.getInt("Exp"));
+//                    User.Instance().setInfo(rs.getInt("UserID"),
+//                                            tfUsername.getText(),
+//                                            rs.getInt("Level"),
+//                                            rs.getInt("Exp"));
                     OnSkipClick(evt);
                     return;
                 }
