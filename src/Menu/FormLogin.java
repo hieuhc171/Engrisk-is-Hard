@@ -7,6 +7,8 @@ package Menu;
 import static Menu.FormMain.Instance;
 import Utils.Constants;
 import Utils.NetUtils;
+
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,6 +33,7 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+        this.getContentPane().setBackground(new Color(209, 246, 246));
     }
     
     private Connection cnn;
@@ -81,7 +84,7 @@ public class FormLogin extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(153, 51, 0));
+        jLabel3.setForeground(new java.awt.Color(0, 2, 90));
         jLabel3.setText("English is Hard");
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

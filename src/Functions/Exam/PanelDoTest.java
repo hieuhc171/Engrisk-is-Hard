@@ -34,6 +34,7 @@ public class PanelDoTest extends javax.swing.JPanel {
     public PanelDoTest(int testType) {
         this.testType = testType;
         initComponents();
+        setBackground(new Color(209, 246, 246));
         SetupQuestionPane();
         DisplayQuestion();
     }
@@ -124,8 +125,9 @@ public class PanelDoTest extends javax.swing.JPanel {
 
     private void DisplayQuestion() {
         questionPane.setText("");
-        if(currentQuest > 10) {
+        if(currentQuest >= 10) {
             EndTest();
+            return;
         }
         TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.CYAN, 14);
         if(testType == PanelChooseType.DEFINITION_TEST) {
@@ -175,11 +177,11 @@ public class PanelDoTest extends javax.swing.JPanel {
     private static javax.swing.Timer audio_counter;
 
     private void EndTest() {
-        User.Instance().exp += score;
+//        User.Instance().exp += score;
 
         String[] options = {"Trang chủ", "Chơi lại"};
         int choice = JOptionPane.showOptionDialog(this, "BẠN ĐẠT ĐƯỢC " + score + "/100 điểm!!!", "KẾT QUẢ", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        if(choice == 1) {
+        if(choice == 0) {
             FormMain.Instance().setContentPane(PanelMenu.Instance());
         }
         else {
@@ -207,12 +209,13 @@ public class PanelDoTest extends javax.swing.JPanel {
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
         timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(JButton button : btnAnswer) {
                     button.setBackground(Color.WHITE);
-                    button.setEnabled(true);
+                    button.addMouseListener(ml);
                 }
                 currentQuest++;
                 DisplayQuestion();
@@ -221,49 +224,54 @@ public class PanelDoTest extends javax.swing.JPanel {
         });
 
         for(int i = 0; i < 4; i++) {
-            btnAnswer[i].addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    JButton btn = (JButton) e.getSource();
-                    if(btn != null)
-                        btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
+            btnAnswer[i].addMouseListener(ml);
+        }
+    }
+
+    MouseListener ml = new MouseListener();
+
+    class MouseListener extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JButton btn = (JButton) e.getSource();
+            if(btn != null)
+                btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+            JButton btn = (JButton) e.getSource();
+            if(btn != null)
+                btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JButton btn = (JButton) e.getSource();
+
+            if(btn != null) {
+                if(btn.getText().equals(correctAnswer)) {
+                    btn.setBackground(new Color(151, 255, 96, 255));
+                    score += 10;
                 }
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    JButton btn = (JButton) e.getSource();
-                    if(btn != null)
-                        btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
-                }
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JButton btn = (JButton) e.getSource();
-                    if(btn != null) {
-                        if(btn.getText().equals(correctAnswer)) {
-                            btn.setBackground(new Color(151, 255, 96, 255));
-                            score += 10;
+                else {
+                    btn.setBackground(new Color(255, 123, 123, 255));
+                    for(JButton button : btnAnswer) {
+                        if(button.getText().equals(correctAnswer)) {
+                            button.setBackground(new Color(151, 255, 96, 255));
+                            break;
                         }
-                        else {
-                            btn.setBackground(new Color(255, 123, 123, 255));
-                            for(JButton button : btnAnswer) {
-                                if(button.getText().equals(correctAnswer)) {
-                                    button.setBackground(new Color(151, 255, 96, 255));
-                                    break;
-                                }
-                            }
-                        }
-                        for(JButton button : btnAnswer) {
-                            button.setEnabled(false);
-                        }
-                        java.util.Timer tt = new java.util.Timer(false);
-                        tt.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                timer.start();
-                            }
-                        }, 0);
                     }
                 }
-            });
+                for(JButton button : btnAnswer) {
+                    button.removeMouseListener(ml);
+                }
+                java.util.Timer tt = new java.util.Timer(false);
+                tt.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        timer.start();
+                    }
+                }, 0);
+            }
         }
     }
 

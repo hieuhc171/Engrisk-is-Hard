@@ -7,7 +7,8 @@ package Functions.Exam;
 import Functions.Definition.PanelDefinition;
 import Menu.FormMain;
 import Menu.PanelMenu;
-import java.awt.Image;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -35,6 +36,7 @@ public class PanelChooseType extends javax.swing.JPanel {
      */
     public PanelChooseType() {
         initComponents();
+        setBackground(new Color(209, 246, 246));
         SetupButtons();
     }
 

@@ -26,16 +26,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultCaret;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 
 /**
  *
@@ -60,6 +55,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         scrollOutput.setViewportView(tfOutput);
         DefaultCaret caret = (DefaultCaret) tfOutput.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+        setBackground(new Color(209, 246, 246));
     }
     
     private Connection cnn;
@@ -77,6 +73,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         tfOutput.removeMouseListener(tfOutput.getMouseListeners()[0]);
         tfOutput.removeMouseListener(tfOutput.getMouseListeners()[1]);
         dropdownList.setVisible(false);
+        scrollPane.setVisible(false);
         tfInput.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {        
@@ -150,6 +147,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         scrollPane.setMaximumSize(new java.awt.Dimension(32767, 300));
         scrollPane.setPreferredSize(new java.awt.Dimension(150, 130));
 
+        dropdownList.setBorder(null);
         dropdownList.setModel(new DefaultListModel());
         dropdownList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         dropdownList.setFixedCellHeight(25);
@@ -315,9 +313,11 @@ public class PanelDefinition extends javax.swing.JPanel {
         itemList.removeAllElements();
         if(tfInput.getText().length() < 4) {
             dropdownList.setVisible(false);
+            scrollPane.setVisible(false);
             return;
         }
         dropdownList.setVisible(true);
+        scrollPane.setVisible(true);
         String query;
         for(var tableName : tableNames) {
             query = "SELECT * FROM " + tableName + " WHERE Text LIKE '%" + tfInput.getText() + "%'";
