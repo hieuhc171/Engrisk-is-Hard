@@ -112,7 +112,10 @@ public class PanelPlay4 extends javax.swing.JPanel {
         loading = new javax.swing.JLabel();
         tfOutput = new javax.swing.JTextPane();
         btxem = new javax.swing.JButton();
+        btquizz = new javax.swing.JButton();
         checkbox = new javax.swing.JCheckBox();
+
+        setToolTipText("");
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +156,14 @@ public class PanelPlay4 extends javax.swing.JPanel {
             }
         });
 
-        checkbox.setText("Dịch ");
+        btquizz.setText("Quizz");
+        btquizz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btquizzActionPerformed(evt);
+            }
+        });
+
+        checkbox.setText("Dịch");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -163,26 +173,29 @@ public class PanelPlay4 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                         .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                        .addGap(22, 22, 22))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btquizz)
+                        .addGap(28, 28, 28))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(361, 361, 361)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkbox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btxem)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(checkbox)
+                    .addComponent(btxem))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnBack)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btquizz))
                 .addGap(2, 2, 2)
                 .addComponent(btxem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -223,6 +236,12 @@ public class PanelPlay4 extends javax.swing.JPanel {
             
         }).start();
     }//GEN-LAST:event_btxemActionPerformed
+
+    private void btquizzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btquizzActionPerformed
+        // TODO add your handling code here:
+        FormMain.Instance().setContentPane(QuizzMonHocEnglish.Instance());
+        FormMain.Instance().validate();
+    }//GEN-LAST:event_btquizzActionPerformed
     private void DisplayWord(WordObject wordObject) {
         tfOutput.setText("");
         scrollOutput.setViewportView(tfOutput);
@@ -267,11 +286,11 @@ public class PanelPlay4 extends javax.swing.JPanel {
         }
 
         tfOutput.setCaretPosition(0);
-//        SaveWordToDatabase(wordObject);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btquizz;
     private javax.swing.JButton btxem;
     private javax.swing.JCheckBox checkbox;
     private javax.swing.JScrollPane jScrollPane1;
