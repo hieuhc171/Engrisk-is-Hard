@@ -183,9 +183,11 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         currentState.setIcon(hangmanStates[currentIndex]);
                         if(currentIndex == MAXSTATE - 1) {
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
-                            int choice = JOptionPane.showOptionDialog(null, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                            int choice = JOptionPane.showOptionDialog(null, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                             if(choice == 1) {
                                 // TO DO: show định nghĩa
+                                FormLearn popup = new FormLearn(chosenWord);
+                                popup.setVisible(true);
                                 return;
                             }
                             else {

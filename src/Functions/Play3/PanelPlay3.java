@@ -7,6 +7,10 @@ package Functions.Play3;
 import Menu.FormMain;
 import Menu.PanelMenu;
 
+import javax.swing.*;
+import java.awt.*;
+import java.sql.Connection;
+
 /**
  *
  * @author hieum
@@ -24,7 +28,24 @@ public class PanelPlay3 extends javax.swing.JPanel {
      */
     public PanelPlay3() {
         initComponents();
+        setBackground(new Color(209, 246, 246));
+        btnBack.setBounds(6, 6, 72, 23);
+
+        KetNoiCSDL();
     }
+
+    private Connection cnn;
+    private void KetNoiCSDL() {
+        cnn = Database.Database.KetNoiCSDL();
+        if(cnn == null) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+
+        }
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
