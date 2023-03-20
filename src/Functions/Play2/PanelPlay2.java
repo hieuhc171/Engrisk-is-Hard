@@ -209,9 +209,11 @@ public class PanelPlay2 extends javax.swing.JPanel {
         btnClear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                wordArray.clear();
-                DisplayInput();
-                ResetButtons();
+                if(!playTimeCounter.isRunning()) {
+                    JOptionPane.showMessageDialog(null, "Chọn một chữ cái để bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                ResetComponents();
             }
         });
         btnSubmit.setBounds(610, 375, 160, 40);
@@ -219,8 +221,13 @@ public class PanelPlay2 extends javax.swing.JPanel {
         btnSubmit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(lbInput.getText().isBlank()) return;
+                if(!playTimeCounter.isRunning()) {
+                    JOptionPane.showMessageDialog(null, "Chọn một chữ cái để bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 ValuatingInput();
-                ResetButtons();
+                ResetComponents();
             }
         });
 
@@ -281,7 +288,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
         }
     }
 
-    private void ResetButtons() {
+    private void ResetComponents() {
         lbInput.setText("");
         wordArray.clear();
         for(int i = 0; i < num; i++) {

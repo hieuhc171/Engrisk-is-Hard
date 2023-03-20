@@ -45,7 +45,10 @@ public class PanelPlay3 extends javax.swing.JPanel {
         }
     }
 
-    
+    private final int size = 10;
+    private JButton[][] buttons = new JButton[size][size];
+
+//    private void Initialize
 
     /**
      * This method is called from within the constructor to initialize the form.
