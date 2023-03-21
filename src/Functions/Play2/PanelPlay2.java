@@ -132,8 +132,22 @@ public class PanelPlay2 extends javax.swing.JPanel {
 
     private final MouseListener ml = new MouseListener();
     class MouseListener extends MouseAdapter {
+//        @Override
+//        public void mouseClicked(MouseEvent e) {
+//            JButton btn = (JButton) e.getSource();
+//            if(btn.getBackground() == Color.GREEN) {
+////                btn.setBackground(Color.WHITE);
+//            }
+//            else {
+//                if(!playTimeCounter.isRunning()) playTimeCounter.start();
+//                btn.setBackground(Color.GREEN);
+//                wordArray.add(btn.getText());
+//                DisplayInput();
+//            }
+//        }
+
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             JButton btn = (JButton) e.getSource();
             if(btn.getBackground() == Color.GREEN) {
 //                btn.setBackground(Color.WHITE);
