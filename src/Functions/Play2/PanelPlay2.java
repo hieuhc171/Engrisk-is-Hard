@@ -7,6 +7,7 @@ package Functions.Play2;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.ImageUtils;
 import Utils.NetUtils;
 import Utils.TextUtils;
 
@@ -48,7 +49,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
      */
     public PanelPlay2() {
         initComponents();
-        setBackground(new Color(209, 246, 246));
+//        setBackground(new Color(209, 246, 246));
         btnBack.setBounds(6, 6, 72, 23);
 
         KetNoiCSDL();
@@ -56,6 +57,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
         SetupTimer();
         InitializeResult();
         InitializeCounter();
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
 
     private static javax.swing.Timer initWordCounter;

@@ -6,10 +6,7 @@ package Functions.Definition;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
-import Utils.Constants;
-import Utils.NetUtils;
-import Utils.SoundUtils;
-import Utils.TextUtils;
+import Utils.*;
 import Utils.WordUtils.WordObject;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -55,7 +52,8 @@ public class PanelDefinition extends javax.swing.JPanel {
         scrollOutput.setViewportView(tfOutput);
         DefaultCaret caret = (DefaultCaret) tfOutput.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
-        setBackground(new Color(209, 246, 246));
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
     private Connection cnn;
@@ -122,6 +120,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         checkbox = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(856, 480));
+        setLayout(null);
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -129,9 +128,13 @@ public class PanelDefinition extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
+        add(btnBack);
+        btnBack.setBounds(6, 6, 72, 23);
 
         tfInput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tfInput.setPreferredSize(new java.awt.Dimension(150, 35));
+        add(tfInput);
+        tfInput.setBounds(44, 55, 150, 35);
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSearch.setText("Search");
@@ -141,6 +144,8 @@ public class PanelDefinition extends javax.swing.JPanel {
                 btnSearchActionPerformed(evt);
             }
         });
+        add(btnSearch);
+        btnSearch.setBounds(244, 55, 100, 35);
 
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -154,6 +159,9 @@ public class PanelDefinition extends javax.swing.JPanel {
         dropdownList.setFixedCellWidth(25);
         dropdownList.setMaximumSize(new java.awt.Dimension(1000, 300));
         scrollPane.setViewportView(dropdownList);
+
+        add(scrollPane);
+        scrollPane.setBounds(44, 90, 150, 130);
 
         scrollOutput.setBackground(new java.awt.Color(255, 255, 255));
         scrollOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -170,48 +178,12 @@ public class PanelDefinition extends javax.swing.JPanel {
         tfOutput.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         scrollOutput.setViewportView(tfOutput);
 
-        checkbox.setText("Dịch ");
+        add(scrollOutput);
+        scrollOutput.setBounds(393, 55, 400, 380);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(checkbox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(checkbox))))
-                    .addComponent(scrollOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
+        checkbox.setText("Dịch ");
+        add(checkbox);
+        checkbox.setBounds(244, 96, 100, 20);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

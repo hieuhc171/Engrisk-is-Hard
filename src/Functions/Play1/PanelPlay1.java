@@ -7,6 +7,7 @@ package Functions.Play1;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.ImageUtils;
 import Utils.NetUtils;
 
 import javax.imageio.ImageIO;
@@ -39,13 +40,14 @@ public class PanelPlay1 extends javax.swing.JPanel {
      */
     public PanelPlay1() {
         initComponents();
-        setBackground(new Color(209, 246, 246));
+//        setBackground(new Color(209, 246, 246));
         btnBack.setBounds(6, 6, 72, 23);
 
         KetNoiCSDL();
         InitializeHangmanStates();
         InitializeVirtualKeyboard();
         InitializeGUI();
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
 
     private Connection cnn;
