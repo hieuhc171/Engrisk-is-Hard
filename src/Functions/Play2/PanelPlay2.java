@@ -83,6 +83,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
         }
     }
 
+    private boolean isInitialized = false;
     private final int num = 4;
     private final JButton[][] btnWords = new JButton[num][num];
     private void InitializeWordList() {
@@ -110,7 +111,10 @@ public class PanelPlay2 extends javax.swing.JPanel {
                 }
             }
         }
-        if(VowelCount() >= 7 && DistinctCount() >= 12) initWordCounter.stop();
+        if(VowelCount() >= 7 && DistinctCount() >= 12) {
+            initWordCounter.stop();
+            isInitialized = true;
+        }
     }
 
     private int VowelCount() {
@@ -156,6 +160,10 @@ public class PanelPlay2 extends javax.swing.JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
+            if(!isInitialized) {
+                JOptionPane.showMessageDialog(null, "Đợi khởi tạo xong đã!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             JButton btn = (JButton) e.getSource();
             if(btn.getBackground() == Color.GREEN) {
 //                btn.setBackground(Color.WHITE);
@@ -216,7 +224,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
 
         wordPane.setBackground(Color.WHITE);
         wordPane.setBounds(450, 130, 220, 210);
-        wordPane.getHorizontalScrollBar().setModel(pointPane.getHorizontalScrollBar().getModel());
+        wordPane.getVerticalScrollBar().setModel(pointPane.getVerticalScrollBar().getModel());
         wordArea.setBackground(Color.WHITE);
         wordArea.removeMouseListener(wordArea.getMouseListeners()[0]);
         wordArea.removeMouseListener(wordArea.getMouseListeners()[1]);
@@ -361,23 +369,23 @@ public class PanelPlay2 extends javax.swing.JPanel {
                     }
                 }
                 popup.setVisible(true);
-                displayPopupCounter = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if(popup.getText() != "CHECKING...") {
+                if(popup.getText() != "CHECKING...") {
+                    displayPopupCounter = new Timer(1000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
                             popup.setVisible(false);
                             displayPopupCounter.stop();
                         }
-                    }
-                });
-                displayPopupCounter.start();
+                    });
+                    displayPopupCounter.start();
+                }
             }
         }).start();
     }
 
     private static javax.swing.Timer playTimeCounter;
-    private final JLabel counterDisplay = new JLabel("03:00");
-    private int timeLeft = 180;
+    private final JLabel counterDisplay = new JLabel("01:00");
+    private int timeLeft = 60;
 
     private void InitializeCounter() {
         counterDisplay.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -393,7 +401,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
                 counterDisplay.setText("0" + timeLeft / 60 + ":" + (timeLeft % 60 < 10 ? "0" : "") + timeLeft % 60);
                 if(timeLeft == 0) {
                     playTimeCounter.stop();
-                    JOptionPane.showMessageDialog(null, "Bạn đạt được " + totalScore + " điểm!", "Hết giờ", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Bạn đạt được " + totalScore + " điểm!", "Hết giờ", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

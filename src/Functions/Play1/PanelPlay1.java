@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Consumer;
 
 /**
  *
@@ -47,9 +48,10 @@ public class PanelPlay1 extends javax.swing.JPanel {
         InitializeHangmanStates();
         InitializeVirtualKeyboard();
         InitializeGUI();
-        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
+        this.add(background);
     }
 
+    private JLabel background = ImageUtils.GetBackground(this, "menu.png", 864, 480);
     private Connection cnn;
 
     private void KetNoiCSDL() {
@@ -85,6 +87,9 @@ public class PanelPlay1 extends javax.swing.JPanel {
         currentState = new JLabel();
         currentState.setIcon(hangmanStates[0]);
         currentState.setBounds(50, 50, size, size);
+        currentState.setFont(new Font("Arial", Font.BOLD, 20));
+        currentState.setHorizontalTextPosition(SwingConstants.CENTER);
+        currentState.setVerticalTextPosition(SwingConstants.CENTER);
 
 //        currentState.setVerticalTextPosition(300 - 20);
 
@@ -105,6 +110,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
     private String chosenWord;
     private JButton[] keyboard = new JButton[26];
     private boolean gameStart;
+
+    private JLabel loading = new JLabel("LOADING...");
 
     private void InitializeWord()
     {
@@ -127,6 +134,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
             missingWord[i].setVerticalAlignment(SwingConstants.CENTER);
 //            missingWord[i].setBackground(Color.WHITE);
             this.add(missingWord[i]);
+            this.remove(background);
+            this.add(background);
             this.revalidate();
             this.repaint();
         }
@@ -185,22 +194,19 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         currentState.setIcon(hangmanStates[currentIndex]);
                         if(currentIndex == MAXSTATE - 1) {
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
-                            int choice = JOptionPane.showOptionDialog(null, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-                            if(choice == 1) {
-                                // TO DO: show định nghĩa
-                                FormLearn popup = new FormLearn(chosenWord);
-                                popup.setVisible(true);
+                            int choice = JOptionPane.showOptionDialog(PanelPlay1.this, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                            if(choice == 0) {
+                                new FormLearn(chosenWord).setVisible(true);
 //                                return;
                             }
                             else {
-                                chosenWord = "";
-                                gameStart = false;
+                                StartDoClick(null);
                             }
                         }
                         else {
 
                         }
-                        lives.setText((char)(lives.getText().toCharArray()[0] + 1) + "/" + GetDifficulty());
+                        lives.setText((currentIndex - (level - 4) * 2) + "/" + GetDifficulty());
                     }
                     else {
                         boolean won = false;
@@ -223,49 +229,54 @@ public class PanelPlay1 extends javax.swing.JPanel {
     }
 
     private JButton start = new JButton("Bắt đầu");
+    private String json = null;
     private void InitializeGUI() {
         start.setBounds(150, 375, 100, 50);
         start.setFont(new Font("Arial", Font.BOLD, 12));
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                String json = null;
-                String query = "SELECT * FROM wordlessthan7 WHERE CHAR_LENGTH(Text) >= 4 ORDER BY RAND() LIMIT 1000";
-                try {
-                    PreparedStatement stm = cnn.prepareStatement(query);
-                    ResultSet rs = stm.executeQuery();
-                    Holder holder = new Holder();
-                    while(holder.json == null && rs.next()) {
-                        chosenWord = rs.getString("Text");
-                        NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + chosenWord, result -> {
-                            holder.setJson(result);
+                currentState.setText("LOADING...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StartDoClick(t -> {
+                            currentState.setText("");
                         });
                     }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                gameStart = true;
-                level = chosenWord.length();
-                lives.setText("0/" + GetDifficulty());
-                start.setText("Chơi lại");
-                InitializeWord();
-                SetHangmanState();
-                for(var btn : keyboard) {
-                    btn.setEnabled(true);
-                }
-                JOptionPane.showMessageDialog(null, "Trò chơi bắt đầu! Tìm từ có " + level + " chữ cái!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }).start();
             }
         });
 
         this.add(start);
     }
 
-    class Holder {
-        public String json = null;
-
-        public void setJson(String json) {
-            this.json = json;
+    private void StartDoClick(Consumer<String> consumer) {
+        String query = "SELECT * FROM wordlessthan7 WHERE CHAR_LENGTH(Text) >= 4 ORDER BY RAND() LIMIT 1000";
+        try {
+            PreparedStatement stm = cnn.prepareStatement(query);
+            ResultSet rs = stm.executeQuery();
+            while(json == null && rs.next()) {
+                chosenWord = rs.getString("Text");
+                NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + chosenWord, result -> {
+                    json = result;
+                    consumer.accept("");
+                });
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
+        gameStart = true;
+        level = chosenWord.length();
+        lives.setText("0/" + GetDifficulty());
+        start.setText("Chơi lại");
+        InitializeWord();
+        SetHangmanState();
+        for(var btn : keyboard) {
+            btn.setEnabled(true);
+        }
+        json = null;
+        JOptionPane.showMessageDialog(null, "Trò chơi bắt đầu! Tìm từ có " + level + " chữ cái!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -276,7 +287,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
         btnBack = new javax.swing.JButton();
 
         btnBack.setText("BACK");
