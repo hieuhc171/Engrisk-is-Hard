@@ -7,6 +7,8 @@ package Menu;
 import static Menu.FormMain.Instance;
 import Utils.Constants;
 import Utils.NetUtils;
+
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ import javax.swing.JOptionPane;
  * @author chieu
  */
 public class FormLogin extends javax.swing.JFrame {
-
+    private boolean isDatabaseConnected = false;
     private static FormLogin _instance;
     public static FormLogin Instance() {
         if(_instance == null) {
@@ -31,6 +33,8 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+        KetNoiCSDL();
+        this.getContentPane().setBackground(new Color(209, 246, 246));
     }
     
     private Connection cnn;
@@ -38,10 +42,10 @@ public class FormLogin extends javax.swing.JFrame {
         cnn = Database.Database.KetNoiCSDL();
         if(cnn == null) {
             JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
+            isDatabaseConnected = false;
         }
         else {
-            
+            isDatabaseConnected = true;
         }
     }
     
@@ -81,14 +85,14 @@ public class FormLogin extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(153, 51, 0));
+        jLabel3.setForeground(new java.awt.Color(0, 2, 90));
         jLabel3.setText("English is Hard");
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLogin.setText("Đăng nhập");
         btnLogin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
                 OnLoginClicked(evt);
             }
         });
@@ -97,7 +101,7 @@ public class FormLogin extends javax.swing.JFrame {
         btnSkip.setText("Bỏ qua");
         btnSkip.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         btnSkip.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
                 OnSkipClick(evt);
             }
         });
@@ -204,6 +208,10 @@ public class FormLogin extends javax.swing.JFrame {
 
     private void OnSkipClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OnSkipClick
         // TODO add your handling code here:
+        if(!isDatabaseConnected) {
+            JOptionPane.showMessageDialog(this, "Không thể kết nối MySQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Instance().setVisible(false);
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
