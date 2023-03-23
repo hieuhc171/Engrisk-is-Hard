@@ -244,7 +244,7 @@ public class PanelDoTest extends javax.swing.JPanel {
                 btn.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 18));
         }
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             JButton btn = (JButton) e.getSource();
 
             if(btn != null) {

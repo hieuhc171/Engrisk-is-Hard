@@ -120,10 +120,10 @@ public class PanelPlay1 extends javax.swing.JPanel {
                     x + i * (50 + (399 - 50 * missingWord.length) / (missingWord.length-1)), y, 50, 50);
             missingWord[i].setFont(new Font("Arial", Font.BOLD, 20));
             missingWord[i].setEnabled(false);
-            missingWord[i].setForeground(Color.WHITE);
+//            missingWord[i].setForeground(Color.WHITE);
             missingWord[i].setHorizontalAlignment(SwingConstants.CENTER);
             missingWord[i].setVerticalAlignment(SwingConstants.CENTER);
-            missingWord[i].setBackground(Color.WHITE);
+//            missingWord[i].setBackground(Color.WHITE);
             this.add(missingWord[i]);
             this.revalidate();
             this.repaint();
@@ -164,7 +164,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
         for(var bt : keyboard) {
             bt.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mousePressed(MouseEvent e) {
                     JButton btn = (JButton)e.getSource();
                     if(!gameStart) {
                         JOptionPane.showMessageDialog(null, "Ấn 'Bắt đầu' để chơi!", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -188,7 +188,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
                                 // TO DO: show định nghĩa
                                 FormLearn popup = new FormLearn(chosenWord);
                                 popup.setVisible(true);
-                                return;
+//                                return;
                             }
                             else {
                                 chosenWord = "";
@@ -226,7 +226,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
         start.setFont(new Font("Arial", Font.BOLD, 12));
         start.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 String json = null;
                 String query = "SELECT * FROM wordlessthan7 WHERE CHAR_LENGTH(Text) >= 4 ORDER BY RAND() LIMIT 1000";
                 try {

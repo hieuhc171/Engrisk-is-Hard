@@ -6,11 +6,16 @@ package Functions.Play2;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Utils.Constants;
+import Utils.NetUtils;
 import Utils.TextUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 /**
  *
@@ -177,7 +183,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
 
     private final JTextPane wordArea = new JTextPane();
     private final JTextPane pointArea = new JTextPane();
-    private final JScrollPane wordPane = new JScrollPane(wordArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private final JScrollPane wordPane = new JScrollPane(wordArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private final JScrollPane pointPane = new JScrollPane(pointArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private final JLabel wordTitle = new JLabel("WORD", SwingConstants.CENTER);
     private final JLabel pointTitle = new JLabel("POINT", SwingConstants.CENTER);
@@ -185,6 +191,13 @@ public class PanelPlay2 extends javax.swing.JPanel {
     private final JButton btnClear = new JButton("CLEAR");
     private final JButton btnSubmit = new JButton("SUBMIT");
     private void InitializeResult() {
+        popup.setOpaque(true);
+        popup.setHorizontalAlignment(SwingConstants.CENTER);
+        popup.setFont(new Font("Arial", Font.BOLD, 20));
+        popup.setForeground(new Color(255, 255, 255));
+        popup.setBounds(522, 300, 180, 40);
+        this.add(popup);
+
         wordTitle.setBounds(452, 100, 216, 30);
         wordTitle.setFont(new Font("Arial", Font.BOLD, 15));
         wordTitle.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -206,11 +219,21 @@ public class PanelPlay2 extends javax.swing.JPanel {
         wordArea.removeMouseListener(wordArea.getMouseListeners()[0]);
         wordArea.removeMouseListener(wordArea.getMouseListeners()[1]);
 
+        StyledDocument doc = wordArea.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
         pointPane.setBackground(Color.WHITE);
         pointPane.setBounds(670, 130, 100, 210);
         pointArea.setBackground(Color.WHITE);
         pointArea.removeMouseListener(pointArea.getMouseListeners()[0]);
         pointArea.removeMouseListener(pointArea.getMouseListeners()[1]);
+
+        doc = pointArea.getStyledDocument();
+        center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
         lbInput.setBorder(BorderFactory.createLineBorder(Color.black));
         lbInput.setBounds(453, 340, 315, 35);
@@ -222,7 +245,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
         btnClear.setFont(new Font("Arial", Font.BOLD, 15));
         btnClear.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 if(!playTimeCounter.isRunning()) {
                     JOptionPane.showMessageDialog(null, "Chọn một chữ cái để bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -234,13 +257,13 @@ public class PanelPlay2 extends javax.swing.JPanel {
         btnSubmit.setFont(new Font("Arial", Font.BOLD, 15));
         btnSubmit.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if(lbInput.getText().isBlank()) return;
+            public void mousePressed(MouseEvent e) {
                 if(!playTimeCounter.isRunning()) {
                     JOptionPane.showMessageDialog(null, "Chọn một chữ cái để bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                ValuatingInput();
+                if(lbInput.getText().isBlank()) return;
+                ValuatingInput(lbInput.getText());
                 ResetComponents();
             }
         });
@@ -254,6 +277,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
         this.add(btnClear);
         this.add(btnSubmit);
 
+        popup.setVisible(false);
     }
 
     private final ArrayList<String> wordArray = new ArrayList<>();
@@ -266,40 +290,32 @@ public class PanelPlay2 extends javax.swing.JPanel {
         lbInput.setText(_word.toString());
     }
 
-    private final String[] tableNames = {"lessthan7" , "lessthan8",
-                                   "lessthan9", "lessthan10",
-                                   "lessthan11", "lessthan13", "morethan13"};
-    private final int[] mileStones = {7, 8, 9, 10, 11, 13, 100};
     private ArrayList<String> wordList = new ArrayList<>();
     private int totalScore = 0;
-    private void ValuatingInput() {
+    private void ValuatingInput(String text) {
         if(wordList.contains(lbInput.getText())) {
-//            DisplayPopup(WRONG);
+            DisplayPopup(DUPLICATE, 0);
             return;
         }
-        for (int i = 0; i < mileStones.length; i++) {
-            if (lbInput.getText().length() < mileStones[i]) {
-                String query = "SELECT COUNT(WordID) AS Cnt FROM word" + tableNames[i] + " WHERE Text = '" + lbInput.getText() + "'";
-                try {
-                    PreparedStatement stm = cnn.prepareStatement(query);
-                    ResultSet rs = stm.executeQuery();
-                    while (rs.next()) {
-                        if(rs.getInt("Cnt") > 0) {
-                            int scoreGot = lbInput.getText().length() - 1;
-                            totalScore += scoreGot;
-                            TextUtils.AppendToPane(wordArea, lbInput.getText() + "\n", Color.BLACK, 15);
-                            TextUtils.AppendToPane(pointArea, "+" + scoreGot + "\n", Color.BLACK, 15);
-                            wordList.add(lbInput.getText());
-//                            DisplayPopup(RIGHT);
-                            return;
-                        }
+        DisplayPopup(CHECKING, 0);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + text.toLowerCase(), json -> {
+                    if(json != null) {
+                        int scoreGot = text.length() - 1;
+                        DisplayPopup(RIGHT, scoreGot);
+                        totalScore += scoreGot;
+                        TextUtils.AppendToPane(wordArea, text + "\n", Color.BLACK, 15);
+                        TextUtils.AppendToPane(pointArea, "+" + scoreGot + "\n", Color.BLACK, 15);
+                        wordList.add(text);
                     }
-//                    DisplayPopup(DUPLICATE);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                    else {
+                        DisplayPopup(WRONG, 0);
+                    }
+                });
             }
-        }
+        }).start();
     }
 
     private void ResetComponents() {
@@ -313,37 +329,48 @@ public class PanelPlay2 extends javax.swing.JPanel {
     }
 
     private JLabel popup = new JLabel();
-    private int y = 300;
     private int displayTime = 1000;
     private final int RIGHT = 0;
     private final int WRONG = 1;
     private final int DUPLICATE = 2;
+
+    private final int CHECKING = 3;
     private static javax.swing.Timer displayPopupCounter;
-    private void DisplayPopup(int type) {
-        switch (type) {
-            case RIGHT:
-            case WRONG:
-            case DUPLICATE:
-        }
-        popup.setText("Popup");
-        popup.setBackground(Color.GREEN);
-        popup.setOpaque(true);
-        displayPopupCounter = new Timer(100, new ActionListener() {
+    private void DisplayPopup(int type, int score) {
+        new Thread(new Runnable() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(displayTime <= 0) {
-                    popup.setVisible(false);
-                    displayPopupCounter.stop();
-                    return;
+            public void run() {
+                switch (type) {
+                    case RIGHT -> {
+                        popup.setBackground(new Color(123, 203, 72));
+                        popup.setText("+" + score);
+                    }
+                    case WRONG -> {
+                        popup.setBackground(new Color(201, 59, 59));
+                        popup.setText("WRONG");
+                    }
+                    case DUPLICATE -> {
+                        popup.setBackground(new Color(190, 125, 66));
+                        popup.setText("DUPLICATE");
+                    }
+                    case CHECKING ->  {
+                        popup.setBackground(new Color(192, 182, 67));
+                        popup.setText("CHECKING...");
+                    }
                 }
-                popup.setBounds(525, y, 200, 40);
-                y -= 20;
-                revalidate();
-                repaint();
-                displayTime -= 100;
+                popup.setVisible(true);
+                displayPopupCounter = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(popup.getText() != "CHECKING...") {
+                            popup.setVisible(false);
+                            displayPopupCounter.stop();
+                        }
+                    }
+                });
+                displayPopupCounter.start();
             }
-        });
-        displayPopupCounter.start();
+        }).start();
     }
 
     private static javax.swing.Timer playTimeCounter;
@@ -361,7 +388,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeLeft--;
-                counterDisplay.setText("0" + timeLeft / 60 + ":" + timeLeft % 60);
+                counterDisplay.setText("0" + timeLeft / 60 + ":" + (timeLeft % 60 < 10 ? "0" : "") + timeLeft % 60);
                 if(timeLeft == 0) {
                     playTimeCounter.stop();
                     JOptionPane.showMessageDialog(null, "Bạn đạt được " + totalScore + " điểm!", "Hết giờ", JOptionPane.ERROR_MESSAGE);

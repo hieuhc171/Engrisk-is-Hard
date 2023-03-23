@@ -244,7 +244,7 @@ public class PanelPlay4 extends javax.swing.JPanel {
                     String soundURL = wordObject.phonetics.get(i).audio;
                     btn.addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e)
+                        public void mousePressed(MouseEvent e)
                         {
                             SoundUtils.PlaySoundFromURL(soundURL);
                         }

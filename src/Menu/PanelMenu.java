@@ -160,14 +160,23 @@ public class PanelMenu extends javax.swing.JPanel {
             Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        filePath = "wordshake.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnWordshake.setIcon(icon);
+            btnWordshake.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnWordshake.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         filePath = "dummy.png";
         try {
             Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/placeholders/" + filePath))
                     .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(image);
-            play2.setIcon(icon);
-            play2.setHorizontalTextPosition(SwingConstants.CENTER);
-            play2.setVerticalTextPosition(SwingConstants.BOTTOM);
 
             play3.setIcon(icon);
             play3.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -180,7 +189,7 @@ public class PanelMenu extends javax.swing.JPanel {
             Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -192,7 +201,7 @@ public class PanelMenu extends javax.swing.JPanel {
 
         btnDefinition = new javax.swing.JButton();
         btnHangman = new javax.swing.JButton();
-        play2 = new javax.swing.JButton();
+        btnWordshake = new javax.swing.JButton();
         btnExam = new javax.swing.JButton();
         panel1 = new java.awt.Panel();
         jPanel2 = new javax.swing.JPanel();
@@ -229,14 +238,15 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
 
-        play2.setForeground(new java.awt.Color(51, 51, 51));
-        play2.setText("?");
-        play2.setMaximumSize(new java.awt.Dimension(150, 100));
-        play2.setMinimumSize(new java.awt.Dimension(150, 100));
-        play2.setPreferredSize(new java.awt.Dimension(150, 100));
-        play2.addActionListener(new java.awt.event.ActionListener() {
+        btnWordshake.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnWordshake.setForeground(new java.awt.Color(51, 51, 51));
+        btnWordshake.setText("WordShake");
+        btnWordshake.setMaximumSize(new java.awt.Dimension(150, 100));
+        btnWordshake.setMinimumSize(new java.awt.Dimension(150, 100));
+        btnWordshake.setPreferredSize(new java.awt.Dimension(150, 100));
+        btnWordshake.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                play2ActionPerformed(evt);
+                btnWordshakeActionPerformed(evt);
             }
         });
 
@@ -326,7 +336,7 @@ public class PanelMenu extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDownload)
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
@@ -346,7 +356,7 @@ public class PanelMenu extends javax.swing.JPanel {
                             .addComponent(btnHangman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(50, 50, 50)
-                        .addComponent(play2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                        .addComponent(btnWordshake, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                         .addGap(50, 50, 50)
                         .addComponent(play3, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                         .addGap(50, 50, 50)
@@ -373,7 +383,7 @@ public class PanelMenu extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHangman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(play2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnWordshake, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(play4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
@@ -412,11 +422,11 @@ public class PanelMenu extends javax.swing.JPanel {
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnHangmanActionPerformed
 
-    private void play2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play2ActionPerformed
+    private void btnWordshakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWordshakeActionPerformed
         // TODO add your handling code here:
         FormMain.Instance().setContentPane(new PanelPlay2());
         FormMain.Instance().validate();
-    }//GEN-LAST:event_play2ActionPerformed
+    }//GEN-LAST:event_btnWordshakeActionPerformed
 
     private void play3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play3ActionPerformed
         // TODO add your handling code here:
@@ -491,11 +501,11 @@ public class PanelMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnExam;
     private javax.swing.JButton btnHangman;
+    private javax.swing.JButton btnWordshake;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private java.awt.Panel panel1;
-    private javax.swing.JButton play2;
     private javax.swing.JButton play3;
     private javax.swing.JButton play4;
     // End of variables declaration//GEN-END:variables

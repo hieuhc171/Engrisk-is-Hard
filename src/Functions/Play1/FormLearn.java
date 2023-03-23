@@ -27,10 +27,12 @@ import java.util.logging.Logger;
  */
 public class FormLearn extends javax.swing.JFrame {
 
+    private static String word;
     /**
      * Creates new form FormLearn
      */
     public FormLearn(String word) {
+        FormLearn.word = word;
         initComponents();
         NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + word, result -> {
             holder.json = result;
@@ -69,7 +71,7 @@ public class FormLearn extends javax.swing.JFrame {
                     String soundURL = wordObject.phonetics.get(i).audio;
                     btn.addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e)
+                        public void mousePressed(MouseEvent e)
                         {
                             SoundUtils.PlaySoundFromURL(soundURL);
                         }
@@ -151,7 +153,7 @@ public class FormLearn extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new FormLearn(word).setVisible(true);
+                new FormLearn(word).setVisible(true);
             }
         });
     }

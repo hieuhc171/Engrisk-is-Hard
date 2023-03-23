@@ -25,8 +25,8 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="panel1" alignment="1" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="btnDownload" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -51,7 +51,7 @@
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                      <Component id="play2" pref="152" max="32767" attributes="0"/>
+                      <Component id="btnWordshake" pref="152" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="play3" pref="152" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
@@ -83,7 +83,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnHangman" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="play2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnWordshake" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="play3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="play4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -139,12 +139,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHangmanActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="play2">
+    <Component class="javax.swing.JButton" name="btnWordshake">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="1"/>
+        </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="?"/>
+        <Property name="text" type="java.lang.String" value="WordShake"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[150, 100]"/>
         </Property>
@@ -156,7 +159,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="play2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnWordshakeActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnExam">
