@@ -162,17 +162,17 @@ public class PanelMenu extends javax.swing.JPanel {
             Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        filePath = "wordshake.png";
-//        try {
-//            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
-//                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
-//            ImageIcon icon = new ImageIcon(image);
-//            btnWordshake.setIcon(icon);
-//            btnWordshake.setHorizontalTextPosition(SwingConstants.CENTER);
-//            btnWordshake.setVerticalTextPosition(SwingConstants.BOTTOM);
-//        } catch (IOException ex) {
-//            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        filePath = "wordshake.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnWordshake.setIcon(icon);
+            btnWordshake.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnWordshake.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         filePath = "dummy.png";
         try {
