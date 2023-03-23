@@ -7,12 +7,6 @@ package Functions.Play3;
 import Menu.FormMain;
 import Menu.PanelMenu;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-
 /**
  *
  * @author hieum
@@ -21,7 +15,7 @@ public class PanelPlay3 extends javax.swing.JPanel {
 
     private static PanelPlay3 _instance;
     public static PanelPlay3 Instance() {
-        if(_instance == null) 
+        if(_instance == null)
             _instance = new PanelPlay3();
         return _instance;
     }
@@ -30,98 +24,6 @@ public class PanelPlay3 extends javax.swing.JPanel {
      */
     public PanelPlay3() {
         initComponents();
-        setBackground(new Color(209, 246, 246));
-        btnBack.setBounds(6, 6, 72, 23);
-
-        KetNoiCSDL();
-        InitializeBoard();
-    }
-
-    private Connection cnn;
-    private void KetNoiCSDL() {
-        cnn = Database.Database.KetNoiCSDL();
-        if(cnn == null) {
-            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-
-        }
-    }
-
-    private final int size = 10;
-    private JButton[][] buttons = new JButton[size][size];
-    private final int x_offset = 50;
-    private final int y_offset = 50;
-    private final int edge = 40;
-    private void InitializeBoard() {
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
-                buttons[i][j] = new JButton();
-                buttons[i][j].setBounds(x_offset + j * edge, y_offset + i * edge, edge, edge);
-                buttons[i][j].setFont(new Font("Arial", Font.BOLD, 13));
-                buttons[i][j].setBackground(Color.WHITE);
-                buttons[i][j].addMouseListener(ml);
-                this.add(buttons[i][j]);
-            }
-        }
-    }
-
-    private MouseListener ml = new MouseListener();
-    private int xStart = 0;
-    private int yStart = 0;
-    private int xCurrent = 0;
-    private int yCurrent = 0;
-    private boolean isDragging = false;
-    class MouseListener extends MouseAdapter {
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            xStart = e.getPoint().x;
-            yStart = e.getPoint().y;
-            xCurrent = xStart;
-            yCurrent = yStart;
-            isDragging = true;
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            xStart = 0;
-            yStart = 0;
-            xCurrent = 0;
-            yCurrent = 0;
-            isDragging = false;
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            xCurrent = e.getPoint().x;
-            yCurrent = e.getPoint().y;
-            if(isDragging)
-                DisplayChoosingButtons();
-        }
-    }
-
-    private void DisplayChoosingButtons() {
-        if((xStart - x_offset) / edge == (xCurrent - x_offset) / edge ) {
-            for(int i = (yStart - y_offset) / edge; i <= (yCurrent - y_offset) / edge; i++) {
-                buttons[i][(xStart - x_offset) / edge].setBackground(Color.ORANGE);
-            }
-        }
-        else if((yStart - y_offset) / edge == (yCurrent - y_offset) / edge) {
-            for(int i = (xStart - x_offset) / edge; i <= (xCurrent - x_offset) / edge; i++) {
-                buttons[i][(yStart - y_offset) / edge].setBackground(Color.ORANGE);
-            }
-        }
-        else if(Math.abs((xStart - x_offset) / edge - (yStart - y_offset) / edge)
-                == Math.abs((xCurrent - x_offset) / edge - (yCurrent - y_offset) / edge)) {
-            for(int i = Math.min((xStart - x_offset) / edge, (xCurrent - x_offset) / edge);
-                i <= Math.max((xStart - x_offset) / edge, (xCurrent - x_offset) / edge); i++) {
-                    buttons[i][i].setBackground(Color.ORANGE);
-            }
-        }
-        else {
-            buttons[(yStart - y_offset) / edge][(xStart - x_offset) / edge].setBackground(Color.ORANGE);
-        }
     }
 
     /**
@@ -145,18 +47,18 @@ public class PanelPlay3 extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(786, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnBack)
+                                .addContainerGap(786, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(451, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnBack)
+                                .addContainerGap(451, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

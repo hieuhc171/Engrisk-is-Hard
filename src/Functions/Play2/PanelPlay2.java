@@ -193,9 +193,9 @@ public class PanelPlay2 extends javax.swing.JPanel {
     private void InitializeResult() {
         popup.setOpaque(true);
         popup.setHorizontalAlignment(SwingConstants.CENTER);
-        popup.setFont(new Font("Arial", Font.BOLD, 20));
+        popup.setFont(new Font("Arial", Font.BOLD, 18));
         popup.setForeground(new Color(255, 255, 255));
-        popup.setBounds(522, 300, 180, 40);
+        popup.setBounds(522, 340, 180, 35);
         this.add(popup);
 
         wordTitle.setBounds(452, 100, 216, 30);

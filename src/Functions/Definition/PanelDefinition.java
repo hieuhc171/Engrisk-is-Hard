@@ -248,13 +248,20 @@ public class PanelDefinition extends javax.swing.JPanel {
         if(tfInput.getText().length() == 0) return;
         dropdownList.setVisible(false);
         scrollPane.setVisible(false);
+        loading.setText("LOADING...");
         scrollOutput.setViewportView(loading);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + tfInput.getText(), json -> {
-                    WordObject wordObject = new WordObject(json);
-                    DisplayWord(wordObject);
+                    if(json != null) {
+                        WordObject wordObject = new WordObject(json);
+                        DisplayWord(wordObject);
+                    }
+                    else {
+                        loading.setText("NOT FOUND");
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy định nghĩa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
                 });
             }
         }).start();
