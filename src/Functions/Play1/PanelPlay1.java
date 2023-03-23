@@ -28,10 +28,10 @@ import java.sql.SQLException;
  */
 public class PanelPlay1 extends javax.swing.JPanel {
 
-//    private static PanelPlay4 _instance;
-//    public static PanelPlay4 Instance() {
+//    private static PanelPlay1 _instance;
+//    public static PanelPlay1 Instance() {
 //        if(_instance == null)
-//            _instance = new PanelPlay4();
+//            _instance = new PanelPlay1();
 //        return _instance;
 //    }
     /**
@@ -49,7 +49,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
     }
 
     private Connection cnn;
-
     private void KetNoiCSDL() {
         cnn = Database.Database.KetNoiCSDL();
         if(cnn == null) {
@@ -181,14 +180,12 @@ public class PanelPlay1 extends javax.swing.JPanel {
                     if(!found) {
                         currentIndex++;
                         currentState.setIcon(hangmanStates[currentIndex]);
+                        lives.setText((currentIndex - (level - 4) * 2) + "/" + GetDifficulty());
                         if(currentIndex == MAXSTATE - 1) {
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
                             int choice = JOptionPane.showOptionDialog(null, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                             if(choice == 1) {
-                                // TO DO: show định nghĩa
-                                FormLearn popup = new FormLearn(chosenWord);
-                                popup.setVisible(true);
-//                                return;
+                                new FormLearn(chosenWord).setVisible(true);
                             }
                             else {
                                 chosenWord = "";
@@ -198,7 +195,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         else {
 
                         }
-                        lives.setText((char)(lives.getText().toCharArray()[0] + 1) + "/" + GetDifficulty());
                     }
                     else {
                         boolean won = false;
@@ -221,22 +217,21 @@ public class PanelPlay1 extends javax.swing.JPanel {
     }
 
     private JButton start = new JButton("Bắt đầu");
+    private String json = null;
     private void InitializeGUI() {
         start.setBounds(150, 375, 100, 50);
         start.setFont(new Font("Arial", Font.BOLD, 12));
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                String json = null;
                 String query = "SELECT * FROM wordlessthan7 WHERE CHAR_LENGTH(Text) >= 4 ORDER BY RAND() LIMIT 1000";
                 try {
                     PreparedStatement stm = cnn.prepareStatement(query);
                     ResultSet rs = stm.executeQuery();
-                    Holder holder = new Holder();
-                    while(holder.json == null && rs.next()) {
+                    while(json == null && rs.next()) {
                         chosenWord = rs.getString("Text");
                         NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + chosenWord, result -> {
-                            holder.setJson(result);
+                            json = result;
                         });
                     }
                 } catch (SQLException ex) {
@@ -256,14 +251,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
         });
 
         this.add(start);
-    }
-
-    class Holder {
-        public String json = null;
-
-        public void setJson(String json) {
-            this.json = json;
-        }
     }
 
     /**
