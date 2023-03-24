@@ -26,27 +26,25 @@ import java.util.logging.Logger;
  * @author 9999
  */
 public class FormLearn extends javax.swing.JFrame {
-    private String json;
-    private static String word;
 
+    private static String word;
     /**
      * Creates new form FormLearn
      */
     public FormLearn(String word) {
         FormLearn.word = word;
         initComponents();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + word, result -> {
-                    json = result;
-                });
-                WordObject wordObject = new WordObject(json);
-                DisplayWord(wordObject);
-            }
-        }).start();
+        NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + word, result -> {
+            holder.json = result;
+        });
+        WordObject wordObject = new WordObject(holder.json);
+        DisplayWord(wordObject);
     }
 
+    private final Holder holder = new Holder();
+    static class Holder {
+        public String json;
+    }
     private JTextPane tfOutput = new JTextPane();
     private JScrollPane scrollOutput = new JScrollPane();
     private void DisplayWord(WordObject wordObject) {
