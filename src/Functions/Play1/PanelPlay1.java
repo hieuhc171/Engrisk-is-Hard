@@ -7,12 +7,11 @@ package Functions.Play1;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
-import Utils.ImageUtils;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,14 +29,14 @@ import java.util.function.Consumer;
  */
 public class PanelPlay1 extends javax.swing.JPanel {
 
-//    private static PanelPlay4 _instance;
-//    public static PanelPlay4 Instance() {
+    private static PanelPlay1 _instance;
+    public static PanelPlay1 Instance() {
 //        if(_instance == null)
-//            _instance = new PanelPlay4();
-//        return _instance;
-//    }
+        _instance = new PanelPlay1();
+        return _instance;
+    }
     /**
-     * Creates new form PanelPlay4
+     * Creates new form PanelPlay1
      */
     public PanelPlay1() {
         initComponents();
@@ -85,11 +84,13 @@ public class PanelPlay1 extends javax.swing.JPanel {
             hangmanStates[i] = new ImageIcon(image);
         }
         currentState = new JLabel();
-        currentState.setIcon(hangmanStates[0]);
+//        currentState.setIcon(hangmanStates[0]);
+        currentState.setOpaque(true);
+        currentState.setBackground(Color.WHITE);
         currentState.setBounds(50, 50, size, size);
         currentState.setFont(new Font("Arial", Font.BOLD, 20));
-        currentState.setHorizontalTextPosition(SwingConstants.CENTER);
-        currentState.setVerticalTextPosition(SwingConstants.CENTER);
+        currentState.setHorizontalAlignment(SwingConstants.CENTER);
+        currentState.setVerticalAlignment(SwingConstants.CENTER);
 
 //        currentState.setVerticalTextPosition(300 - 20);
 
@@ -196,7 +197,9 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
                             int choice = JOptionPane.showOptionDialog(PanelPlay1.this, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                             if(choice == 0) {
-                                new FormLearn(chosenWord).setVisible(true);
+                                FormLearn popup = new FormLearn(chosenWord);
+                                popup.setLocationRelativeTo(PanelPlay1.Instance());
+                                popup.setVisible(true);
 //                                return;
                             }
                             else {

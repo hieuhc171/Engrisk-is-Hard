@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Utils.WordUtils;
+package Utils.Word;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 import Utils.Constants;
 import Utils.NetUtils;
@@ -50,7 +49,7 @@ public class WordObject {
                 jArray = (JSONArray) jArray.get(0);
                 viWord = jArray.get(0).toString();
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                System.out.println("Không dịch được từ này!!!");
             }
         });
     }

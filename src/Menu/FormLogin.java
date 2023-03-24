@@ -4,12 +4,8 @@
  */
 package Menu;
 
-import static Menu.FormMain.Instance;
-import Utils.Constants;
-import Utils.ImageUtils;
-import Utils.NetUtils;
+import Utils.Image.ImageUtils;
 
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -11,6 +11,11 @@ package Functions.Exam;
 public class Question {
     public String question;
     public String[] answers = new String[4];
+    public int questType;
+
+    public final int WHICH_WORD = 0;
+    public final int WHICH_DEFINITION = 1;
+    public final int FILL_IN_THE_BLANK = 2;
 
     public Question() {
     }

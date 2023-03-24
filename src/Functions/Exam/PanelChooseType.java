@@ -7,7 +7,7 @@ package Functions.Exam;
 import Functions.Definition.PanelDefinition;
 import Menu.FormMain;
 import Menu.PanelMenu;
-import Utils.ImageUtils;
+import Utils.Image.ImageUtils;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

@@ -6,8 +6,8 @@ package Functions.Exam;
 
 import Menu.FormMain;
 import Menu.*;
-import Utils.ImageUtils;
-import Utils.SoundUtils;
+import Utils.Image.ImageUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
 
 import java.awt.*;

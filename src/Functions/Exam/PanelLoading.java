@@ -7,15 +7,14 @@ package Functions.Exam;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
-import Utils.ImageUtils;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;

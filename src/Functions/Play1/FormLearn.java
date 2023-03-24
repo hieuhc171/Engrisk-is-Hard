@@ -7,9 +7,9 @@ package Functions.Play1;
 import Functions.Definition.PanelDefinition;
 import Utils.Constants;
 import Utils.NetUtils;
-import Utils.SoundUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

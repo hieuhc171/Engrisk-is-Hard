@@ -11,10 +11,9 @@ import Functions.Play2.PanelPlay2;
 import Functions.Play3.PanelPlay3;
 import Functions.Play4.PanelPlay4;
 import Utils.Constants;
-import Utils.ImageUtils;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
-import java.awt.Color;
-import java.awt.Font;
+
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -28,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
+
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

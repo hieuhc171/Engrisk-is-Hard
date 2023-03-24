@@ -7,13 +7,11 @@ package Functions.Play2;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
-import Utils.ImageUtils;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 import Utils.TextUtils;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -22,15 +20,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.TimerTask;
-import java.util.function.Consumer;
 
 /**
  *

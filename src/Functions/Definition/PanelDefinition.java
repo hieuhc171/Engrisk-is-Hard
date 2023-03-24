@@ -7,22 +7,25 @@ package Functions.Definition;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.*;
-import Utils.WordUtils.WordObject;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
+import Utils.Image.ImageObject;
+import Utils.Image.ImageUtils;
+import Utils.Sound.SoundUtils;
+import Utils.Word.WordObject;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -48,6 +51,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         initComponents();
         KetNoiCSDL();
         GenerateSearchListener();
+        InitializeIllustration();
         
         scrollOutput.setViewportView(tfOutput);
         DefaultCaret caret = (DefaultCaret) tfOutput.getCaret();
@@ -181,7 +185,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         add(scrollOutput);
         scrollOutput.setBounds(393, 55, 400, 380);
 
-        checkbox.setText("Dịch ");
+        checkbox.setText("Dịch");
         add(checkbox);
         checkbox.setBounds(244, 96, 100, 20);
     }// </editor-fold>//GEN-END:initComponents
@@ -192,10 +196,60 @@ public class PanelDefinition extends javax.swing.JPanel {
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private JLabel illustration = new JLabel("?");
+    private JLabel lbTotalImages = new JLabel("0/0");
+    private int totalImages = 0;
+    private int currentImage = 0;
+    private ArrayList<ImageIcon> imageList = new ArrayList<>();
+    private void InitializeIllustration() {
+        illustration.setBounds(44, 150, 250, 250);
+        illustration.setFont(new Font("Arial", Font.PLAIN, 24));
+        illustration.setOpaque(true);
+        illustration.setBackground(Color.WHITE);
+        illustration.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(illustration);
+
+        lbTotalImages.setBounds(144, 415, 50, 35);
+        lbTotalImages.setFont(new Font("Arial", Font.PLAIN, 14));
+        lbTotalImages.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(lbTotalImages);
+
+        JButton btnLeft = new JButton("<");
+        btnLeft.setBounds(94, 415, 50, 35);
+        btnLeft.setFont(new Font("Arial", Font.BOLD, 20));
+        this.add(btnLeft);
+        btnLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(totalImages == 0) return;
+                if(currentImage == 1) currentImage = totalImages;
+                else currentImage--;
+                illustration.setText("");
+                illustration.setIcon(imageList.get(currentImage-1));
+                lbTotalImages.setText(currentImage + "/" + totalImages);
+            }
+        });
+
+        JButton btnRight = new JButton(">");
+        btnRight.setBounds(194, 415, 50, 35);
+        btnRight.setFont(new Font("Arial", Font.BOLD, 20));
+        this.add(btnRight);
+        btnRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(totalImages == 0) return;
+                if(currentImage == totalImages) currentImage = 1;
+                else currentImage++;
+                illustration.setText("");
+                illustration.setIcon(imageList.get(currentImage-1));
+                lbTotalImages.setText(currentImage + "/" + totalImages);
+            }
+        });
+    }
+
 
     private final String[] tableNames = {"wordlessthan7", "wordlessthan8", "wordlessthan9", "wordlessthan10", "wordlessthan11", "wordlessthan13", "wordmorethan13"};
     private final int[] milestones = {7, 8, 9, 10, 11, 13, 100};
-
     private boolean isWordSearchedBefore(String word) {
         for(int i = 0; i < milestones.length; i++) {
             if (word.length() < milestones[i]) {
@@ -221,6 +275,7 @@ public class PanelDefinition extends javax.swing.JPanel {
         dropdownList.setVisible(false);
         scrollPane.setVisible(false);
         loading.setText("LOADING...");
+        illustration.setText("LOADING...");
         scrollOutput.setViewportView(loading);
         new Thread(new Runnable() {
             @Override
@@ -235,6 +290,37 @@ public class PanelDefinition extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Không tìm thấy định nghĩa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
                 });
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                var images = ImageUtils.ImagesFromURL(tfInput.getText());
+                if(images.isEmpty()) return;
+                for(var image : images) {
+                    if(image.tag.contains(tfInput.getText())) {
+                        try {
+                            URL url = new URL(image.url);
+                            Image img = ImageIO.read(url).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+                            ImageIcon icon = new ImageIcon(img);
+                            imageList.add(icon);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                if(imageList.size() > 0) {
+                    totalImages = imageList.size();
+                    currentImage = 1;
+                    illustration.setText("");
+                    illustration.setIcon(imageList.get(0));
+                    lbTotalImages.setText(currentImage + "/" + totalImages);
+                }
+                else {
+                    illustration.setText("?");
+                    illustration.setIcon(null);
+                    lbTotalImages.setText("0/0");
+                }
             }
         }).start();
         
@@ -316,9 +402,10 @@ public class PanelDefinition extends javax.swing.JPanel {
             dropdownList.setVisible(false);
             return;
         }
-        scrollPane.setSize(new Dimension(150, (itemList.getSize() * 25 > 150 ? 150 : itemList.getSize() * 25)));
+        scrollPane.setSize(new Dimension(150, (Math.min(itemList.getSize() * 25, 150))));
     }
 
+    //TODO: need fix
     private void SaveWordToDatabase(WordObject word) {
         for(int i = 0; i < milestones.length; i++) {
             if(word.enWord.length() < milestones[i]) {
