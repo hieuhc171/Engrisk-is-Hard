@@ -63,4 +63,20 @@ public class User {
         }
         return _instance;
     }
+
+    public void GainEXP(int exp) {
+        this.exp += exp;
+        if(this.exp == User.expNeeded[level]) {
+            level++;
+            this.exp = 0;
+        }
+        if(userID == -1) return;
+        String query = "UPDATE user SET Exp = " + this.exp + ", Level = " + level + " WHERE UserID = " + userID;
+        try {
+            PreparedStatement stm = cnn.prepareStatement(query);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

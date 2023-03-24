@@ -38,12 +38,13 @@ public class ProgressCircleUI extends BasicProgressBarUI {
         int height = pro.getHeight();
         imageColor = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = imageColor.createGraphics();
-        HSLColor color = new HSLColor(Color.YELLOW);
+//        HSLColor color = new HSLColor(Color.YELLOW);
         int w = Math.min(width, height);
         int x = (width - w) / 2;
         int y = (height - w) / 2;
         for (int i = 1; i <= 360; i++) {
-            g2.setColor(color.adjustHue(i));
+//            g2.setColor(color.adjustHue(i));
+            g2.setColor(Color.GREEN);
             g2.fillArc(x - 2, y - 2, w + 4, w + 4, i, 1);
         }
         g2.dispose();

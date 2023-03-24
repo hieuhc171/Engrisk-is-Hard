@@ -11,10 +11,11 @@ import Functions.Play2.PanelPlay2;
 import Functions.Play3.PanelPlay3;
 import Functions.Play4.PanelPlay4;
 import Utils.Constants;
+import Utils.Image.CircleProgressBar.CircleProgressBar;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -52,6 +53,7 @@ public class PanelMenu extends javax.swing.JPanel {
         CheckDatabase();
         SetupButtons();
 //        setBackground(new Color(209, 246, 246));
+        InitializeGUI();
         ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
@@ -69,7 +71,33 @@ public class PanelMenu extends javax.swing.JPanel {
         }
     }
 
-//    private
+    private void InitializeGUI() {
+//        JLabel greet = new JLabel("Xin chào,");
+//        greet.setBounds(10, 10, 50, 35);
+//        greet.setFont(new Font("Arial", Font.PLAIN, 14));
+//        greet.setHorizontalAlignment(SwingConstants.TRAILING);
+//        this.add(greet);
+
+        JLabel level = new JLabel(String.valueOf(User.Instance().level));
+        level.setBounds(5, 5, 40, 40);
+        level.setFont(new Font("Arial", Font.BOLD, 20));
+        level.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(level);
+
+        CircleProgressBar levelProgress = new CircleProgressBar();
+        levelProgress.setBounds(5, 5, 40, 40);
+        levelProgress.setMaximum((int) (Math.pow(2, User.Instance().level) * 100));
+        levelProgress.setValue(User.Instance().exp);
+        levelProgress.setToolTipText(levelProgress.getValue() + "/" + levelProgress.getMaximum());
+        this.add(levelProgress);
+
+        JLabel username = new JLabel(User.Instance().username);
+        username.setBounds(50, 10, 100, 30);
+        username.setFont(new Font("Arial", Font.BOLD, 12));
+        username.setHorizontalAlignment(SwingConstants.LEADING);
+//        username.setForeground(Color.RED);
+        this.add(username);
+    }
     
     private void CheckDatabase() {
         KetNoiCSDL();

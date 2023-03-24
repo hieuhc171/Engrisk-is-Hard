@@ -6,6 +6,7 @@ package Functions.Play1;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Menu.User;
 import Utils.Constants;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
@@ -218,6 +219,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             else return;
                         }
                         if(won) {
+                            User.Instance().GainEXP(chosenWord.length() * 10);
                             JOptionPane.showMessageDialog(null, "Thắng rồi!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }

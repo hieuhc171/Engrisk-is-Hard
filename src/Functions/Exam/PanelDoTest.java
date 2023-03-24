@@ -171,8 +171,7 @@ public class PanelDoTest extends javax.swing.JPanel {
     private static javax.swing.Timer audio_counter;
 
     private void EndTest() {
-//        User.Instance().exp += score;
-
+        User.Instance().GainEXP(score);
         String[] options = {"Trang chủ", "Chơi lại"};
         int choice = JOptionPane.showOptionDialog(this, "BẠN ĐẠT ĐƯỢC " + score + "/100 điểm!!!", "KẾT QUẢ", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         if(choice == 0) {

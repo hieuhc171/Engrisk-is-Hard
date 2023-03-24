@@ -6,6 +6,7 @@ package Functions.Play2;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Menu.User;
 import Utils.Constants;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
@@ -394,6 +395,7 @@ public class PanelPlay2 extends javax.swing.JPanel {
                 counterDisplay.setText("0" + timeLeft / 60 + ":" + (timeLeft % 60 < 10 ? "0" : "") + timeLeft % 60);
                 if(timeLeft == 0) {
                     playTimeCounter.stop();
+                    User.Instance().GainEXP(totalScore * 10);
                     JOptionPane.showMessageDialog(null, "Bạn đạt được " + totalScore + " điểm!", "Hết giờ", JOptionPane.INFORMATION_MESSAGE);
                 }
             }

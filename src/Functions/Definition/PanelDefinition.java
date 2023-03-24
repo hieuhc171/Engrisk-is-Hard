@@ -6,6 +6,7 @@ package Functions.Definition;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Menu.User;
 import Utils.*;
 import Utils.Image.ImageObject;
 import Utils.Image.ImageUtils;
@@ -371,6 +372,9 @@ public class PanelDefinition extends javax.swing.JPanel {
         }
 
         tfOutput.setCaretPosition(0);
+
+        User.Instance().GainEXP(10);
+
 //        SaveWordToDatabase(wordObject);
     }
 
