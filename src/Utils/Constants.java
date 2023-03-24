@@ -14,4 +14,7 @@ public class Constants {
     public static final String WORD_DEFINITION_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
     public static final String WORD_TRANSLATION_URL = "https://translate.google.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=";
     public static final String WORD_TRANSLATION_URL_ALTER = "https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=vi&q=";
+    public static String IMAGE_URL(String word) {
+        return "https://pixabay.com/api/?key=34690191-8d63dc0edb30884947976f576&q=" + word + "&image_type=photo";
+    }
 }

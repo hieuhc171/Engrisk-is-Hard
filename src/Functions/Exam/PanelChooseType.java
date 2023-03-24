@@ -7,6 +7,7 @@ package Functions.Exam;
 import Functions.Definition.PanelDefinition;
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Utils.Image.ImageUtils;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -36,8 +37,9 @@ public class PanelChooseType extends javax.swing.JPanel {
      */
     public PanelChooseType() {
         initComponents();
-        setBackground(new Color(209, 246, 246));
         SetupButtons();
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
 
     private void SetupButtons() {
@@ -111,12 +113,16 @@ public class PanelChooseType extends javax.swing.JPanel {
         btnDefinition = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        setLayout(null);
+
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
+        add(btnBack);
+        btnBack.setBounds(6, 6, 72, 23);
 
         btnPhonetic.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnPhonetic.setForeground(new java.awt.Color(0, 0, 204));
@@ -131,6 +137,8 @@ public class PanelChooseType extends javax.swing.JPanel {
                 btnPhoneticActionPerformed(evt);
             }
         });
+        add(btnPhonetic);
+        btnPhonetic.setBounds(514, 154, 200, 200);
 
         btnDefinition.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnDefinition.setForeground(new java.awt.Color(0, 0, 204));
@@ -145,42 +153,14 @@ public class PanelChooseType extends javax.swing.JPanel {
                 btnDefinitionActionPerformed(evt);
             }
         });
+        add(btnDefinition);
+        btnDefinition.setBounds(150, 154, 200, 200);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("CHỌN MỘT TRONG HAI HÌNH THỨC KIỂM TRA");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPhonetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(150, 150, 150))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPhonetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
+        add(jLabel1);
+        jLabel1.setBounds(150, 47, 564, 63);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

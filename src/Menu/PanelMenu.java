@@ -11,9 +11,9 @@ import Functions.Play2.PanelPlay2;
 import Functions.Play3.PanelPlay3;
 import Functions.Play4.PanelPlay4;
 import Utils.Constants;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
-import java.awt.Color;
-import java.awt.Font;
+
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
+
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -49,9 +49,10 @@ public class PanelMenu extends javax.swing.JPanel {
      */
     public PanelMenu() {
         initComponents();
-        setBackground(new Color(209, 246, 246));
         CheckDatabase();
         SetupButtons();
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
     private boolean isDictionaryDownloaded = false;
@@ -213,6 +214,7 @@ public class PanelMenu extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(864, 480));
+        setLayout(null);
 
         btnDefinition.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDefinition.setForeground(new java.awt.Color(51, 51, 51));
@@ -225,6 +227,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 btnDefinitionActionPerformed(evt);
             }
         });
+        add(btnDefinition);
+        btnDefinition.setBounds(18, 126, 150, 100);
 
         btnHangman.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHangman.setForeground(new java.awt.Color(51, 51, 51));
@@ -237,6 +241,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 btnHangmanActionPerformed(evt);
             }
         });
+        add(btnHangman);
+        btnHangman.setBounds(18, 345, 150, 100);
 
         btnWordshake.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnWordshake.setForeground(new java.awt.Color(51, 51, 51));
@@ -249,6 +255,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 btnWordshakeActionPerformed(evt);
             }
         });
+        add(btnWordshake);
+        btnWordshake.setBounds(218, 345, 152, 100);
 
         btnExam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExam.setForeground(new java.awt.Color(51, 51, 51));
@@ -261,6 +269,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 btnExamActionPerformed(evt);
             }
         });
+        add(btnExam);
+        btnExam.setBounds(218, 126, 150, 100);
 
         panel1.setBackground(new java.awt.Color(0, 51, 153));
         panel1.setMaximumSize(new java.awt.Dimension(32767, 20));
@@ -278,6 +288,9 @@ public class PanelMenu extends javax.swing.JPanel {
             .addGap(0, 3, Short.MAX_VALUE)
         );
 
+        add(panel1);
+        panel1.setBounds(0, 105, 864, 3);
+
         jPanel2.setBackground(new java.awt.Color(0, 51, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setPreferredSize(new java.awt.Dimension(100, 3));
@@ -293,11 +306,18 @@ public class PanelMenu extends javax.swing.JPanel {
             .addGap(0, 1, Short.MAX_VALUE)
         );
 
+        add(jPanel2);
+        jPanel2.setBounds(0, 324, 864, 3);
+
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel1.setText("LEARN");
+        add(jLabel1);
+        jLabel1.setBounds(18, 44, 143, 59);
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel2.setText("GAMES");
+        add(jLabel2);
+        jLabel2.setBounds(18, 261, 144, 59);
 
         btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDownload.setForeground(new java.awt.Color(51, 51, 51));
@@ -307,6 +327,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 btnDownloadActionPerformed(evt);
             }
         });
+        add(btnDownload);
+        btnDownload.setBounds(757, 11, 101, 27);
 
         play3.setForeground(new java.awt.Color(51, 51, 51));
         play3.setText("?");
@@ -318,6 +340,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 play3ActionPerformed(evt);
             }
         });
+        add(play3);
+        play3.setBounds(420, 346, 152, 100);
 
         play4.setForeground(new java.awt.Color(51, 51, 51));
         play4.setText("?");
@@ -329,65 +353,8 @@ public class PanelMenu extends javax.swing.JPanel {
                 play4ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDownload)
-                .addContainerGap())
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))
-                        .addContainerGap(496, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHangman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(50, 50, 50)
-                        .addComponent(btnWordshake, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                        .addGap(50, 50, 50)
-                        .addComponent(play3, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                        .addGap(50, 50, 50)
-                        .addComponent(play4, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                        .addGap(88, 88, 88))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(btnDownload)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(2, 2, 2)
-                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDefinition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2)
-                .addGap(4, 4, 4)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHangman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnWordshake, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(play3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(play4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
+        add(play4);
+        play4.setBounds(622, 346, 154, 100);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed

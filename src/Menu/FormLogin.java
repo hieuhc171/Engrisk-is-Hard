@@ -4,16 +4,13 @@
  */
 package Menu;
 
-import static Menu.FormMain.Instance;
-import Utils.Constants;
-import Utils.NetUtils;
+import Utils.Image.ImageUtils;
 
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.awt.event.KeyEvent;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -34,7 +31,8 @@ public class FormLogin extends javax.swing.JFrame {
     public FormLogin() {
         initComponents();
         KetNoiCSDL();
-        this.getContentPane().setBackground(new Color(209, 246, 246));
+//        this.getContentPane().setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground((JPanel) this.getContentPane(), "login.png", 401, 318);
     }
     
     private Connection cnn;
@@ -68,14 +66,25 @@ public class FormLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Đăng nhập");
+        setPreferredSize(new java.awt.Dimension(401, 318));
+        getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("TÊN ĐĂNG NHẬP");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(67, 128, 116, 25);
+        jLabel1.getAccessibleContext().setAccessibleName("lbUsername");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("MẬT KHẨU");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(67, 171, 89, 25);
+        jLabel2.getAccessibleContext().setAccessibleName("lbPassword");
 
         tfUsername.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        getContentPane().add(tfUsername);
+        tfUsername.setBounds(205, 128, 129, 25);
+        tfUsername.getAccessibleContext().setAccessibleName("tfUsername");
 
         tfPassword.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -83,79 +92,38 @@ public class FormLogin extends javax.swing.JFrame {
                 OnKeyEnterPress(evt);
             }
         });
+        getContentPane().add(tfPassword);
+        tfPassword.setBounds(205, 171, 129, 25);
+        tfPassword.getAccessibleContext().setAccessibleName("tfPassword");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 2, 90));
         jLabel3.setText("English is Hard");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(75, 47, 250, 48);
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLogin.setText("Đăng nhập");
         btnLogin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 OnLoginClicked(evt);
             }
         });
+        getContentPane().add(btnLogin);
+        btnLogin.setBounds(67, 234, 116, 34);
+        btnLogin.getAccessibleContext().setAccessibleName("btnLogin");
 
         btnSkip.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSkip.setText("Bỏ qua");
         btnSkip.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         btnSkip.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 OnSkipClick(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSkip, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(67, 67, 67))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel3)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(tfPassword))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSkip, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
-
-        jLabel1.getAccessibleContext().setAccessibleName("lbUsername");
-        jLabel2.getAccessibleContext().setAccessibleName("lbPassword");
-        tfUsername.getAccessibleContext().setAccessibleName("tfUsername");
-        tfPassword.getAccessibleContext().setAccessibleName("tfPassword");
-        btnLogin.getAccessibleContext().setAccessibleName("btnLogin");
+        getContentPane().add(btnSkip);
+        btnSkip.setBounds(231, 234, 103, 34);
         btnSkip.getAccessibleContext().setAccessibleName("btnSkip");
 
         getAccessibleContext().setAccessibleName("formLogin");

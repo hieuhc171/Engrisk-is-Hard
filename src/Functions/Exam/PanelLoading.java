@@ -7,14 +7,14 @@ package Functions.Exam;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;
@@ -31,14 +31,14 @@ public class PanelLoading extends javax.swing.JPanel {
      */
     public PanelLoading(int testType) {
         initComponents();
-        setBackground(new Color(209, 246, 246));
         KetNoiCSDL();
         UIManager.put("progressBar.background", Color.ORANGE);
         UIManager.put("progressBar.foreground", Color.BLUE);
         UIManager.put("progressBar.selectionBackground", Color.RED);
         UIManager.put("progressBar.selectionForeground", Color.GREEN);
-
         InitializeQuestions(testType);
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
     private Connection cnn;
@@ -140,45 +140,27 @@ public class PanelLoading extends javax.swing.JPanel {
         progressBar = new javax.swing.JProgressBar();
         lbProgress = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(864, 480));
+        setLayout(null);
+
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
+        add(btnBack);
+        btnBack.setBounds(6, 6, 72, 23);
 
         progressBar.setPreferredSize(new java.awt.Dimension(400, 50));
+        add(progressBar);
+        progressBar.setBounds(232, 139, 400, 50);
 
         lbProgress.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbProgress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbProgress.setPreferredSize(new java.awt.Dimension(400, 30));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(232, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(232, 232, 232))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addGap(110, 110, 110)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
-        );
+        add(lbProgress);
+        lbProgress.setBounds(232, 207, 400, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

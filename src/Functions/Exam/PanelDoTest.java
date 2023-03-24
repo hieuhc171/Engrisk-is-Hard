@@ -6,7 +6,8 @@ package Functions.Exam;
 
 import Menu.FormMain;
 import Menu.*;
-import Utils.SoundUtils;
+import Utils.Image.ImageUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
 
 import java.awt.*;
@@ -34,9 +35,10 @@ public class PanelDoTest extends javax.swing.JPanel {
     public PanelDoTest(int testType) {
         this.testType = testType;
         initComponents();
-        setBackground(new Color(209, 246, 246));
         SetupQuestionPane();
         DisplayQuestion();
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
 
     /**
@@ -52,13 +54,12 @@ public class PanelDoTest extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         questionPane = new javax.swing.JTextPane();
         btnAnswer = new JButton[4];
-        for(int i = 0; i < 4; i++) {
-            btnAnswer[i] = new JButton();
-            btnAnswer[i].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-            btnAnswer[i].setPreferredSize(new java.awt.Dimension(300, 80));
+        for(var btn : btnAnswer) {
+            btn = new JButton();
         }
 
         setPreferredSize(new java.awt.Dimension(864, 480));
+        setLayout(null);
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -66,50 +67,34 @@ public class PanelDoTest extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
+        add(btnBack);
+        btnBack.setBounds(6, 6, 72, 23);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 150));
         jScrollPane1.setViewportView(questionPane);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnBack))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAnswer[0], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAnswer[2], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAnswer[3], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAnswer[1], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnswer[0], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnswer[1], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnswer[3], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnswer[2], javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
+        add(jScrollPane1);
+        jScrollPane1.setBounds(132, 47, 600, 150);
+
+        btnAnswer[0].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAnswer[0].setPreferredSize(new java.awt.Dimension(300, 80));
+        add(btnAnswer[0]);
+        btnAnswer[0].setBounds(100, 242, 300, 80);
+
+        btnAnswer[1].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAnswer[1].setPreferredSize(new java.awt.Dimension(300, 80));
+        add(btnAnswer[1]);
+        btnAnswer[1].setBounds(464, 242, 300, 80);
+
+        btnAnswer[3].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAnswer[3].setPreferredSize(new java.awt.Dimension(300, 80));
+        add(btnAnswer[3]);
+        btnAnswer[3].setBounds(464, 360, 300, 80);
+
+        btnAnswer[2].setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAnswer[2].setPreferredSize(new java.awt.Dimension(300, 80));
+        add(btnAnswer[2]);
+        btnAnswer[2].setBounds(100, 360, 300, 80);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

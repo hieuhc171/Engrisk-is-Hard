@@ -7,9 +7,9 @@ package Functions.Play1;
 import Functions.Definition.PanelDefinition;
 import Utils.Constants;
 import Utils.NetUtils;
-import Utils.SoundUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -35,16 +35,12 @@ public class FormLearn extends javax.swing.JFrame {
         FormLearn.word = word;
         initComponents();
         NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + word, result -> {
-            holder.json = result;
+            json = result;
         });
-        WordObject wordObject = new WordObject(holder.json);
+        WordObject wordObject = new WordObject(json);
         DisplayWord(wordObject);
     }
-
-    private final Holder holder = new Holder();
-    static class Holder {
-        public String json;
-    }
+    private String json;
     private JTextPane tfOutput = new JTextPane();
     private JScrollPane scrollOutput = new JScrollPane();
     private void DisplayWord(WordObject wordObject) {
@@ -93,8 +89,11 @@ public class FormLearn extends javax.swing.JFrame {
                 TextUtils.AppendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
         }
 
+        scrollOutput.setBounds(0, 0, 400, 380);
         tfOutput.setCaretPosition(0);
-        this.add(scrollOutput);
+        this.getContentPane().add(scrollOutput);
+
+        pack();
     }
 
     /**
@@ -107,20 +106,8 @@ public class FormLearn extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 400));
+//        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
