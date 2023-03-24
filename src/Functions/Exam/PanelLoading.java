@@ -32,10 +32,6 @@ public class PanelLoading extends javax.swing.JPanel {
     public PanelLoading(int testType) {
         initComponents();
         KetNoiCSDL();
-        UIManager.put("progressBar.background", Color.ORANGE);
-        UIManager.put("progressBar.foreground", Color.BLUE);
-        UIManager.put("progressBar.selectionBackground", Color.RED);
-        UIManager.put("progressBar.selectionForeground", Color.GREEN);
         InitializeQuestions(testType);
 //        setBackground(new Color(209, 246, 246));
         ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
@@ -70,6 +66,7 @@ public class PanelLoading extends javax.swing.JPanel {
                     ResultSet rs = stm.executeQuery();
                     boolean questInited = false;
                     Question quest = new Question();
+                    quest.questType = testType == PanelChooseType.DEFINITION_TEST ? new Random().nextInt(3) : Question.PHONETIC_TEST;
                     int index = 0;
                     while(rs.next() && index < 4) {
                         if(!questInited) {
@@ -77,12 +74,31 @@ public class PanelLoading extends javax.swing.JPanel {
                                 if(json != null) {
                                     WordObject word = new WordObject(json);
                                     if (testType == PanelChooseType.DEFINITION_TEST)
-                                        quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
+                                        switch (quest.questType) {
+                                            case Question.WHICH_WORD
+                                                -> quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
+                                            case Question.TRANSLATE
+                                                -> {
+                                                word.ParseViWord();
+                                                if(!word.viWord.isBlank())
+                                                    quest.setQuestion(word.viWord);
+                                            }
+                                            case Question.FILL_IN_THE_BLANK
+                                                -> {
+                                                String ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
+                                                int attempt = 10;
+                                                while(ques.isBlank() && attempt-- > 0) {
+                                                    ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
+                                                }
+                                                if(attempt > 0)
+                                                    quest.setQuestion(ques.replace(word.enWord, "....."));
+                                            }
+                                        }
                                     else {
                                         String audio = "";
                                         for(int j = 0; j < word.phonetics.size(); j++) {
                                             audio = word.phonetics.get(j).audio;
-                                            if(audio != null) break;
+                                            if(!audio.equals("")) break;
                                         }
                                         if(!audio.isBlank())
                                             quest.setQuestion(audio);

@@ -47,7 +47,8 @@ public class WordObject {
             try {
                 JSONArray jArray = (JSONArray) jParser.parse(json);
                 jArray = (JSONArray) jArray.get(0);
-                viWord = jArray.get(0).toString();
+                if(jArray.get(0).toString().toLowerCase().equals(enWord)) viWord = "";
+                else viWord = jArray.get(0).toString();
             } catch (ParseException e) {
                 System.out.println("Không dịch được từ này!!!");
             }

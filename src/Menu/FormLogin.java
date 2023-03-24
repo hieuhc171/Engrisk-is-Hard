@@ -31,6 +31,7 @@ public class FormLogin extends javax.swing.JFrame {
     public FormLogin() {
         initComponents();
         KetNoiCSDL();
+        this.setResizable(false);
 //        this.getContentPane().setBackground(new Color(209, 246, 246));
         ImageUtils.InitializeBackground((JPanel) this.getContentPane(), "login.png", 401, 318);
     }
@@ -158,10 +159,10 @@ public class FormLogin extends javax.swing.JFrame {
                    tfPassword.getText().equals(rs.getString("Password"))) {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
 
-//                    User.Instance().setInfo(rs.getInt("UserID"),
-//                                            tfUsername.getText(),
-//                                            rs.getInt("Level"),
-//                                            rs.getInt("Exp"));
+                    User.Instance().setInfo(rs.getInt("UserID"),
+                                            tfUsername.getText(),
+                                            rs.getInt("Level"),
+                                            rs.getInt("Exp"));
                     OnSkipClick(evt);
                     return;
                 }

@@ -54,8 +54,8 @@ public class PanelDoTest extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         questionPane = new javax.swing.JTextPane();
         btnAnswer = new JButton[4];
-        for(var btn : btnAnswer) {
-            btn = new JButton();
+        for(int i = 0; i < 4; i++) {
+            btnAnswer[i] = new JButton();
         }
 
         setPreferredSize(new java.awt.Dimension(864, 480));
@@ -114,10 +114,19 @@ public class PanelDoTest extends javax.swing.JPanel {
             EndTest();
             return;
         }
-        TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.CYAN, 14);
+        TextUtils.AppendToPane(questionPane, "Câu hỏi số " + (currentQuest+1) + "\n\n", Color.GREEN, 14);
         if(testType == PanelChooseType.DEFINITION_TEST) {
-            TextUtils.AppendToPane(questionPane, "Đây là định nghĩa của từ nào?\n\n", Color.BLACK, 18);
-            TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 22);
+            String question = "";
+            switch (questList.get(currentQuest).questType) {
+                case Question.WHICH_WORD
+                    -> question = "Đây là định nghĩa của từ nào?\n\n";
+                case Question.TRANSLATE
+                    -> question = "Đây là nghĩa tiếng Việt của từ nào?\n\n";
+                case Question.FILL_IN_THE_BLANK
+                    -> question = "Điền từ vào chỗ trống:\n\n";
+            }
+            TextUtils.AppendToPane(questionPane, question, Color.BLACK, 16);
+            TextUtils.AppendToPane(questionPane, questList.get(currentQuest).question, Color.RED, 20);
         }
         else {
             TextUtils.AppendToPane(questionPane, "Đây là cách đọc của từ nào?\n\n", Color.BLACK, 22);

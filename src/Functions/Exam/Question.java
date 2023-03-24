@@ -13,16 +13,18 @@ public class Question {
     public String[] answers = new String[4];
     public int questType;
 
-    public final int WHICH_WORD = 0;
-    public final int WHICH_DEFINITION = 1;
-    public final int FILL_IN_THE_BLANK = 2;
+    public static final int WHICH_WORD = 0;
+    public static final int TRANSLATE = 1;
+    public static final int FILL_IN_THE_BLANK = 2;
+    public static final int PHONETIC_TEST = 3;
 
     public Question() {
     }
-    
-    public Question(String question, String[] answers) {
+
+    public Question(String question, String[] answers, int questType) {
         this.question = question;
         this.answers = answers;
+        this.questType = questType;
     }
 
     public void setQuestion(String question) {

@@ -276,6 +276,8 @@ public class PanelDefinition extends javax.swing.JPanel {
         scrollPane.setVisible(false);
         loading.setText("LOADING...");
         illustration.setText("LOADING...");
+        illustration.setIcon(null);
+        illustration.revalidate();
         scrollOutput.setViewportView(loading);
         new Thread(new Runnable() {
             @Override
@@ -295,8 +297,8 @@ public class PanelDefinition extends javax.swing.JPanel {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                imageList.clear();
                 var images = ImageUtils.ImagesFromURL(tfInput.getText());
-                if(images.isEmpty()) return;
                 for(var image : images) {
                     if(image.tag.contains(tfInput.getText())) {
                         try {
@@ -309,7 +311,7 @@ public class PanelDefinition extends javax.swing.JPanel {
                         }
                     }
                 }
-                if(imageList.size() > 0) {
+                if(!imageList.isEmpty()) {
                     totalImages = imageList.size();
                     currentImage = 1;
                     illustration.setText("");
@@ -318,7 +320,6 @@ public class PanelDefinition extends javax.swing.JPanel {
                 }
                 else {
                     illustration.setText("?");
-                    illustration.setIcon(null);
                     lbTotalImages.setText("0/0");
                 }
             }

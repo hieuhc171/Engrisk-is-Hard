@@ -68,6 +68,8 @@ public class PanelMenu extends javax.swing.JPanel {
             
         }
     }
+
+//    private
     
     private void CheckDatabase() {
         KetNoiCSDL();
