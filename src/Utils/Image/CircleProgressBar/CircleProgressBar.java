@@ -9,7 +9,7 @@ public class CircleProgressBar extends JProgressBar {
         setOpaque(false);
         setBackground(new Color(220, 220, 220));
         setForeground(new Color(97, 97, 97));
-        setStringPainted(true);
+//        setStringPainted(true);
         setUI(new ProgressCircleUI(this));
     }
 

@@ -204,7 +204,7 @@ public class PanelDefinition extends javax.swing.JPanel {
     private ArrayList<ImageIcon> imageList = new ArrayList<>();
     private void InitializeIllustration() {
         illustration.setBounds(44, 150, 250, 250);
-        illustration.setFont(new Font("Arial", Font.PLAIN, 24));
+        illustration.setFont(new Font("Segoe UI", Font.BOLD, 24));
         illustration.setOpaque(true);
         illustration.setBackground(Color.WHITE);
         illustration.setHorizontalAlignment(SwingConstants.CENTER);
@@ -320,7 +320,7 @@ public class PanelDefinition extends javax.swing.JPanel {
                     lbTotalImages.setText(currentImage + "/" + totalImages);
                 }
                 else {
-                    illustration.setText("?");
+                    illustration.setText("NOT FOUND");
                     lbTotalImages.setText("0/0");
                 }
             }

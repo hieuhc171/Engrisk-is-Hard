@@ -396,7 +396,25 @@ public class PanelPlay2 extends javax.swing.JPanel {
                 if(timeLeft == 0) {
                     playTimeCounter.stop();
                     User.Instance().GainEXP(totalScore * 10);
-                    JOptionPane.showMessageDialog(null, "Bạn đạt được " + totalScore + " điểm!", "Hết giờ", JOptionPane.INFORMATION_MESSAGE);
+                    String[] options = {"Trang chủ", "Chơi lại"};
+                    int choice = JOptionPane.showOptionDialog(null, "Bạn đạt được " + totalScore + " điểm! Tương đương " + totalScore * 10 + " exp.\nChơi lại nhé?", "Hết giờ", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+                    if(choice == 0) {
+                        FormMain.Instance().setContentPane(PanelMenu.Instance());
+                        FormMain.Instance().validate();
+                    }
+                    else {
+                        wordArea.setText("");
+                        pointArea.setText("");
+                        timeLeft = 60;
+                        counterDisplay.setText("01:00");
+
+                        Random gen = new Random();
+                        for (int i = 0; i < num; i++)
+                            for (int j = 0; j < num; j++)
+                                btnWords[i][j].setText(String.valueOf((char) (gen.nextInt(26) + 65)).toUpperCase());
+                        ResetComponents();
+                        SetupTimer();
+                    }
                 }
             }
         });

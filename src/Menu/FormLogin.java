@@ -33,7 +33,7 @@ public class FormLogin extends javax.swing.JFrame {
         KetNoiCSDL();
         this.setResizable(false);
 //        this.getContentPane().setBackground(new Color(209, 246, 246));
-//        ImageUtils.InitializeBackground((JPanel) this.getContentPane(), "login.png", 401, 318);
+        ImageUtils.InitializeBackground((JPanel) this.getContentPane(), "login.png", 401, 318);
     }
     
     private Connection cnn;

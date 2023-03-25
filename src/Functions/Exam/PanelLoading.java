@@ -87,7 +87,7 @@ public class PanelLoading extends javax.swing.JPanel {
                                                 -> {
                                                 String ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
                                                 int attempt = 10;
-                                                while(ques.isBlank() && attempt-- > 0) {
+                                                while((ques.isBlank() || ques.toLowerCase().contains(word.enWord)) && attempt-- > 0) {
                                                     ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
                                                 }
                                                 if(attempt > 0)

@@ -113,8 +113,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
     private JButton[] keyboard = new JButton[26];
     private boolean gameStart;
 
-    private JLabel loading = new JLabel("LOADING...");
-
     private void InitializeWord()
     {
         if(missingWord != null)
@@ -204,7 +202,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
 //                                return;
                             }
                             else {
-                                StartDoClick(null);
+                                StartDoClick();
                             }
                         }
                         else {
@@ -220,7 +218,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         }
                         if(won) {
                             User.Instance().GainEXP(chosenWord.length() * 10);
-                            JOptionPane.showMessageDialog(null, "Thắng rồi!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 }
@@ -245,9 +243,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        StartDoClick(t -> {
-                            currentState.setText("");
-                        });
+                        StartDoClick();
                     }
                 }).start();
             }
@@ -256,7 +252,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
         this.add(start);
     }
 
-    private void StartDoClick(Consumer<String> consumer) {
+    private void StartDoClick() {
         String query = "SELECT * FROM wordlessthan7 WHERE CHAR_LENGTH(Text) >= 4 ORDER BY RAND() LIMIT 1000";
         try {
             PreparedStatement stm = cnn.prepareStatement(query);
@@ -265,7 +261,6 @@ public class PanelPlay1 extends javax.swing.JPanel {
                 chosenWord = rs.getString("Text");
                 NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + chosenWord, result -> {
                     json = result;
-                    consumer.accept("");
                 });
             }
         } catch (SQLException ex) {
@@ -273,13 +268,14 @@ public class PanelPlay1 extends javax.swing.JPanel {
         }
         gameStart = true;
         level = chosenWord.length();
-        lives.setText("0/" + GetDifficulty());
         start.setText("Chơi lại");
         InitializeWord();
         SetHangmanState();
+        lives.setText("0/" + GetDifficulty());
         for(var btn : keyboard) {
             btn.setEnabled(true);
         }
+        currentState.setText("");
         json = null;
         JOptionPane.showMessageDialog(null, "Trò chơi bắt đầu! Tìm từ có " + level + " chữ cái!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }

@@ -78,23 +78,21 @@ public class PanelMenu extends javax.swing.JPanel {
 //        greet.setHorizontalAlignment(SwingConstants.TRAILING);
 //        this.add(greet);
 
-        JLabel level = new JLabel(String.valueOf(User.Instance().level));
-        level.setBounds(5, 5, 40, 40);
-        level.setFont(new Font("Arial", Font.BOLD, 20));
-        level.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(level);
+        User.Instance().lbLevel.setBounds(815, 10, 40, 40);
+        User.Instance().lbLevel.setFont(new Font("Arial", Font.BOLD, 20));
+        User.Instance().lbLevel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(User.Instance().lbLevel);
 
-        CircleProgressBar levelProgress = new CircleProgressBar();
-        levelProgress.setBounds(5, 5, 40, 40);
-        levelProgress.setMaximum((int) (Math.pow(2, User.Instance().level) * 100));
-        levelProgress.setValue(User.Instance().exp);
-        levelProgress.setToolTipText(levelProgress.getValue() + "/" + levelProgress.getMaximum());
-        this.add(levelProgress);
+        User.Instance().levelProgress.setBounds(815, 10, 40, 40);
+        User.Instance().levelProgress.setMaximum((int) (Math.pow(2, User.Instance().level) * 100));
+        User.Instance().levelProgress.setValue(User.Instance().exp);
+        User.Instance().levelProgress.setToolTipText(User.Instance().levelProgress.getValue() + "/" + User.Instance().levelProgress.getMaximum());
+        this.add(User.Instance().levelProgress);
 
         JLabel username = new JLabel(User.Instance().username);
-        username.setBounds(50, 10, 100, 30);
+        username.setBounds(710, 15, 100, 30);
         username.setFont(new Font("Arial", Font.BOLD, 12));
-        username.setHorizontalAlignment(SwingConstants.LEADING);
+        username.setHorizontalAlignment(SwingConstants.TRAILING);
 //        username.setForeground(Color.RED);
         this.add(username);
     }
@@ -258,7 +256,7 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
         add(btnDefinition);
-        btnDefinition.setBounds(18, 126, 150, 100);
+        btnDefinition.setBounds(20, 150, 150, 100);
 
         btnHangman.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHangman.setForeground(new java.awt.Color(51, 51, 51));
@@ -300,7 +298,7 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
         add(btnExam);
-        btnExam.setBounds(218, 126, 150, 100);
+        btnExam.setBounds(220, 150, 150, 100);
 
         panel1.setBackground(new java.awt.Color(0, 51, 153));
         panel1.setMaximumSize(new java.awt.Dimension(32767, 20));
@@ -319,7 +317,7 @@ public class PanelMenu extends javax.swing.JPanel {
         );
 
         add(panel1);
-        panel1.setBounds(0, 105, 864, 3);
+        panel1.setBounds(0, 130, 864, 3);
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -342,12 +340,12 @@ public class PanelMenu extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel1.setText("LEARN");
         add(jLabel1);
-        jLabel1.setBounds(18, 44, 143, 59);
+        jLabel1.setBounds(20, 70, 143, 59);
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel2.setText("GAMES");
         add(jLabel2);
-        jLabel2.setBounds(18, 261, 144, 59);
+        jLabel2.setBounds(18, 261, 170, 59);
 
         btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDownload.setForeground(new java.awt.Color(51, 51, 51));
@@ -358,7 +356,7 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
         add(btnDownload);
-        btnDownload.setBounds(757, 11, 101, 27);
+        btnDownload.setBounds(10, 10, 110, 30);
 
         play3.setForeground(new java.awt.Color(51, 51, 51));
         play3.setText("?");

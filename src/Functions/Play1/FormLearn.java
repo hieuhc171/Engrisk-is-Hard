@@ -34,6 +34,8 @@ public class FormLearn extends javax.swing.JFrame {
     public FormLearn(String word) {
         FormLearn.word = word;
         initComponents();
+        this.setSize(400, 300);
+        this.setResizable(false);
         NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + word, result -> {
             json = result;
         });
@@ -47,7 +49,7 @@ public class FormLearn extends javax.swing.JFrame {
 
         scrollOutput.setBackground(new java.awt.Color(255, 255, 255));
         scrollOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollOutput.setPreferredSize(new java.awt.Dimension(400, 380));
+        scrollOutput.setPreferredSize(new java.awt.Dimension(400, 300));
         tfOutput.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 14)); // NOI18N
         scrollOutput.setViewportView(tfOutput);
 
@@ -89,11 +91,11 @@ public class FormLearn extends javax.swing.JFrame {
                 TextUtils.AppendToPane(tfOutput, "Example: " + wordObject.definitions.get(i).example + "\n", Color.MAGENTA, 14);
         }
 
-        scrollOutput.setBounds(0, 0, 400, 380);
+        scrollOutput.setBounds(0, 0, 400, 300);
         tfOutput.setCaretPosition(0);
         this.getContentPane().add(scrollOutput);
 
-        pack();
+//        pack();
     }
 
     /**
@@ -105,9 +107,10 @@ public class FormLearn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-//        getContentPane().setLayout(null);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(null);
 
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
