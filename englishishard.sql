@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2023 at 11:46 AM
+-- Generation Time: Mar 25, 2023 at 04:51 PM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,6 +34,34 @@ CREATE TABLE `definitions` (
   `WordID` bigint(20) NOT NULL,
   `Text` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `level`
+--
+
+CREATE TABLE `level` (
+  `Level` int(11) NOT NULL,
+  `ExpNeeded` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `level`
+--
+
+INSERT INTO `level` (`Level`, `ExpNeeded`) VALUES
+(1, 200),
+(2, 400),
+(3, 800),
+(4, 1600),
+(5, 3200),
+(6, 6400),
+(7, 12800),
+(8, 25600),
+(9, 51200),
+(10, 102400),
+(11, 204800);
 
 -- --------------------------------------------------------
 
@@ -124594,6 +124622,12 @@ INSERT INTO `wordmorethan13` (`WordID`, `Text`) VALUES
 ALTER TABLE `definitions`
   ADD PRIMARY KEY (`DefinitionID`),
   ADD KEY `fk_defi_word14` (`WordID`);
+
+--
+-- Indexes for table `level`
+--
+ALTER TABLE `level`
+  ADD PRIMARY KEY (`Level`);
 
 --
 -- Indexes for table `phonetics`

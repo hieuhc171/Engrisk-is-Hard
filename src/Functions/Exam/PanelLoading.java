@@ -5,17 +5,19 @@
 package Functions.Exam;
 
 import Menu.FormMain;
+import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
+
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
 /**
  *
@@ -31,6 +33,8 @@ public class PanelLoading extends javax.swing.JPanel {
         initComponents();
         KetNoiCSDL();
         InitializeQuestions(testType);
+//        setBackground(new Color(209, 246, 246));
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
     private Connection cnn;
@@ -62,6 +66,7 @@ public class PanelLoading extends javax.swing.JPanel {
                     ResultSet rs = stm.executeQuery();
                     boolean questInited = false;
                     Question quest = new Question();
+                    quest.questType = testType == PanelChooseType.DEFINITION_TEST ? new Random().nextInt(3) : Question.PHONETIC_TEST;
                     int index = 0;
                     while(rs.next() && index < 4) {
                         if(!questInited) {
@@ -69,12 +74,31 @@ public class PanelLoading extends javax.swing.JPanel {
                                 if(json != null) {
                                     WordObject word = new WordObject(json);
                                     if (testType == PanelChooseType.DEFINITION_TEST)
-                                        quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
+                                        switch (quest.questType) {
+                                            case Question.WHICH_WORD
+                                                -> quest.setQuestion(word.definitions.get(new Random().nextInt(word.definitions.size())).text);
+                                            case Question.TRANSLATE
+                                                -> {
+                                                word.ParseViWord();
+                                                if(!word.viWord.isBlank())
+                                                    quest.setQuestion(word.viWord);
+                                            }
+                                            case Question.FILL_IN_THE_BLANK
+                                                -> {
+                                                String ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
+                                                int attempt = 10;
+                                                while((ques.isBlank() || ques.toLowerCase().contains(word.enWord)) && attempt-- > 0) {
+                                                    ques = word.definitions.get(new Random().nextInt(word.definitions.size())).example;
+                                                }
+                                                if(attempt > 0)
+                                                    quest.setQuestion(ques.replace(word.enWord, "....."));
+                                            }
+                                        }
                                     else {
                                         String audio = "";
                                         for(int j = 0; j < word.phonetics.size(); j++) {
                                             audio = word.phonetics.get(j).audio;
-                                            if(audio != null) break;
+                                            if(!audio.equals("")) break;
                                         }
                                         if(!audio.isBlank())
                                             quest.setQuestion(audio);
@@ -128,42 +152,42 @@ public class PanelLoading extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
         lbProgress = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(864, 480));
+        setLayout(null);
+
+        btnBack.setText("BACK");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        add(btnBack);
+        btnBack.setBounds(6, 6, 72, 23);
+
         progressBar.setPreferredSize(new java.awt.Dimension(400, 50));
+        add(progressBar);
+        progressBar.setBounds(232, 139, 400, 50);
 
         lbProgress.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbProgress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbProgress.setPreferredSize(new java.awt.Dimension(400, 30));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(232, 232, 232)
-                        .addComponent(lbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(232, 232, 232))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(159, 159, 159)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(223, Short.MAX_VALUE))
-        );
+        add(lbProgress);
+        lbProgress.setBounds(232, 207, 400, 30);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        FormMain.Instance().setContentPane(PanelMenu.Instance());
+        FormMain.Instance().validate();
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JLabel lbProgress;
     private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables

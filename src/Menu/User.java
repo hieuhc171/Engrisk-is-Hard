@@ -1,5 +1,7 @@
 package Menu;
 
+import Utils.Image.CircleProgressBar.CircleProgressBar;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +15,7 @@ public class User {
     public int level;
     public int exp;
 
-    public static int[] expNeeded = new int[10];
+    public static int[] expNeeded = new int[11];
 
     public User() {
         userID = -1;
@@ -63,4 +65,26 @@ public class User {
         }
         return _instance;
     }
+
+    public void GainEXP(int exp) {
+        this.exp += exp;
+        if(this.exp >= User.expNeeded[level]) {
+            this.exp = this.exp - User.expNeeded[level];
+            level++;
+        }
+        levelProgress.setMaximum(User.expNeeded[level]);
+        levelProgress.setValue(this.exp);
+        lbLevel.setText(String.valueOf(level));
+        if(userID == -1) return;
+        String query = "UPDATE user SET Exp = " + this.exp + ", Level = " + level + " WHERE UserID = " + userID;
+        try {
+            PreparedStatement stm = cnn.prepareStatement(query);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public CircleProgressBar levelProgress = new CircleProgressBar();
+    public JLabel lbLevel = new JLabel(String.valueOf(level));
 }

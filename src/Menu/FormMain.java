@@ -24,6 +24,7 @@ public class FormMain extends javax.swing.JFrame {
     public FormMain() {
         initComponents();
         setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
