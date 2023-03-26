@@ -4,8 +4,35 @@
  */
 package Functions.Play3;
 
+
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Utils.Constants;
+import Utils.Image.ImageUtils;
+import Utils.NetUtils;
+import Utils.Word.WordObject;
+import com.mysql.jdbc.Statement;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -15,16 +42,72 @@ public class PanelPlay3 extends javax.swing.JPanel {
 
     private static PanelPlay3 _instance;
     public static PanelPlay3 Instance() {
-        if(_instance == null)
+//        if(_instance == null)
             _instance = new PanelPlay3();
         return _instance;
     }
     /**
      * Creates new form PanelPlay3
      */
+    
+    private String wordSave;
+    Timer t;
+    int cong=0;
+    private int point=0;
+    private com.mysql.jdbc.Connection cnn;
     public PanelPlay3() {
         initComponents();
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
+    
+    public void loadChay()
+    {
+        cong=0;
+        t=new Timer(1000,new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                cong++;
+                    jproTime.setValue(cong);
+                    if(cong==1000){
+                        statusPlay = false;
+                        t.stop();
+                        int result=JOptionPane.showConfirmDialog(null, "        Time up!\n  Your Score: "+point+"!\n         Agian?","Congratulations",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if(result == JOptionPane.YES_OPTION){
+                            cong=0;
+                            point=0;
+                            t.restart();
+                        }else{
+                            FormMain.Instance().setContentPane(PanelMenu.Instance());
+                            FormMain.Instance().validate();
+                            cong=0;
+                            point=0;};
+                        
+                    }
+            }
+            
+        });
+        t.start();
+    }
+    
+    
+    public String DaoTu(String word){
+        List<Character> charWord = new ArrayList<>();
+        for(char c:word.toCharArray()){
+            charWord.add(c);
+            
+        }
+        Collections.shuffle(charWord);
+        StringBuilder rdw=  new StringBuilder();
+        for(char c:charWord){
+            rdw.append(c);
+        }
+            
+            
+        return rdw.toString();
+    }
+    
+   
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,6 +119,18 @@ public class PanelPlay3 extends javax.swing.JPanel {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
+        jtfAnswer = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtpTuDaoViTri = new javax.swing.JTextPane();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtfPoint = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtpSuggestion = new javax.swing.JTextPane();
+        jproTime = new javax.swing.JProgressBar();
+        jlTime = new javax.swing.JLabel();
+        jbtnPlay = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         btnBack.setText("BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -44,21 +139,103 @@ public class PanelPlay3 extends javax.swing.JPanel {
             }
         });
 
+        jtfAnswer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jtpTuDaoViTri.setEditable(false);
+        jtpTuDaoViTri.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jtpTuDaoViTri.setName(""); // NOI18N
+        jtpTuDaoViTri.setOpaque(false);
+        jScrollPane1.setViewportView(jtpTuDaoViTri);
+
+        jLabel1.setText("Press Enter");
+
+        jLabel2.setText("POINT:");
+
+        jtfPoint.setEditable(false);
+        jtfPoint.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jtpSuggestion.setEditable(false);
+        jScrollPane2.setViewportView(jtpSuggestion);
+
+        jlTime.setText("TIME:");
+
+        jbtnPlay.setText("PLAY");
+        jbtnPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPlayActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Sắp xếp các chữ cái để được từ theo định nghĩa.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnBack)
-                                .addContainerGap(786, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbtnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtfPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jproTime, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(207, 207, 207)
+                        .addComponent(jtfAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(196, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnBack)
-                                .addContainerGap(451, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(jLabel2)
+                    .addComponent(jtfPoint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jproTime, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jlTime)))
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtfAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(jbtnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(29, 29, 29)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -66,10 +243,133 @@ public class PanelPlay3 extends javax.swing.JPanel {
         // TODO add your handling code here:
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
+        
+        
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private boolean statusPlay = false;
+    private void jbtnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPlayActionPerformed
+        if(statusPlay == false) {
+            loadChay();
+            checkAnswer();
+            t.restart();
+        }
+        else {
+            point = 0;
+            jtfPoint.setText(String.valueOf(point));
+            cong = 0;
+            jproTime.setValue(cong);
+            t.restart();
+        }
+        
+        
+        
+    }//GEN-LAST:event_jbtnPlayActionPerformed
+    public void checkAnswer(){
+        try {
+                wordSave=LayRandomTuDatabase();
+                String tuDao=DaoTu(wordSave);
+                
+                jtpTuDaoViTri.setText(tuDao.toString());
+                
+                new Thread(new Runnable(){
+                    @Override
+                    public void run() {
+                            NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + wordSave, json -> {
+                                WordObject wordObject = new WordObject(json);
+                                jtpSuggestion.setText(wordObject.definitions.get(0).text.toString()+"\n"+wordObject.definitions.get(1).text.toString());
+                            });                    }
+                }).start();
+           
+                jtfPoint.setText(String.valueOf(point));
+                jtfAnswer.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String input = jtfAnswer.getText().trim();
+                        if(input.equalsIgnoreCase(wordSave))
+                        {  
+                            
+                           wordSave = LayRandomTuDatabase();
+                           new Thread(new Runnable(){
+                                @Override
+                                public void run() {
+                                        NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + wordSave, json -> {
+                                            WordObject wordObject = new WordObject(json);
+                                            jtpSuggestion.setText(wordObject.definitions.get(0).text.toString());
+                                        });                    }
+                            }).start();
+                           String tuDaoNew=DaoTu(wordSave);
+                           
+                          
+                           JOptionPane.showMessageDialog(null, "Dung");
+                           point+=10;
+                           jtfPoint.setText(String.valueOf(point));
+                                   
+                           jtfAnswer.setText("");
+                           jtpTuDaoViTri.setText(tuDaoNew.toString());
+                           
+                           
+                           
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Sai");
+                        }
+                
+                    }
+                    
+                });
+                
+            
+            
+            // Đóng kết nối
+            cnn.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbtnPlay;
+    private javax.swing.JLabel jlTime;
+    private javax.swing.JProgressBar jproTime;
+    private javax.swing.JTextField jtfAnswer;
+    private javax.swing.JTextField jtfPoint;
+    private javax.swing.JTextPane jtpSuggestion;
+    private javax.swing.JTextPane jtpTuDaoViTri;
     // End of variables declaration//GEN-END:variables
-}
+
+    private char[] removeChar(char[] wordChar, int index) {
+        char[] newChars = new char[wordChar.length - 1];
+        System.arraycopy(wordChar, 0, newChars, 0, index);
+        System.arraycopy(wordChar, index+1, newChars, index, wordChar.length-index-1);
+        return newChars;    }
+
+    public String LayRandomTuDatabase() {
+        cnn = (com.mysql.jdbc.Connection) Database.Database.KetNoiCSDL();
+        
+        String word="";
+        try {
+	    // Truy vấn dữ liệu từ bảng "wordlessthan7"
+            String query = "SELECT Text FROM wordlessthan7  Order by rand() limit 1";
+            Statement stmt = (Statement) cnn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            if(rs.next()){
+                word=rs.getString("Text");
+                
+            }
+            cnn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return word;
+    }}
+
