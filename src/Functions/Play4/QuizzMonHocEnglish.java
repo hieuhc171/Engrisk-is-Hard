@@ -180,18 +180,13 @@ public class QuizzMonHocEnglish extends javax.swing.JPanel {
     }
     private void btnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnextActionPerformed
         // TODO add your handling code here:
-        if(index<question.length){
-//        enableRbuttons(true);
-        lbques.setText(question[index]);
-        bt1.setText(option[index][0]);
-        bt2.setText(option[index][1]);
-        bt3.setText(option[index][2]);
-        bt4.setText(option[index][3]);
-        if(index==question.length-1){
-            btnext.setText("Hẹn Gặp Lại");
+        if(btnext.getText().equals("Làm Lại")){
+            btnext.setText("Câu hỏi tiếp theo");
+            jPanel1.setBackground(new java.awt.Color(204,204,204));
+            index=0;
+            correct=0;
         }
-        }
-        else{
+        if(index==question.length){
             lbques.setText("Bạn được: "+correct+"/"+question.length);
             if(correct>=question.length/2){
                 jPanel1.setBackground(Color.green);
@@ -199,6 +194,16 @@ public class QuizzMonHocEnglish extends javax.swing.JPanel {
             else{
                 jPanel1.setBackground(Color.RED);
             }
+            btnext.setText("Làm Lại");
+        }
+        else {
+        lbques.setText(question[index]);
+        bt1.setText(option[index][0]);
+        bt2.setText(option[index][1]);
+        bt3.setText(option[index][2]);
+        bt4.setText(option[index][3]);
+        if(index==question.length-1)
+            btnext.setText("Finish");
         }
         bg.clearSelection();
 
