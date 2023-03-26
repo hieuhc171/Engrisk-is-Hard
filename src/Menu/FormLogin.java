@@ -176,11 +176,11 @@ public class FormLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_OnLoginClicked
 
     private void OnSkipClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OnSkipClick
-        // TODO add your handling code here:
-//        if(!isDatabaseConnected) {
-//            JOptionPane.showMessageDialog(this, "Không thể kết nối MySQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
+//         TODO add your handling code here:
+        if(!isDatabaseConnected) {
+            JOptionPane.showMessageDialog(this, "Không thể kết nối MySQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Instance().setVisible(false);
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
