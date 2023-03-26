@@ -182,7 +182,7 @@ public class QuizzMonHocEnglish extends javax.swing.JPanel {
         // TODO add your handling code here:
         if(btnext.getText().equals("Làm Lại")){
             btnext.setText("Câu hỏi tiếp theo");
-            jPanel1.setBackground(new java.awt.Color(204,204,204));
+            jPanel1.setBackground(new java.awt.Color(153, 153, 153));
             index=0;
             correct=0;
         }

@@ -9,9 +9,9 @@ import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
 import Utils.NetUtils;
-import Utils.SoundUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
@@ -263,7 +263,7 @@ public class PanelPlay4 extends javax.swing.JPanel {
                     String soundURL = wordObject.phonetics.get(i).audio;
                     btn.addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e)
+                        public void mousePressed(MouseEvent e)
                         {
                             SoundUtils.PlaySoundFromURL(soundURL);
                         }

@@ -3,7 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/Users/nguyentienthuan/Downloads/TiengAnhThatKho/src/Functions/Play4/QuizzMonHocEnglish.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Functions/Definition/PanelDefinition.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Menu/PanelMenu.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Utils/Constants.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Database/Database.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Functions/Play4/PanelPlay4.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Menu/FormLogin.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Menu/FormMain.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Code/Java/TiengAnhThatKho/src/Functions/Play3/PanelPlay3.java</file>
+=======
+            <file>file:/E:/TiengAnhThatKho/src/Menu/PanelMenu.java</file>
+            <file>file:/E:/TiengAnhThatKho/src/Functions/Play1/PanelPlay1.java</file>
+            <file>file:/E:/TiengAnhThatKho/src/Functions/Play2/PanelPlay2.java</file>
+>>>>>>> f8e5a74fe7387cc7a064d69c6518543a6472e083
+>>>>>>> 571e2e0b4e026e5abbe98b211a4d758d709eaafd
         </group>
     </open-files>
 </project-private>
