@@ -55,9 +55,11 @@ public class PanelLoading extends javax.swing.JPanel {
                                 "wordlessthan9", "wordlessthan10",
                                 "wordlessthan11", "wordlessthan13",
                                 "wordmorethan13", "wordmorethan13"};
-    
+
+    private SwingWorker worker;
+
     private void InitializeQuestions(int testType) {
-        new SwingWorker() {
+        worker = new SwingWorker() {
             @Override
             protected String doInBackground() throws Exception {
                 for(int i = 0; i < totalQuest; i++) {
@@ -140,7 +142,8 @@ public class PanelLoading extends javax.swing.JPanel {
                 FormMain.Instance().setContentPane(new PanelDoTest(testType));
                 FormMain.Instance().validate();
             }
-        }.execute();
+        };
+        worker.execute();
     }
     
     /**
@@ -181,6 +184,7 @@ public class PanelLoading extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        worker.cancel(true);
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed

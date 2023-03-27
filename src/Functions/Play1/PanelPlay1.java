@@ -239,6 +239,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                currentState.setIcon(null);
                 currentState.setText("LOADING...");
                 new Thread(new Runnable() {
                     @Override
