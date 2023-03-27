@@ -9,7 +9,7 @@ import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
 import Utils.NetUtils;
-import Utils.WordUtils.WordObject;
+import Utils.Word.WordObject;
 import com.mysql.jdbc.Statement;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
