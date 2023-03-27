@@ -8,6 +8,7 @@ package Functions.Play3;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 import Utils.Word.WordObject;
 import com.mysql.jdbc.Statement;
@@ -41,7 +42,7 @@ public class PanelPlay3 extends javax.swing.JPanel {
 
     private static PanelPlay3 _instance;
     public static PanelPlay3 Instance() {
-        //if(_instance == null) 
+//        if(_instance == null)
             _instance = new PanelPlay3();
         return _instance;
     }
@@ -56,13 +57,11 @@ public class PanelPlay3 extends javax.swing.JPanel {
     private com.mysql.jdbc.Connection cnn;
     public PanelPlay3() {
         initComponents();
-        
-
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     
     public void loadChay()
     {
-        
         cong=0;
         t=new Timer(1000,new ActionListener(){
             @Override
@@ -70,8 +69,8 @@ public class PanelPlay3 extends javax.swing.JPanel {
                 cong++;
                     jproTime.setValue(cong);
                     if(cong==1000){
+                        statusPlay = false;
                         t.stop();
-                        statusPlay=false;
                         int result=JOptionPane.showConfirmDialog(null, "        Time up!\n  Your Score: "+point+"!\n         Agian?","Congratulations",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if(result == JOptionPane.YES_OPTION){
                             cong=0;
@@ -247,22 +246,20 @@ public class PanelPlay3 extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_btnBackActionPerformed
-    
-    boolean statusPlay=false;
+
+    private boolean statusPlay = false;
     private void jbtnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPlayActionPerformed
-        if(statusPlay==false){
-        
+        if(statusPlay == false) {
             loadChay();
             checkAnswer();
-            statusPlay=true;
+            t.restart();
         }
-        else{
-            point=0;
+        else {
+            point = 0;
             jtfPoint.setText(String.valueOf(point));
-            cong=0;
+            cong = 0;
             jproTime.setValue(cong);
             t.restart();
-            //statusPlay=false;
         }
         
         
@@ -273,19 +270,14 @@ public class PanelPlay3 extends javax.swing.JPanel {
                 wordSave=LayRandomTuDatabase();
                 String tuDao=DaoTu(wordSave);
                 
-                jtpTuDaoViTri.setText(tuDao.toString()+"    "+wordSave);
+                jtpTuDaoViTri.setText(tuDao.toString());
                 
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
                             NetUtils.DoGetRequest(Constants.WORD_DEFINITION_URL + wordSave, json -> {
-                                if(json!=null){
-                                    WordObject wordObject = new WordObject(json);
-                                    jtpSuggestion.setText(wordObject.definitions.get(0).text.toString()+"\n"+wordObject.definitions.get(1).text.toString());
-                                }
-                                else{
-                                    jtpSuggestion.setText("Không tìm thấy định nghĩa của từ!\n");
-                                }
+                                WordObject wordObject = new WordObject(json);
+                                jtpSuggestion.setText(wordObject.definitions.get(0).text.toString()+"\n"+wordObject.definitions.get(1).text.toString());
                             });                    }
                 }).start();
            
@@ -314,7 +306,7 @@ public class PanelPlay3 extends javax.swing.JPanel {
                            jtfPoint.setText(String.valueOf(point));
                                    
                            jtfAnswer.setText("");
-                           jtpTuDaoViTri.setText(tuDaoNew.toString()+"  "+wordSave);
+                           jtpTuDaoViTri.setText(tuDaoNew.toString());
                            
                            
                            
