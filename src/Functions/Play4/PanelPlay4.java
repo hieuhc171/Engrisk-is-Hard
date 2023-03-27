@@ -8,6 +8,7 @@ import Functions.Definition.PanelDefinition;
 import Menu.FormMain;
 import Menu.PanelMenu;
 import Utils.Constants;
+import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
@@ -53,6 +54,7 @@ public class PanelPlay4 extends javax.swing.JPanel {
         scrollOutput.setViewportView(tfOutput);
         DefaultCaret caret = (DefaultCaret) tfOutput.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
     private Connection cnn;
     

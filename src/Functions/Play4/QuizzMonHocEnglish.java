@@ -5,6 +5,7 @@
 package Functions.Play4;
 
 import Menu.FormMain;
+import Utils.Image.ImageUtils;
 import java.awt.Color;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -26,6 +27,7 @@ public class QuizzMonHocEnglish extends javax.swing.JPanel {
         bg.add(bt2);
         bg.add(bt3);
         bg.add(bt4);
+        ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
 
     }
     private static QuizzMonHocEnglish _instance;

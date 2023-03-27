@@ -201,15 +201,24 @@ public class PanelMenu extends javax.swing.JPanel {
             Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        filePath = "dummy.png";
+        filePath = "scramble.png";
         try {
-            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/placeholders/" + filePath))
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
                     .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(image);
+            btnScramble.setIcon(icon);
+            btnScramble.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnScramble.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-            play3.setIcon(icon);
-            play3.setHorizontalTextPosition(SwingConstants.CENTER);
-            play3.setVerticalTextPosition(SwingConstants.BOTTOM);
+
+        filePath = "th.png";
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/" + filePath))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
 
             play4.setIcon(icon);
             play4.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -237,7 +246,7 @@ public class PanelMenu extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnDownload = new javax.swing.JButton();
-        play3 = new javax.swing.JButton();
+        btnScramble = new javax.swing.JButton();
         play4 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -340,12 +349,12 @@ public class PanelMenu extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel1.setText("LEARN");
         add(jLabel1);
-        jLabel1.setBounds(20, 70, 143, 59);
+        jLabel1.setBounds(20, 70, 123, 43);
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel2.setText("GAMES");
         add(jLabel2);
-        jLabel2.setBounds(18, 261, 170, 59);
+        jLabel2.setBounds(18, 261, 170, 43);
 
         btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDownload.setForeground(new java.awt.Color(51, 51, 51));
@@ -358,21 +367,23 @@ public class PanelMenu extends javax.swing.JPanel {
         add(btnDownload);
         btnDownload.setBounds(10, 10, 110, 30);
 
-        play3.setForeground(new java.awt.Color(51, 51, 51));
-        play3.setText("?");
-        play3.setMaximumSize(new java.awt.Dimension(150, 100));
-        play3.setMinimumSize(new java.awt.Dimension(150, 100));
-        play3.setPreferredSize(new java.awt.Dimension(150, 100));
-        play3.addActionListener(new java.awt.event.ActionListener() {
+        btnScramble.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnScramble.setForeground(new java.awt.Color(51, 51, 51));
+        btnScramble.setText("Scramble");
+        btnScramble.setMaximumSize(new java.awt.Dimension(150, 100));
+        btnScramble.setMinimumSize(new java.awt.Dimension(150, 100));
+        btnScramble.setPreferredSize(new java.awt.Dimension(150, 100));
+        btnScramble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                play3ActionPerformed(evt);
+                btnScrambleActionPerformed(evt);
             }
         });
-        add(play3);
-        play3.setBounds(420, 346, 152, 100);
+        add(btnScramble);
+        btnScramble.setBounds(420, 346, 152, 100);
 
+        play4.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         play4.setForeground(new java.awt.Color(51, 51, 51));
-        play4.setText("?");
+        play4.setText("Từ Vựng and Quiz");
         play4.setMaximumSize(new java.awt.Dimension(150, 100));
         play4.setMinimumSize(new java.awt.Dimension(150, 100));
         play4.setPreferredSize(new java.awt.Dimension(150, 100));
@@ -382,7 +393,7 @@ public class PanelMenu extends javax.swing.JPanel {
             }
         });
         add(play4);
-        play4.setBounds(622, 346, 154, 100);
+        play4.setBounds(620, 350, 154, 100);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed
@@ -423,11 +434,11 @@ public class PanelMenu extends javax.swing.JPanel {
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnWordshakeActionPerformed
 
-    private void play3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play3ActionPerformed
+    private void btnScrambleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScrambleActionPerformed
         // TODO add your handling code here:
         FormMain.Instance().setContentPane(PanelPlay3.Instance());
         FormMain.Instance().validate();
-    }//GEN-LAST:event_play3ActionPerformed
+    }//GEN-LAST:event_btnScrambleActionPerformed
 
     private void play4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play4ActionPerformed
         // TODO add your handling code here:
@@ -496,12 +507,12 @@ public class PanelMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnExam;
     private javax.swing.JButton btnHangman;
+    private javax.swing.JButton btnScramble;
     private javax.swing.JButton btnWordshake;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private java.awt.Panel panel1;
-    private javax.swing.JButton play3;
     private javax.swing.JButton play4;
     // End of variables declaration//GEN-END:variables
 }
