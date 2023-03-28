@@ -375,7 +375,7 @@ public class PanelDefinition extends javax.swing.JPanel {
 
         User.Instance().GainEXP(10);
 
-//        SaveWordToDatabase(wordObject);
+        SaveWordToDatabase(wordObject);
     }
 
     private void DisplaySuggestion() {
@@ -414,7 +414,7 @@ public class PanelDefinition extends javax.swing.JPanel {
     private void SaveWordToDatabase(WordObject word) {
         for(int i = 0; i < milestones.length; i++) {
             if(word.enWord.length() < milestones[i]) {
-                String query = "SELECT WordID FROM " + tableNames[i] + " WHERE Text = " + word.enWord;
+                String query = "SELECT WordID FROM " + tableNames[i] + " WHERE Text = '" + word.enWord + "'";
                 int wordID = 0;
                 PreparedStatement stm = null;
                 try {
@@ -424,20 +424,52 @@ public class PanelDefinition extends javax.swing.JPanel {
                     while(rs.next()) {
                         wordID = rs.getInt("WordID");
                     }
+                    stm.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                query = "";
+                ArrayList<String> queryList = new ArrayList<String>();
                 for(int j = 0; j < word.definitions.size(); j++) {
-                    query += "\nINSERT INTO definitions (PartOfSpeech, Example, Text, WordID) VALUES ('"
+                    queryList.add("INSERT INTO definitions (PartOfSpeech, Example, `Text`, WordID) VALUES ('"
                             + word.definitions.get(j).partOfSpeech + "', '" + word.definitions.get(j).example
-                            + "', '" + word.definitions.get(j).text + "', " + wordID + ");";
+                            + "', '" + word.definitions.get(j).text + "', " + wordID + ");");
                 }
                 for(int j = 0; j < word.phonetics.size(); j++) {
                     if(!word.phonetics.get(j).text.isBlank() && !word.phonetics.get(j).audio.isBlank())
-                        query += "\nINSERT INTO phonetics (Text, Audio, WordID) VALUES ('"
-                            + word.phonetics.get(j).text + "', '" + word.phonetics.get(j).audio + "', " + wordID + ");";
+                        queryList.add("INSERT INTO phonetics (`Text`, Audio, WordID) VALUES ('"
+                            + word.phonetics.get(j).text + "', '" + word.phonetics.get(j).audio + "', " + wordID + ");");
                 }
+                try {
+                    for(var qr : queryList) {
+                        stm = cnn.prepareStatement(qr);
+                        stm.executeUpdate();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // DELETE DUPLICATIONS
+                query = "DELETE t1 FROM definitions t1\n" +
+                        "INNER JOIN definitions t2 \n" +
+                        "WHERE \n" +
+                        "   t1.DefinitionID > t2.DefinitionID AND \n" +
+                        "   t1.PartOfSpeech = t2.PartOfSpeech AND \n" +
+                        "   t1.WordID = t2.WordID AND \n" +
+                        "   t1.Text = t2.Text";
+                try {
+                    stm = cnn.prepareStatement(query);
+                    stm.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                query = "DELETE t1 FROM phonetics t1\n" +
+                        "INNER JOIN phonetics t2 \n" +
+                        "WHERE \n" +
+                        "   t1.PhoneticID > t2.PhoneticID AND \n" +
+                        "   t1.Text = t2.Text AND \n" +
+                        "   t1.WordID = t2.WordID AND \n" +
+                        "   t1.Text = t2.Text";
                 try {
                     stm = cnn.prepareStatement(query);
                     stm.executeUpdate();

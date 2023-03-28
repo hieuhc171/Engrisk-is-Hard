@@ -10,10 +10,13 @@ import Menu.User;
 import Utils.Constants;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
+import Utils.Sound.SoundUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -173,9 +176,9 @@ public class PanelPlay1 extends javax.swing.JPanel {
         }
 
         for(var bt : keyboard) {
-            bt.addMouseListener(new MouseAdapter() {
+            bt.addActionListener(new ActionListener() {
                 @Override
-                public void mousePressed(MouseEvent e) {
+                public void actionPerformed(ActionEvent e) {
                     JButton btn = (JButton)e.getSource();
                     if(!gameStart) {
                         JOptionPane.showMessageDialog(null, "Ấn 'Bắt đầu' để chơi!", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -193,6 +196,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         currentIndex++;
                         currentState.setIcon(hangmanStates[currentIndex]);
                         if(currentIndex == MAXSTATE - 1) {
+                            PanelMenu.soundHandler.setFile(SoundUtils.LOSE);
+                            PanelMenu.soundHandler.play();
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
                             int choice = JOptionPane.showOptionDialog(PanelPlay1.this, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                             if(choice == 0) {
@@ -206,7 +211,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             }
                         }
                         else {
-
+                            PanelMenu.soundHandler.setFile(SoundUtils.INCORRECT);
+                            PanelMenu.soundHandler.play();
                         }
                         lives.setText((currentIndex - (level - 4) * 2) + "/" + GetDifficulty());
                     }
@@ -214,11 +220,20 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         boolean won = false;
                         for(var b : missingWord) {
                             if(!b.getText().isBlank()) won = true;
-                            else return;
+                            else {
+                                won = false;
+                                break;
+                            }
                         }
                         if(won) {
-                           JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                           User.Instance().GainEXP(chosenWord.length() * 10);
+                            PanelMenu.soundHandler.setFile(SoundUtils.WIN);
+                            PanelMenu.soundHandler.play();
+                            JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            User.Instance().GainEXP(chosenWord.length() * 10);
+                        }
+                        else {
+                            PanelMenu.soundHandler.setFile(SoundUtils.CORRECT);
+                            PanelMenu.soundHandler.play();
                         }
                     }
                 }

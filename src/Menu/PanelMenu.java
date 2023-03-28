@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import Utils.Sound.SoundUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -56,7 +57,8 @@ public class PanelMenu extends javax.swing.JPanel {
         InitializeGUI();
         ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
     }
-    
+
+    public static SoundUtils soundHandler = new SoundUtils();
     private boolean isDictionaryDownloaded = false;
     private Connection cnn;
     
