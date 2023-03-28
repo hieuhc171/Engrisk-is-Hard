@@ -71,6 +71,7 @@ public class User {
         if(this.exp >= User.expNeeded[level]) {
             this.exp = this.exp - User.expNeeded[level];
             level++;
+            JOptionPane.showMessageDialog(null, "Bạn đã lên cấp " + level + "!", "LÊN CẤP", JOptionPane.INFORMATION_MESSAGE);
         }
         levelProgress.setMaximum(User.expNeeded[level]);
         levelProgress.setValue(this.exp);

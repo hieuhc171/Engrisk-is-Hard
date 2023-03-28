@@ -349,12 +349,12 @@ public class PanelMenu extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel1.setText("LEARN");
         add(jLabel1);
-        jLabel1.setBounds(20, 70, 123, 43);
+        jLabel1.setBounds(20, 70, 260, 59);
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel2.setText("GAMES");
         add(jLabel2);
-        jLabel2.setBounds(18, 261, 170, 43);
+        jLabel2.setBounds(18, 261, 170, 59);
 
         btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDownload.setForeground(new java.awt.Color(51, 51, 51));

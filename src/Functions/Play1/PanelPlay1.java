@@ -217,8 +217,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             else return;
                         }
                         if(won) {
-                            User.Instance().GainEXP(chosenWord.length() * 10);
-                            JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                           JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                           User.Instance().GainEXP(chosenWord.length() * 10);
                         }
                     }
                 }

@@ -418,10 +418,6 @@ public class PanelDefinition extends javax.swing.JPanel {
                 int wordID = 0;
                 PreparedStatement stm = null;
                 try {
-                    Statement stmt = cnn.createStatement();
-                    stmt.execute("SET FOREIGN_KEY_CHECKS=0");
-                    stmt.close();
-
                     stm = cnn.prepareStatement(query);
                     ResultSet rs = stm.executeQuery();
 
@@ -445,10 +441,6 @@ public class PanelDefinition extends javax.swing.JPanel {
                 try {
                     stm = cnn.prepareStatement(query);
                     stm.executeUpdate();
-
-                    Statement stmt = cnn.createStatement();
-                    stmt.execute("SET FOREIGN_KEY_CHECKS=1");
-                    stmt.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
