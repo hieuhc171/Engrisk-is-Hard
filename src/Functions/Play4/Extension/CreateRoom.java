@@ -45,17 +45,20 @@ public class CreateRoom extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    btnJoin.setEnabled(false);
                     server = new ServerSocket(1001);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 socket = server.accept();
+                                JOptionPane.showMessageDialog(null, "Connected", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             } catch (IOException ex) {
                                 throw new RuntimeException(ex);
                             }
                         }
                     }).start();
+                    tfHostIP.setText(server.getLocalSocketAddress().toString());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -68,7 +71,18 @@ public class CreateRoom extends javax.swing.JPanel {
         btnJoin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                btnHost.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            socket = new Socket(tfHostIP.getText(), 1001);
+                            JOptionPane.showMessageDialog(null, "Connected", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }).start();
             }
         });
         this.add(btnJoin);
@@ -79,8 +93,9 @@ public class CreateRoom extends javax.swing.JPanel {
 
         tfHostIP.setBounds(100, 280, 100, 35);
         tfHostIP.setFont(new Font("Arial", Font.BOLD, 18));
-        tfHostIP.setEnabled(false);
+//        tfHostIP.setEnabled(false);
         tfHostIP.setBackground(Color.WHITE);
+        tfHostIP.setText("127.0.0.1");
         this.add(tfHostIP);
     }
 
