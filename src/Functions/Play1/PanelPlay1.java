@@ -196,8 +196,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
                         currentIndex++;
                         currentState.setIcon(hangmanStates[currentIndex]);
                         if(currentIndex == MAXSTATE - 1) {
-                            PanelMenu.soundHandler.setFile(SoundUtils.LOSE);
-                            PanelMenu.soundHandler.play();
+                            PanelMenu.SE.setFile(SoundUtils.LOSE);
+                            PanelMenu.SE.play();
                             String[] options = {"Xác nhận", "Huỷ bỏ"};
                             int choice = JOptionPane.showOptionDialog(PanelPlay1.this, "Từ phải tìm là " + chosenWord.toUpperCase() + "\nXem định nghĩa từ này nhé?", "Thua rồi!!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
                             if(choice == 0) {
@@ -211,8 +211,8 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             }
                         }
                         else {
-                            PanelMenu.soundHandler.setFile(SoundUtils.INCORRECT);
-                            PanelMenu.soundHandler.play();
+                            PanelMenu.SE.setFile(SoundUtils.INCORRECT);
+                            PanelMenu.SE.play();
                         }
                         lives.setText((currentIndex - (level - 4) * 2) + "/" + GetDifficulty());
                     }
@@ -226,14 +226,14 @@ public class PanelPlay1 extends javax.swing.JPanel {
                             }
                         }
                         if(won) {
-                            PanelMenu.soundHandler.setFile(SoundUtils.WIN);
-                            PanelMenu.soundHandler.play();
+                            PanelMenu.SE.setFile(SoundUtils.WIN);
+                            PanelMenu.SE.play();
                             JOptionPane.showMessageDialog(null, "Thắng rồi!!! Bạn nhận được " + chosenWord.length() * 10 + " exp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             User.Instance().GainEXP(chosenWord.length() * 10);
                         }
                         else {
-                            PanelMenu.soundHandler.setFile(SoundUtils.CORRECT);
-                            PanelMenu.soundHandler.play();
+                            PanelMenu.SE.setFile(SoundUtils.CORRECT);
+                            PanelMenu.SE.play();
                         }
                     }
                 }
@@ -333,6 +333,7 @@ public class PanelPlay1 extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        PanelMenu.BGM.play();
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
     }

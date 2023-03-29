@@ -193,6 +193,7 @@ public class PanelDefinition extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        PanelMenu.BGM.play();
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed

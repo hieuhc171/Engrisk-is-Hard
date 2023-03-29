@@ -185,7 +185,8 @@ public class PanelLoading extends javax.swing.JPanel {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         worker.cancel(true);
-        FormMain.Instance().setContentPane(PanelMenu.Instance());
+        PanelMenu.BGM.play();
+        FormMain.Instance().setContentPane(PanelChooseType.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnBackActionPerformed
 

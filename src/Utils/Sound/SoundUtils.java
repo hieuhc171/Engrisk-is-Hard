@@ -46,9 +46,9 @@ public class SoundUtils {
 
 
     Clip clip;
-    File soundURL[] = new File[30];
+    File[] soundURL = new File[30];
     FloatControl fc;
-    int volumeScale = 3;
+    public int volumeScale = 3;
     float volume;
 
     public SoundUtils() {
@@ -58,6 +58,7 @@ public class SoundUtils {
         soundURL[WIN] = new File(System.getProperty("user.dir") + "/materials/sounds/win.wav");
         soundURL[LOSE] = new File(System.getProperty("user.dir") + "/materials/sounds/lose.wav");
         soundURL[CLICK] = new File(System.getProperty("user.dir") + "/materials/sounds/click.wav");
+        soundURL[BGM] = new File(System.getProperty("user.dir") + "/materials/sounds/bgm.wav");
     }
 
     public static final int CORRECT = 0;
@@ -65,11 +66,11 @@ public class SoundUtils {
     public static final int WIN = 2;
     public static final int LOSE = 3;
     public static final int CLICK = 4;
+    public static final int BGM = 5;
 
     public void setFile(int i) {
 
         try {
-
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
@@ -77,7 +78,7 @@ public class SoundUtils {
             checkVolume();
         }
         catch(Exception e) {
-
+            e.printStackTrace();
         }
     }
 

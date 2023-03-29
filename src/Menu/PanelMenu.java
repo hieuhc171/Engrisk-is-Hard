@@ -16,6 +16,8 @@ import Utils.Image.ImageUtils;
 import Utils.NetUtils;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -50,16 +52,19 @@ public class PanelMenu extends javax.swing.JPanel {
      * Creates new form PanelMenu
      */
     public PanelMenu() {
+        Utils.Config.LoadConfig();
         initComponents();
         CheckDatabase();
         SetupButtons();
 //        setBackground(new Color(209, 246, 246));
         InitializeGUI();
         ImageUtils.InitializeBackground(this, "menu.png", 864, 480);
+        PlayBGM();
     }
 
-    public static SoundUtils soundHandler = new SoundUtils();
-    private boolean isDictionaryDownloaded = false;
+    public static SoundUtils SE = new SoundUtils();
+    public static SoundUtils BGM = new SoundUtils();
+    public boolean isDictionaryDownloaded = false;
     private Connection cnn;
     
     private void KetNoiCSDL() {
@@ -73,13 +78,13 @@ public class PanelMenu extends javax.swing.JPanel {
         }
     }
 
-    private void InitializeGUI() {
-//        JLabel greet = new JLabel("Xin chào,");
-//        greet.setBounds(10, 10, 50, 35);
-//        greet.setFont(new Font("Arial", Font.PLAIN, 14));
-//        greet.setHorizontalAlignment(SwingConstants.TRAILING);
-//        this.add(greet);
+    private void PlayBGM() {
+        BGM.setFile(SoundUtils.BGM);
+        BGM.play();
+        BGM.loop();
+    }
 
+    private void InitializeGUI() {
         User.Instance().lbLevel.setBounds(815, 10, 40, 40);
         User.Instance().lbLevel.setFont(new Font("Arial", Font.BOLD, 20));
         User.Instance().lbLevel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,6 +102,30 @@ public class PanelMenu extends javax.swing.JPanel {
         username.setHorizontalAlignment(SwingConstants.TRAILING);
 //        username.setForeground(Color.RED);
         this.add(username);
+
+        JButton btnSetting = new JButton();
+        btnSetting.setBounds(5, 5, 35, 35);
+        btnSetting.setBorderPainted(false);
+        int edge = 30;
+        try {
+            Image image = ImageIO.read(new File(System.getProperty("user.dir") + "/materials/button_icons/setting.png"))
+                    .getScaledInstance(edge, edge, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(image);
+            btnSetting.setIcon(icon);
+            btnSetting.setHorizontalTextPosition(SwingConstants.CENTER);
+            btnSetting.setVerticalTextPosition(SwingConstants.BOTTOM);
+        } catch (IOException ex) {
+            Logger.getLogger(PanelDefinition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.add(btnSetting);
+        btnSetting.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormSetting formSetting = new FormSetting();
+                formSetting.setLocationRelativeTo(PanelMenu.Instance());
+                formSetting.setVisible(true);
+            }
+        });
     }
     
     private void CheckDatabase() {
@@ -247,7 +276,6 @@ public class PanelMenu extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btnDownload = new javax.swing.JButton();
         btnScramble = new javax.swing.JButton();
         play4 = new javax.swing.JButton();
 
@@ -358,17 +386,6 @@ public class PanelMenu extends javax.swing.JPanel {
         add(jLabel2);
         jLabel2.setBounds(18, 261, 170, 59);
 
-        btnDownload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDownload.setForeground(new java.awt.Color(51, 51, 51));
-        btnDownload.setText("Tải từ điển");
-        btnDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDownloadActionPerformed(evt);
-            }
-        });
-        add(btnDownload);
-        btnDownload.setBounds(10, 10, 110, 30);
-
         btnScramble.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnScramble.setForeground(new java.awt.Color(51, 51, 51));
         btnScramble.setText("Scramble");
@@ -401,6 +418,7 @@ public class PanelMenu extends javax.swing.JPanel {
     private void btnDefinitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefinitionActionPerformed
         // TODO add your handling code here:
         if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(PanelDefinition.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnDefinitionActionPerformed
@@ -408,105 +426,45 @@ public class PanelMenu extends javax.swing.JPanel {
     private void btnExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExamActionPerformed
         // TODO add your handling code here:
         if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(PanelChooseType.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnExamActionPerformed
-    
-    private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
-        // TODO add your handling code here:
-        if(isDictionaryDownloaded) {
-            JOptionPane.showMessageDialog(this, "Từ điển đã tải rồi!", "Đừng ấn nữa", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        String[] options = {"Xác nhận", "Huỷ bỏ"};
-        int choice = JOptionPane.showOptionDialog(this, "Đồng ý tải từ điển?", "Xác nhận", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        if(choice == 1) return;
-        DownloadDictionary();
-    }//GEN-LAST:event_btnDownloadActionPerformed
 
     private void btnHangmanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHangmanActionPerformed
         // TODO add your handling code here:
+        if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(new PanelPlay1());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnHangmanActionPerformed
 
     private void btnWordshakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWordshakeActionPerformed
         // TODO add your handling code here:
+        if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(new PanelPlay2());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnWordshakeActionPerformed
 
     private void btnScrambleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScrambleActionPerformed
         // TODO add your handling code here:
+        if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(PanelPlay3.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_btnScrambleActionPerformed
 
     private void play4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play4ActionPerformed
         // TODO add your handling code here:
+        if(!CheckDownloaded()) return;
+        BGM.stop();
         FormMain.Instance().setContentPane(PanelPlay4.Instance());
         FormMain.Instance().validate();
     }//GEN-LAST:event_play4ActionPerformed
 
-    private void DownloadDictionary() {
-        Thread downloadThread = new Thread(new Runnable() {
-            public void run() {
-                NetUtils.DoGetRequest(Constants.WORD_LIST_URL, result -> {
-                    JSONArray data = new JSONArray();
-                    try {
-                        JSONParser jParser = new JSONParser();
-                        data = (JSONArray) jParser.parse(result);
-
-                        int length = data.size();
-                        FormDownloadProcess.Instance().setVisible(true);
-                        StringBuilder query = new StringBuilder();
-                        for(int i = 0; i < data.size(); i++) {
-                            query.append(SaveWord(data.get(i).toString()) + "\n");
-                            ProgressUpdate(i, data.get(i).toString(), length);
-                        }
-                        try {
-                            PreparedStatement stm = cnn.prepareStatement(query.toString());
-                            stm.executeUpdate();
-                        }   
-                        catch (SQLException ex) {
-                            Logger.getLogger(PanelMenu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    catch (ParseException ex) {
-                        Logger.getLogger(PanelMenu.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "Lỗi SQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    }
-                    finally {
-                        FormDownloadProcess.Instance().setVisible(false);
-                    }
-                });
-            }
-        });
-        downloadThread.start();
-    }
-    
-    private void ProgressUpdate(int index, String word, int size) {
-        FormDownloadProcess.progressBar.setValue(index * FormDownloadProcess.progressBar.getWidth() / size);
-//        FormDownloadProcess.textArea.append(word + "\n");
-//        int end = FormDownloadProcess.textArea.getLineEndOffset(0);
-//        FormDownloadProcess.textArea.replaceRange("", 0, end);
-    }
-    
-    private String SaveWord(String word) {
-        String tableName = "word";
-        if(word.length() < 7) tableName += "lessthan7";
-        else if(word.length() < 8) tableName += "lessthan8";
-        else if(word.length() < 9) tableName += "lessthan9";
-        else if(word.length() < 10) tableName += "lessthan10";
-        else if(word.length() < 11) tableName += "lessthan11";
-        else if(word.length() < 13) tableName += "lessthan13";
-        else tableName += "morethan13";
-        return "INSERT INTO " + tableName + "(Text) VALUES ('" + word + "')";
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDefinition;
-    private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnExam;
     private javax.swing.JButton btnHangman;
     private javax.swing.JButton btnScramble;
