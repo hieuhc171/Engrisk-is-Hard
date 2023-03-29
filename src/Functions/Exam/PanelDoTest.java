@@ -172,6 +172,9 @@ public class PanelDoTest extends javax.swing.JPanel {
     private static javax.swing.Timer audio_counter;
 
     private void EndTest() {
+        if(score == 0) PanelMenu.SE.setFile(SoundUtils.LOSE);
+        else PanelMenu.SE.setFile(SoundUtils.WIN);
+        PanelMenu.SE.play();
         User.Instance().GainEXP(score);
         String[] options = {"Trang chủ", "Chơi lại"};
         int choice = JOptionPane.showOptionDialog(this, "BẠN ĐẠT ĐƯỢC " + score + "/100 điểm!!!", "KẾT QUẢ", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -243,10 +246,14 @@ public class PanelDoTest extends javax.swing.JPanel {
 
             if(btn != null) {
                 if(btn.getText().equals(correctAnswer)) {
+                    PanelMenu.SE.setFile(SoundUtils.CORRECT);
+                    PanelMenu.SE.play();
                     btn.setBackground(new Color(151, 255, 96, 255));
                     score += 10;
                 }
                 else {
+                    PanelMenu.SE.setFile(SoundUtils.INCORRECT);
+                    PanelMenu.SE.play();
                     btn.setBackground(new Color(255, 123, 123, 255));
                     for(JButton button : btnAnswer) {
                         if(button.getText().equals(correctAnswer)) {

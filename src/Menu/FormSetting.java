@@ -42,9 +42,9 @@ public class FormSetting extends javax.swing.JFrame {
      */
     public FormSetting() {
         this.setTitle("SETTINGS");
-//        getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.BLACK));
-//        setUndecorated(true);
-//        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        setUndecorated(true);
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         initComponents();
         KetNoiCSDL();
         InitializeGUI();

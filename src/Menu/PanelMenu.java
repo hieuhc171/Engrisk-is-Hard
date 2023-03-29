@@ -52,7 +52,6 @@ public class PanelMenu extends javax.swing.JPanel {
      * Creates new form PanelMenu
      */
     public PanelMenu() {
-        Utils.Config.LoadConfig();
         initComponents();
         CheckDatabase();
         SetupButtons();
@@ -121,9 +120,8 @@ public class PanelMenu extends javax.swing.JPanel {
         btnSetting.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FormSetting formSetting = new FormSetting();
-                formSetting.setLocationRelativeTo(PanelMenu.Instance());
-                formSetting.setVisible(true);
+                FormSetting.Instance().setLocationRelativeTo(PanelMenu.Instance());
+                FormSetting.Instance().setVisible(true);
             }
         });
     }
@@ -146,7 +144,7 @@ public class PanelMenu extends javax.swing.JPanel {
     
     private boolean CheckDownloaded() {
         if(!isDictionaryDownloaded) {
-            JOptionPane.showMessageDialog(this, "Chưa tải từ điển!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chưa tải từ điển!\nVui lòng tải trong mục Cài đặt", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         return isDictionaryDownloaded;
     }

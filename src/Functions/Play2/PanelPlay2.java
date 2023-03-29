@@ -10,6 +10,7 @@ import Menu.User;
 import Utils.Constants;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
+import Utils.Sound.SoundUtils;
 import Utils.TextUtils;
 
 import javax.swing.*;
@@ -346,14 +347,20 @@ public class PanelPlay2 extends javax.swing.JPanel {
             public void run() {
                 switch (type) {
                     case RIGHT -> {
+                        PanelMenu.SE.setFile(SoundUtils.CORRECT);
+                        PanelMenu.SE.play();
                         popup.setBackground(new Color(123, 203, 72));
                         popup.setText("+" + score);
                     }
                     case WRONG -> {
+                        PanelMenu.SE.setFile(SoundUtils.INCORRECT);
+                        PanelMenu.SE.play();
                         popup.setBackground(new Color(201, 59, 59));
                         popup.setText("WRONG");
                     }
                     case DUPLICATE -> {
+                        PanelMenu.SE.setFile(SoundUtils.INCORRECT);
+                        PanelMenu.SE.play();
                         popup.setBackground(new Color(190, 125, 66));
                         popup.setText("DUPLICATE");
                     }
@@ -394,10 +401,13 @@ public class PanelPlay2 extends javax.swing.JPanel {
                 timeLeft--;
                 counterDisplay.setText("0" + timeLeft / 60 + ":" + (timeLeft % 60 < 10 ? "0" : "") + timeLeft % 60);
                 if(timeLeft == 0) {
+                    if(totalScore == 0) PanelMenu.SE.setFile(SoundUtils.LOSE);
+                    else PanelMenu.SE.setFile(SoundUtils.WIN);
+                    PanelMenu.SE.play();
                     playTimeCounter.stop();
                     User.Instance().GainEXP(totalScore * 10);
                     String[] options = {"Trang chủ", "Chơi lại"};
-                    int choice = JOptionPane.showOptionDialog(null, "Bạn đạt được " + totalScore + " điểm! Tương đương " + totalScore * 10 + " exp.\nChơi lại nhé?", "Hết giờ", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+                    int choice = JOptionPane.showOptionDialog(null, "Bạn đạt được " + totalScore + " điểm!\nChơi lại nhé?", "Hết giờ", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
                     if(choice == 0) {
                         FormMain.Instance().setContentPane(PanelMenu.Instance());
                         FormMain.Instance().validate();

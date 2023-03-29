@@ -7,9 +7,11 @@ package Functions.Play3;
 
 import Menu.FormMain;
 import Menu.PanelMenu;
+import Menu.User;
 import Utils.Constants;
 import Utils.Image.ImageUtils;
 import Utils.NetUtils;
+import Utils.Sound.SoundUtils;
 import Utils.Word.WordObject;
 import com.mysql.jdbc.Statement;
 import java.awt.Color;
@@ -71,6 +73,10 @@ public class PanelPlay3 extends javax.swing.JPanel {
                     if(cong==1000){
                         statusPlay = false;
                         t.stop();
+                        if(point == 0) PanelMenu.SE.setFile(SoundUtils.LOSE);
+                        else PanelMenu.SE.setFile(SoundUtils.WIN);
+                        PanelMenu.SE.play();
+                        User.Instance().GainEXP(point * 10);
                         int result=JOptionPane.showConfirmDialog(null, "        Time up!\n  Your Score: "+point+"!\n         Agian?","Congratulations",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if(result == JOptionPane.YES_OPTION){
                             cong=0;
@@ -300,8 +306,10 @@ public class PanelPlay3 extends javax.swing.JPanel {
                                         });                    }
                             }).start();
                            String tuDaoNew=DaoTu(wordSave);
-                           
-                          
+
+
+                            PanelMenu.SE.setFile(SoundUtils.CORRECT);
+                            PanelMenu.SE.play();
                            JOptionPane.showMessageDialog(null, "Dung");
                            point+=10;
                            jtfPoint.setText(String.valueOf(point));
@@ -313,6 +321,8 @@ public class PanelPlay3 extends javax.swing.JPanel {
                            
                         }
                         else{
+                            PanelMenu.SE.setFile(SoundUtils.INCORRECT);
+                            PanelMenu.SE.play();
                             JOptionPane.showMessageDialog(null, "Sai");
                         }
                 

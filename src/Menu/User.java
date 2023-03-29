@@ -19,7 +19,7 @@ public class User {
 
     public User() {
         userID = -1;
-        username = "default_user";
+        username = "guest";
         level = 0;
         exp = 0;
         GenerateExpNeeded();

@@ -181,6 +181,7 @@ public class FormLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không thể kết nối MySQL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        Utils.Config.LoadConfig();
         Instance().setVisible(false);
         FormMain.Instance().setContentPane(PanelMenu.Instance());
         FormMain.Instance().validate();
